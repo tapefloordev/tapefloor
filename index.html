@@ -4,31 +4,95 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tape Floor</title>
-  <style>
-    :root { color-scheme: dark; --bg:#0b0d10; --fg:#e8eaed; --muted:#9aa0a6; --line:#2a2f36; --accent:#7dd3a7; }
-    * { box-sizing: border-box; }
-    body { margin:0; font: 15px/1.45 ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--fg); }
-    main { max-width: 640px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
-    h1 { font-size: 1.15rem; letter-spacing: .06em; margin: 0 0 .35rem; }
-    .sub { color: var(--muted); margin: 0 0 1.25rem; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .card { border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.15rem; }
-    .meta { color: var(--muted); font-size:.9rem; margin-bottom:.75rem; }
-    .tape { margin: 0 0 1rem; }
-    table { width:100%; border-collapse:collapse; font-variant-numeric: tabular-nums; }
-    th, td { text-align:left; padding:.4rem 0; border-bottom:1px solid var(--line); }
-    th { color:var(--muted); font-weight:500; font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; }
-    .flag { color: var(--accent); }
-    .disclaimer { margin: 1rem 0 0; color: var(--muted); font-size:.9rem; }
-    .stand { display:inline-block; margin-top:.5rem; padding:.25rem .6rem; border:1px solid var(--line); border-radius:999px; font-size:.8rem; color:var(--muted); }
-    .err { color:#f0a0a0; }
-  </style>
+  <link rel="stylesheet" href="./assets/floor.css" />
 </head>
 <body>
-  <main>
-    <h1>TAPE FLOOR</h1>
-    <p class="sub"><a href="https://x.com/tapefloor1000x" rel="noopener noreferrer">@tapefloor1000x</a></p>
+  <div class="wrap">
+    <header class="site">
+      <h1>TAPE FLOOR</h1>
+      <nav class="links" aria-label="External">
+        <a href="https://x.com/tapefloor1000x" rel="noopener noreferrer">@tapefloor1000x</a>
+        <a href="https://github.com/tapefloordev/tapefloor" rel="noopener noreferrer">github</a>
+      </nav>
+    </header>
+
+    <p class="disclaimer-bar" id="disclaimerTop">not a call · nfa</p>
+
+    <!-- v2 pixel trading floor (above v1 table) -->
+    <section class="floor-stage" aria-label="Trading floor">
+      <div class="tape-strip" aria-hidden="true">
+        <div class="tape-marquee" id="tapeMarquee">LOADING…</div>
+      </div>
+
+      <div class="floor-room">
+        <div class="halt-lamp" id="haltLamp" title="Halt status">
+          <span class="halt-bulb" aria-hidden="true"></span>
+          <span id="haltLabel">HALT OFF</span>
+        </div>
+
+        <div class="desks">
+          <button type="button" class="desk" data-seat="scout" id="desk-scout" aria-label="Scout desk">
+            <div class="desk-art">
+              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="monitor" aria-hidden="true"></div>
+              <div class="desk-top" aria-hidden="true"></div>
+              <div class="desk-body" aria-hidden="true"></div>
+              <div class="chair" aria-hidden="true"></div>
+            </div>
+            <div class="desk-label">Scout</div>
+            <div class="desk-status" id="status-scout">idle</div>
+          </button>
+
+          <button type="button" class="desk" data-seat="chief" id="desk-chief" aria-label="Chief desk">
+            <div class="desk-art">
+              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="monitor" aria-hidden="true"></div>
+              <div class="desk-top" aria-hidden="true"></div>
+              <div class="desk-body" aria-hidden="true"></div>
+              <div class="chair" aria-hidden="true"></div>
+            </div>
+            <div class="desk-label">Chief</div>
+            <div class="desk-status" id="status-chief">idle</div>
+          </button>
+
+          <button type="button" class="desk" data-seat="steno" id="desk-steno" aria-label="Steno desk">
+            <div class="desk-art">
+              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="monitor" aria-hidden="true"></div>
+              <div class="desk-top" aria-hidden="true"></div>
+              <div class="desk-body" aria-hidden="true"></div>
+              <div class="chair" aria-hidden="true"></div>
+            </div>
+            <div class="desk-label">Steno</div>
+            <div class="desk-status" id="status-steno">idle</div>
+          </button>
+
+          <button type="button" class="desk" data-seat="dev" id="desk-dev" aria-label="Dev desk">
+            <div class="desk-art">
+              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="monitor" aria-hidden="true"></div>
+              <div class="desk-top" aria-hidden="true"></div>
+              <div class="desk-body" aria-hidden="true"></div>
+              <div class="chair" aria-hidden="true"></div>
+            </div>
+            <div class="desk-label">Dev</div>
+            <div class="desk-status" id="status-dev">idle</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Desk detail panel (existing watch/journal fields only) -->
+    <aside class="panel" id="deskPanel" aria-live="polite">
+      <div class="panel-head">
+        <h2 id="panelTitle">Desk</h2>
+        <button type="button" class="panel-close" id="panelClose">close</button>
+      </div>
+      <div class="panel-body" id="panelBody"></div>
+    </aside>
+
+    <!-- v1 watch table (fallback if art fails) -->
+    <p class="v1-label">Watch table</p>
     <div class="card">
       <div class="meta" id="meta">Loading…</div>
       <div class="tape" id="tape"></div>
@@ -39,44 +103,205 @@
       <div id="stand"></div>
       <p class="disclaimer" id="disclaimer">not a call · nfa</p>
     </div>
-  </main>
+  </div>
+
   <script>
+    const SEATS = ['scout', 'chief', 'steno', 'dev'];
+    const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+
     const fmt = n => {
       if (typeof n !== 'number' || !isFinite(n)) return '—';
-      if (n >= 1e9) return `$${(n/1e9).toFixed(1)}B`;
-      if (n >= 1e6) return `$${(n/1e6).toFixed(1)}M`;
-      if (n >= 1e3) return `$${(n/1e3).toFixed(0)}K`;
+      if (n >= 1e9) return `$${(n / 1e9).toFixed(1)}B`;
+      if (n >= 1e6) return `$${(n / 1e6).toFixed(1)}M`;
+      if (n >= 1e3) return `$${(n / 1e3).toFixed(0)}K`;
       return `$${n}`;
     };
-    fetch('./watch.json', { cache: 'no-store' })
-      .then(r => {
+
+    const esc = s => String(s ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+
+    let watch = null;
+    let journal = null;
+    const seatData = {};
+
+    function isWorking(updated) {
+      if (!updated) return false;
+      const t = Date.parse(updated);
+      if (!isFinite(t)) return false;
+      return (Date.now() - t) <= TWO_HOURS_MS;
+    }
+
+    function setHalt(on) {
+      const lamp = document.getElementById('haltLamp');
+      const label = document.getElementById('haltLabel');
+      if (on) {
+        lamp.classList.add('on');
+        label.textContent = 'HALT ON';
+      } else {
+        lamp.classList.remove('on');
+        label.textContent = 'HALT OFF';
+      }
+    }
+
+    function applySeatStatus(seat, data) {
+      const working = isWorking(data && data.updated);
+      const btn = document.getElementById('desk-' + seat);
+      const status = document.getElementById('status-' + seat);
+      if (working) {
+        btn.classList.add('working');
+        status.textContent = 'working';
+      } else {
+        btn.classList.remove('working');
+        status.textContent = 'idle';
+      }
+    }
+
+    function buildTapeMarquee(w) {
+      const names = (w && w.names) || [];
+      if (!names.length) return 'NO NAMES';
+      // ticker text ONLY from watch.json names/flags — no invented prices/P&L
+      const parts = names.map(n => {
+        const flag = n.flag ? ` [${n.flag}]` : '';
+        return `${n.ticker}${flag}`;
+      });
+      return parts.join('   ·   ') + '   ·   ';
+    }
+
+    function renderV1(w) {
+      const t = new Date(w.time);
+      document.getElementById('meta').textContent =
+        `WATCH · ${t.toLocaleString('en-US', {
+          timeZone: 'America/Denver',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        })} MT`
+        + (w.liquid_tape_day ? ' · liquid tape day' : '');
+
+      const tape = w.tape || {};
+      const sol = tape.SOL_24h_pct;
+      const btc = tape.BTC_24h_pct;
+      document.getElementById('tape').textContent =
+        `SOL ${sol >= 0 ? '+' : ''}${sol}% · BTC ${btc >= 0 ? '+' : ''}${btc}% (${tape.source || ''})`;
+
+      const rows = (w.names || []).map(n =>
+        `<tr><td>${esc(n.ticker)}</td><td>mc ${fmt(n.mcap)}</td><td>vol ${fmt(n.vol24)}</td><td class="flag">${esc(n.flag || '')}</td></tr>`
+      ).join('');
+      document.getElementById('names').innerHTML =
+        rows || '<tr><td colspan="4" class="err">No names in watch.json</td></tr>';
+
+      const stand = document.getElementById('stand');
+      if (w.stand_down) {
+        stand.innerHTML = `<span class="stand">stand-down · ${esc(w.stand_down_why || 'yes')}</span>`;
+      } else {
+        stand.innerHTML = `<span class="stand">stand-down no</span>`;
+      }
+
+      const disc = w.disclaimer || 'not a call · nfa';
+      document.getElementById('disclaimer').textContent = disc;
+      document.getElementById('disclaimerTop').textContent = disc;
+    }
+
+    function openPanel(seat) {
+      const panel = document.getElementById('deskPanel');
+      const title = document.getElementById('panelTitle');
+      const body = document.getElementById('panelBody');
+      title.textContent = seat.toUpperCase();
+
+      const seatInfo = seatData[seat] || { updated: null };
+      const working = isWorking(seatInfo.updated);
+      const w = watch || {};
+      const j = journal || {};
+
+      // Existing watch/journal fields only — no invented P&L or counters
+      let html = `<dl>
+        <dt>seat</dt><dd>${esc(seat)}</dd>
+        <dt>status</dt><dd>${working ? 'working' : 'idle'}</dd>
+        <dt>seat.updated</dt><dd>${seatInfo.updated ? esc(seatInfo.updated) : 'null'}</dd>
+        <dt>watch.time</dt><dd>${esc(w.time || '—')}</dd>
+        <dt>stand_down</dt><dd>${w.stand_down ? 'true' : 'false'}${w.stand_down_why ? ' · ' + esc(w.stand_down_why) : ''}</dd>
+        <dt>journal.halt</dt><dd>${j.halt ? 'true' : 'false'}</dd>
+        <dt>open_tickets</dt><dd>${esc(j.open_tickets ?? '—')}</dd>
+        <dt>book.paper</dt><dd>${esc(j.book && j.book.paper)}</dd>
+        <dt>book.live</dt><dd>${esc(j.book && j.book.live)}</dd>
+        <dt>book.position</dt><dd>${esc(j.book && j.book.position)}</dd>
+        <dt>skipped</dt><dd>${esc(j.skipped ?? '—')}</dd>
+        <dt>called</dt><dd>${esc(j.called ?? '—')}</dd>
+        <dt>auto_post</dt><dd>${j.auto_post ? 'true' : 'false'}</dd>
+        <dt>pump_auto</dt><dd>${j.pump_auto ? 'true' : 'false'}</dd>
+        <dt>source</dt><dd>${esc(j.source || '—')}</dd>
+      </dl>`;
+
+      if (w.tape) {
+        html += `<div class="panel-section"><h3>Tape</h3><dl>
+          <dt>SOL_24h_pct</dt><dd>${esc(w.tape.SOL_24h_pct)}</dd>
+          <dt>BTC_24h_pct</dt><dd>${esc(w.tape.BTC_24h_pct)}</dd>
+          <dt>source</dt><dd>${esc(w.tape.source)}</dd>
+        </dl></div>`;
+      }
+
+      const names = w.names || [];
+      if (names.length) {
+        html += `<div class="panel-section"><h3>Names</h3><ul class="panel-names">`;
+        names.forEach(n => {
+          html += `<li>${esc(n.ticker)} · mc ${fmt(n.mcap)} · vol ${fmt(n.vol24)} · <span class="flag">${esc(n.flag || '')}</span></li>`;
+        });
+        html += `</ul></div>`;
+      }
+
+      html += `<p class="disclaimer">${esc(w.disclaimer || j.disclaimer || 'not a call · nfa')}</p>`;
+
+      body.innerHTML = html;
+      panel.classList.add('open');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function closePanel() {
+      document.getElementById('deskPanel').classList.remove('open');
+    }
+
+    document.getElementById('panelClose').addEventListener('click', closePanel);
+    SEATS.forEach(seat => {
+      document.getElementById('desk-' + seat).addEventListener('click', () => openPanel(seat));
+    });
+
+    Promise.all([
+      fetch('./watch.json', { cache: 'no-store' }).then(r => {
         if (!r.ok) throw new Error('watch.json ' + r.status);
         return r.json();
-      })
-      .then(w => {
-        const t = new Date(w.time);
-        document.getElementById('meta').textContent =
-          `WATCH · ${t.toLocaleString('en-US', { timeZone: 'America/Denver', month:'short', day:'numeric', hour:'numeric', minute:'2-digit', hour12:true })} MT`
-          + (w.liquid_tape_day ? ' · liquid tape day' : '');
-        const tape = w.tape || {};
-        const sol = tape.SOL_24h_pct;
-        const btc = tape.BTC_24h_pct;
-        document.getElementById('tape').textContent =
-          `SOL ${sol >= 0 ? '+' : ''}${sol}% · BTC ${btc >= 0 ? '+' : ''}${btc}% (${tape.source || ''})`;
-        const rows = (w.names || []).map(n =>
-          `<tr><td>${n.ticker}</td><td>mc ${fmt(n.mcap)}</td><td>vol ${fmt(n.vol24)}</td><td class="flag">${n.flag || ''}</td></tr>`
-        ).join('');
-        document.getElementById('names').innerHTML = rows || '<tr><td colspan="4" class="err">No names in watch.json</td></tr>';
-        const stand = document.getElementById('stand');
-        if (w.stand_down) {
-          stand.innerHTML = `<span class="stand">stand-down · ${w.stand_down_why || 'yes'}</span>`;
-        } else {
-          stand.innerHTML = `<span class="stand">stand-down no</span>`;
-        }
-        document.getElementById('disclaimer').textContent = w.disclaimer || 'not a call · nfa';
+      }),
+      fetch('./journal.json', { cache: 'no-store' }).then(r => {
+        if (!r.ok) throw new Error('journal.json ' + r.status);
+        return r.json();
+      }),
+      ...SEATS.map(seat =>
+        fetch(`./seats/${seat}.json`, { cache: 'no-store' })
+          .then(r => (r.ok ? r.json() : { updated: null }))
+          .catch(() => ({ updated: null }))
+          .then(d => { seatData[seat] = d; })
+      )
+    ])
+      .then(([w, j]) => {
+        watch = w;
+        journal = j;
+
+        // Halt lamp: ON iff journal.halt===true OR watch.stand_down===true
+        setHalt(j.halt === true || w.stand_down === true);
+
+        // Tape strip: names/flags only
+        const marquee = buildTapeMarquee(w);
+        document.getElementById('tapeMarquee').textContent = marquee + marquee;
+
+        SEATS.forEach(seat => applySeatStatus(seat, seatData[seat]));
+        renderV1(w);
       })
       .catch(e => {
-        document.getElementById('meta').innerHTML = `<span class="err">Failed to load watch.json</span>`;
+        document.getElementById('meta').innerHTML = `<span class="err">Failed to load watch.json / journal.json</span>`;
         console.error(e);
       });
   </script>
