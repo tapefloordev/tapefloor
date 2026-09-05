@@ -78,6 +78,18 @@
       "lane": null,
       "note": "fresh FULL LIST; 6 NEW; not liquid tape day; called 0",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T15:30-06:00",
+      "type": "PASS",
+      "names": [
+        "STONKCAT",
+        "memestonk",
+        "HeeHaw"
+      ],
+      "lane": null,
+      "note": "READ three; ROI dropped; STONKCAT NEW list-only; no CALL; no X card (inside 6h of 15:13)",
+      "pnl_usd": null
     }
   ]
 }
