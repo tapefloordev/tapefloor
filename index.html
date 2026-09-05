@@ -21,7 +21,10 @@
     <!-- v2 pixel trading floor (above v1 table) -->
     <section class="floor-stage" aria-label="Trading floor">
       <div class="tape-strip" aria-hidden="true">
-        <div class="tape-marquee" id="tapeMarquee">LOADING…</div>
+        <div class="tape-marquee" id="tapeMarquee">
+          <span class="tape-copy" id="tapeCopyA">LOADING…</span>
+          <span class="tape-copy" id="tapeCopyB">LOADING…</span>
+        </div>
       </div>
 
       <div class="floor-room">
@@ -33,7 +36,12 @@
         <div class="desks">
           <button type="button" class="desk" data-seat="scout" id="desk-scout" aria-label="Scout desk">
             <div class="desk-art">
-              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="worker" aria-hidden="true">
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+              </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
               <div class="desk-body" aria-hidden="true"></div>
@@ -45,7 +53,12 @@
 
           <button type="button" class="desk" data-seat="chief" id="desk-chief" aria-label="Chief desk">
             <div class="desk-art">
-              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="worker" aria-hidden="true">
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+              </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
               <div class="desk-body" aria-hidden="true"></div>
@@ -57,7 +70,12 @@
 
           <button type="button" class="desk" data-seat="steno" id="desk-steno" aria-label="Steno desk">
             <div class="desk-art">
-              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="worker" aria-hidden="true">
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+              </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
               <div class="desk-body" aria-hidden="true"></div>
@@ -69,7 +87,12 @@
 
           <button type="button" class="desk" data-seat="dev" id="desk-dev" aria-label="Dev desk">
             <div class="desk-art">
-              <div class="person" aria-hidden="true"><div class="head"></div><div class="torso"></div></div>
+              <div class="worker" aria-hidden="true">
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+              </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
               <div class="desk-body" aria-hidden="true"></div>
@@ -82,7 +105,7 @@
       </div>
     </section>
 
-    <!-- Desk detail panel (existing watch/journal fields only) -->
+    <!-- Desk detail panel -->
     <aside class="panel" id="deskPanel" aria-live="polite">
       <div class="panel-head">
         <h2 id="panelTitle">Desk</h2>
@@ -108,6 +131,7 @@
   <script>
     const SEATS = ['scout', 'chief', 'steno', 'dev'];
     const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+    const SEAT_TITLES = { scout: 'Scout', chief: 'Chief', steno: 'Steno', dev: 'Dev' };
 
     const fmt = n => {
       if (typeof n !== 'number' || !isFinite(n)) return '—';
@@ -117,14 +141,40 @@
       return `$${n}`;
     };
 
+    const fmtMoney = n => {
+      if (typeof n !== 'number' || !isFinite(n)) return '—';
+      return '$' + n.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    };
+
     const esc = s => String(s ?? '')
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
 
+    function fmtMT(iso) {
+      if (!iso) return null;
+      const t = new Date(iso);
+      if (!isFinite(t.getTime())) return null;
+      return t.toLocaleString('en-US', {
+        timeZone: 'America/Denver',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      }) + ' MT';
+    }
+
+    function humanFlag(f) {
+      if (!f) return '';
+      return String(f).replace(/_/g, ' ');
+    }
+
     let watch = null;
     let journal = null;
+    let xcardText = '';
+    let deploy = null;
     const seatData = {};
 
     function isWorking(updated) {
@@ -170,6 +220,12 @@
       return parts.join('   ·   ') + '   ·   ';
     }
 
+    function setTape(w) {
+      const text = buildTapeMarquee(w);
+      document.getElementById('tapeCopyA').textContent = text;
+      document.getElementById('tapeCopyB').textContent = text;
+    }
+
     function renderV1(w) {
       const t = new Date(w.time);
       document.getElementById('meta').textContent =
@@ -207,55 +263,74 @@
       document.getElementById('disclaimerTop').textContent = disc;
     }
 
-    function openPanel(seat) {
+    function statusLine(seat) {
+      const info = seatData[seat] || {};
+      return isWorking(info.updated) ? 'Working' : 'Idle';
+    }
+
+    function disclaimerHtml() {
+      const d = (watch && watch.disclaimer) || (journal && journal.disclaimer) || 'not a call · nfa';
+      return `<p class="disclaimer">${esc(d)}</p>`;
+    }
+
+    async function loadXcard() {
+      if (xcardText) return xcardText;
+      try {
+        const r = await fetch('./xcard.txt', { cache: 'no-store' });
+        xcardText = r.ok ? await r.text() : '';
+      } catch (e) {
+        xcardText = '';
+      }
+      return xcardText;
+    }
+
+    async function openPanel(seat) {
       const panel = document.getElementById('deskPanel');
       const title = document.getElementById('panelTitle');
       const body = document.getElementById('panelBody');
-      title.textContent = seat.toUpperCase();
+      title.textContent = SEAT_TITLES[seat] || seat;
 
-      const seatInfo = seatData[seat] || { updated: null };
-      const working = isWorking(seatInfo.updated);
       const w = watch || {};
       const j = journal || {};
+      let html = `<p class="panel-status">${statusLine(seat)}</p>`;
 
-      // Existing watch/journal fields only — no invented P&L or counters
-      let html = `<dl>
-        <dt>seat</dt><dd>${esc(seat)}</dd>
-        <dt>status</dt><dd>${working ? 'working' : 'idle'}</dd>
-        <dt>seat.updated</dt><dd>${seatInfo.updated ? esc(seatInfo.updated) : 'null'}</dd>
-        <dt>watch.time</dt><dd>${esc(w.time || '—')}</dd>
-        <dt>stand_down</dt><dd>${w.stand_down ? 'true' : 'false'}${w.stand_down_why ? ' · ' + esc(w.stand_down_why) : ''}</dd>
-        <dt>journal.halt</dt><dd>${j.halt ? 'true' : 'false'}</dd>
-        <dt>open_tickets</dt><dd>${esc(j.open_tickets ?? '—')}</dd>
-        <dt>book.paper</dt><dd>${esc(j.book && j.book.paper)}</dd>
-        <dt>book.live</dt><dd>${esc(j.book && j.book.live)}</dd>
-        <dt>book.position</dt><dd>${esc(j.book && j.book.position)}</dd>
-        <dt>skipped</dt><dd>${esc(j.skipped ?? '—')}</dd>
-        <dt>called</dt><dd>${esc(j.called ?? '—')}</dd>
-        <dt>auto_post</dt><dd>${j.auto_post ? 'true' : 'false'}</dd>
-        <dt>pump_auto</dt><dd>${j.pump_auto ? 'true' : 'false'}</dd>
-        <dt>source</dt><dd>${esc(j.source || '—')}</dd>
-      </dl>`;
-
-      if (w.tape) {
-        html += `<div class="panel-section"><h3>Tape</h3><dl>
-          <dt>SOL_24h_pct</dt><dd>${esc(w.tape.SOL_24h_pct)}</dd>
-          <dt>BTC_24h_pct</dt><dd>${esc(w.tape.BTC_24h_pct)}</dd>
-          <dt>source</dt><dd>${esc(w.tape.source)}</dd>
-        </dl></div>`;
+      if (seat === 'scout') {
+        const when = fmtMT(w.time);
+        html += `<p class="panel-line">Watch time · ${esc(when || '—')}</p>`;
+        const names = w.names || [];
+        if (names.length) {
+          html += `<ul class="panel-names">`;
+          names.forEach(n => {
+            const flag = humanFlag(n.flag);
+            html += `<li>${esc(n.ticker)} · mc ${fmt(n.mcap)} · vol ${fmt(n.vol24)}${flag ? ' · ' + esc(flag) : ''}</li>`;
+          });
+          html += `</ul>`;
+        }
+      } else if (seat === 'chief') {
+        const book = j.book || {};
+        const pos = book.position ? String(book.position) : '—';
+        html += `<p class="panel-line">Halt: ${j.halt ? 'ON' : 'OFF'}</p>`;
+        html += `<p class="panel-line">Open tickets: ${esc(j.open_tickets ?? 0)}</p>`;
+        html += `<p class="panel-line">Book: paper ${fmtMoney(book.paper)} · live ${fmtMoney(book.live)} · ${esc(pos)}</p>`;
+        html += `<p class="panel-line">Passed: ${esc(j.skipped ?? 0)}</p>`;
+        html += `<p class="panel-line">Called: ${esc(j.called ?? 0)}</p>`;
+        if (j.time) {
+          html += `<p class="panel-line">Time: ${esc(fmtMT(j.time) || j.time)}</p>`;
+        }
+        if (j.source) {
+          html += `<p class="panel-line">Source: ${esc(j.source)}</p>`;
+        }
+      } else if (seat === 'steno') {
+        const card = await loadXcard();
+        html += `<div class="panel-section"><h3>Last X card</h3>`;
+        html += `<pre class="xcard">${esc(card)}</pre></div>`;
+      } else if (seat === 'dev') {
+        const pushed = (deploy && deploy.pushed_at) || (seatData.dev && seatData.dev.pushed_at);
+        html += `<p class="panel-line"><a href="https://github.com/tapefloordev/tapefloor" rel="noopener noreferrer">https://github.com/tapefloordev/tapefloor</a></p>`;
+        html += `<p class="panel-line">Last push: ${esc(fmtMT(pushed) || '—')}</p>`;
       }
 
-      const names = w.names || [];
-      if (names.length) {
-        html += `<div class="panel-section"><h3>Names</h3><ul class="panel-names">`;
-        names.forEach(n => {
-          html += `<li>${esc(n.ticker)} · mc ${fmt(n.mcap)} · vol ${fmt(n.vol24)} · <span class="flag">${esc(n.flag || '')}</span></li>`;
-        });
-        html += `</ul></div>`;
-      }
-
-      html += `<p class="disclaimer">${esc(w.disclaimer || j.disclaimer || 'not a call · nfa')}</p>`;
-
+      html += disclaimerHtml();
       body.innerHTML = html;
       panel.classList.add('open');
       panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -267,7 +342,7 @@
 
     document.getElementById('panelClose').addEventListener('click', closePanel);
     SEATS.forEach(seat => {
-      document.getElementById('desk-' + seat).addEventListener('click', () => openPanel(seat));
+      document.getElementById('desk-' + seat).addEventListener('click', () => { openPanel(seat); });
     });
 
     Promise.all([
@@ -279,6 +354,12 @@
         if (!r.ok) throw new Error('journal.json ' + r.status);
         return r.json();
       }),
+      fetch('./xcard.txt', { cache: 'no-store' })
+        .then(r => (r.ok ? r.text() : ''))
+        .catch(() => ''),
+      fetch('./deploy.json', { cache: 'no-store' })
+        .then(r => (r.ok ? r.json() : null))
+        .catch(() => null),
       ...SEATS.map(seat =>
         fetch(`./seats/${seat}.json`, { cache: 'no-store' })
           .then(r => (r.ok ? r.json() : { updated: null }))
@@ -286,16 +367,16 @@
           .then(d => { seatData[seat] = d; })
       )
     ])
-      .then(([w, j]) => {
+      .then(([w, j, xcard, dep]) => {
         watch = w;
         journal = j;
+        xcardText = xcard || '';
+        deploy = dep;
 
         // Halt lamp: ON iff journal.halt===true OR watch.stand_down===true
         setHalt(j.halt === true || w.stand_down === true);
 
-        // Tape strip: names/flags only
-        const marquee = buildTapeMarquee(w);
-        document.getElementById('tapeMarquee').textContent = marquee + marquee;
+        setTape(w);
 
         SEATS.forEach(seat => applySeatStatus(seat, seatData[seat]));
         renderV1(w);
