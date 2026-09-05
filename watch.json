@@ -1,0 +1,62 @@
+{
+  "time": "2026-09-05T08:02:00-06:00",
+  "stand_down": false,
+  "stand_down_why": "majors not dumped hard",
+  "tape": {
+    "SOL_24h_pct": 1.0,
+    "BTC_24h_pct": 0.2,
+    "source": "CoinGecko"
+  },
+  "liquid_tape_day": true,
+  "names": [
+    {
+      "ticker": "USELESS",
+      "mcap": 248000000,
+      "vol24": 15100000,
+      "flag": "context"
+    },
+    {
+      "ticker": "CAT",
+      "mcap": 124000,
+      "vol24": 14800000,
+      "flag": "thin"
+    },
+    {
+      "ticker": "fone",
+      "mcap": 10800000,
+      "vol24": 5720000,
+      "flag": "no_thesis"
+    },
+    {
+      "ticker": "ANSEM",
+      "mcap": 236000000,
+      "vol24": 5210000,
+      "flag": "watch"
+    },
+    {
+      "ticker": "CATE",
+      "mcap": 28000000,
+      "vol24": 4420000,
+      "flag": "watch"
+    },
+    {
+      "ticker": "TROLL",
+      "mcap": 61800000,
+      "vol24": 3460000,
+      "flag": "watch"
+    },
+    {
+      "ticker": "Fartcoin",
+      "mcap": 167000000,
+      "vol24": 1650000,
+      "flag": "NEW"
+    },
+    {
+      "ticker": "PENGU",
+      "mcap": 543000000,
+      "vol24": 2050000,
+      "flag": "NEW"
+    }
+  ],
+  "disclaimer": "not a call \u00b7 nfa"
+}

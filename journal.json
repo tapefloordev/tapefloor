@@ -1,0 +1,12 @@
+{
+  "time": "2026-09-05T08:02:00-06:00",
+  "halt": false,
+  "open_tickets": 0,
+  "book": { "paper": 500, "live": 0, "position": "NOT IN" },
+  "skipped": 0,
+  "called": 0,
+  "auto_post": false,
+  "pump_auto": false,
+  "source": "MORNING BRIEF 2026-09-05",
+  "disclaimer": "not a call · nfa"
+}
