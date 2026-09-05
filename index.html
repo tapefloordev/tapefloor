@@ -360,15 +360,37 @@
     }
 
 
-    function journalPaperPnl(j) {
+    function journalPaperPnlUsd(j) {
       if (!j) return 0;
       return toPnlNumber(firstPresent(j, ['paper_pnl_usd', 'paper_pnl', 'pnl.paper']));
     }
 
-    function journalLivePnl(j) {
+    function journalLivePnlUsd(j) {
       if (!j) return 0;
       return toPnlNumber(firstPresent(j, ['live_pnl_usd', 'live_pnl', 'pnl.live']));
     }
+
+    function journalPaperPnlSol(j) {
+      if (!j) return 0;
+      return toPnlNumber(firstPresent(j, ['paper_pnl_sol', 'pnl.paper_sol']));
+    }
+
+    function journalLivePnlSol(j) {
+      if (!j) return 0;
+      return toPnlNumber(firstPresent(j, ['live_pnl_sol', 'pnl.live_sol']));
+    }
+
+    function fmtPnlSolUsd(sol, usd) {
+      // P&L display SOL+USD; missing → 0. No animation.
+      const s = (typeof sol === 'number' && isFinite(sol)) ? sol : 0;
+      const u = (typeof usd === 'number' && isFinite(usd)) ? usd : 0;
+      const solTxt = (s === 0 ? '0' : (s > 0 ? '+' : '') + s.toLocaleString('en-US', { maximumFractionDigits: 4 })) + ' SOL';
+      return solTxt + ' (' + fmtPnlUsd(u) + ')';
+    }
+
+    // Back-compat aliases used elsewhere
+    function journalPaperPnl(j) { return journalPaperPnlUsd(j); }
+    function journalLivePnl(j) { return journalLivePnlUsd(j); }
 
     function renderWhiteboard(j, w) {
       // Human labels only — no fake book / invented wins.
@@ -384,8 +406,9 @@
       const lines = [
         ['Halt', haltOn ? 'ON' : 'OFF'],
         ['Stand-down', standDown ? 'yes' : 'no'],
-        ['Paper P&L', fmtPnlUsd(journalPaperPnl(j))],
-        ['Live P&L', fmtPnlUsd(journalLivePnl(j))],
+        ['Paper book', ((j && j.paper_book_sol) != null ? Number(j.paper_book_sol) : 1).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' SOL'],
+        ['Paper P&L', fmtPnlSolUsd(journalPaperPnlSol(j), journalPaperPnlUsd(j))],
+        ['Live P&L', fmtPnlSolUsd(0, 0)],
         ['Skipped', String(countPassedNames(j))],
         ['Called', String(countCalled(j))]
       ];
