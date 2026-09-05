@@ -1,61 +1,69 @@
 {
-  "time": "2026-09-05T08:02:00-06:00",
+  "time": "2026-09-05T15:13-06:00",
   "stand_down": false,
   "stand_down_why": "majors not dumped hard",
   "tape": {
-    "SOL_24h_pct": 1.0,
-    "BTC_24h_pct": 0.2,
+    "SOL_24h_pct": 1.63,
+    "BTC_24h_pct": -0.02,
     "source": "CoinGecko"
   },
-  "liquid_tape_day": true,
+  "liquid_tape_day": false,
   "names": [
     {
+      "ticker": "ROI",
+      "mcap": 230951318,
+      "vol24": 1027755,
+      "flag": "dead_1h",
+      "lane": "GAMBLE"
+    },
+    {
+      "ticker": "SWIFT",
+      "mcap": 141786,
+      "vol24": 219335,
+      "flag": "NEW",
+      "lane": "GAMBLE"
+    },
+    {
+      "ticker": "memestonk",
+      "mcap": 269607,
+      "vol24": 4792010,
+      "flag": "NEW",
+      "lane": "GAMBLE"
+    },
+    {
+      "ticker": "STONKCHUMP",
+      "mcap": 1298096,
+      "vol24": 1866310,
+      "flag": "NEW",
+      "lane": "BUILD"
+    },
+    {
+      "ticker": "HeeHaw",
+      "mcap": 1234291,
+      "vol24": 1986657,
+      "flag": "NEW",
+      "lane": "BUILD"
+    },
+    {
+      "ticker": "SAAR",
+      "mcap": 913916,
+      "vol24": 461170,
+      "flag": "NEW",
+      "lane": "BUILD"
+    },
+    {
       "ticker": "USELESS",
-      "mcap": 248000000,
-      "vol24": 15100000,
-      "flag": "context"
-    },
-    {
-      "ticker": "CAT",
-      "mcap": 124000,
-      "vol24": 14800000,
-      "flag": "thin"
-    },
-    {
-      "ticker": "fone",
-      "mcap": 10800000,
-      "vol24": 5720000,
-      "flag": "no_thesis"
-    },
-    {
-      "ticker": "ANSEM",
-      "mcap": 236000000,
-      "vol24": 5210000,
-      "flag": "watch"
-    },
-    {
-      "ticker": "CATE",
-      "mcap": 28000000,
-      "vol24": 4420000,
-      "flag": "watch"
+      "mcap": 260720187,
+      "vol24": 16805003,
+      "flag": "context",
+      "lane": "HOLD"
     },
     {
       "ticker": "TROLL",
-      "mcap": 61800000,
-      "vol24": 3460000,
-      "flag": "watch"
-    },
-    {
-      "ticker": "Fartcoin",
-      "mcap": 167000000,
-      "vol24": 1650000,
-      "flag": "NEW"
-    },
-    {
-      "ticker": "PENGU",
-      "mcap": 543000000,
-      "vol24": 2050000,
-      "flag": "NEW"
+      "mcap": 58406056,
+      "vol24": 3011901,
+      "flag": "context",
+      "lane": "HOLD"
     }
   ],
   "disclaimer": "not a call \u00b7 nfa"

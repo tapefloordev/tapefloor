@@ -49,6 +49,35 @@
       "lane": null,
       "note": "liquid tape day, called 0",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T15:13-06:00",
+      "type": "PASS",
+      "names": [
+        "STONKCHUMP",
+        "ROI",
+        "HeeHaw"
+      ],
+      "lane": null,
+      "note": "READ three \u2014 heat/dead_1h/sells-led; no CALL-DRAFT",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T15:13-06:00",
+      "type": "WATCH",
+      "names": [
+        "ROI",
+        "SWIFT",
+        "memestonk",
+        "STONKCHUMP",
+        "HeeHaw",
+        "SAAR",
+        "USELESS",
+        "TROLL"
+      ],
+      "lane": null,
+      "note": "fresh FULL LIST; 6 NEW; not liquid tape day; called 0",
+      "pnl_usd": null
     }
   ]
 }
