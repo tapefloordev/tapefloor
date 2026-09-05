@@ -21,10 +21,7 @@
     <!-- v2 pixel trading floor (above v1 table) -->
     <section class="floor-stage" aria-label="Trading floor">
       <div class="tape-strip" aria-hidden="true">
-        <div class="tape-marquee" id="tapeMarquee">
-          <span class="tape-copy" id="tapeCopyA">LOADING…</span>
-          <span class="tape-copy" id="tapeCopyB">LOADING…</span>
-        </div>
+        <div class="tape-track" id="tapeTrack"></div>
       </div>
 
       <div class="floor-room">
@@ -196,10 +193,24 @@
       }
     }
 
+    function seatStamp(seat, data) {
+      if (seat === 'dev') {
+        return (data && (data.updated || data.pushed_at))
+          || (deploy && deploy.pushed_at)
+          || null;
+      }
+      return data && data.updated;
+    }
+
     function applySeatStatus(seat, data) {
-      const working = isWorking(data && data.updated);
+      const working = isWorking(seatStamp(seat, data));
       const btn = document.getElementById('desk-' + seat);
       const status = document.getElementById('status-' + seat);
+      if (btn.classList.contains('away')) {
+        btn.classList.remove('working');
+        status.textContent = 'away';
+        return;
+      }
       if (working) {
         btn.classList.add('working');
         status.textContent = 'working';
@@ -222,8 +233,99 @@
 
     function setTape(w) {
       const text = buildTapeMarquee(w);
-      document.getElementById('tapeCopyA').textContent = text;
-      document.getElementById('tapeCopyB').textContent = text;
+      const track = document.getElementById('tapeTrack');
+      // Rebuild two identical children so translateX(-50%) loops seamlessly
+      track.innerHTML = '';
+      for (let i = 0; i < 2; i++) {
+        const span = document.createElement('span');
+        span.className = 'tape-copy';
+        span.textContent = text;
+        track.appendChild(span);
+      }
+      track.style.animation = 'none';
+      void track.offsetWidth;
+      track.style.animation = '';
+    }
+
+    /* ——— v2.1 motion: night away + occasional desk→tape→desk walks ——— */
+    const WALK_INTERVAL_MS = 4 * 60 * 1000;
+    const WALK_DURATION_MS = 5000;
+    let walkerBusy = false;
+    let walkTimer = null;
+
+    function denverHour() {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Denver',
+        hour: 'numeric',
+        hourCycle: 'h23'
+      }).formatToParts(new Date());
+      const h = parts.find(p => p.type === 'hour');
+      return parseInt(h && h.value, 10) % 24;
+    }
+
+    function isNightDenver() {
+      const h = denverHour();
+      return h >= 23 || h < 7;
+    }
+
+    function isStandDownOrHalt() {
+      return (watch && watch.stand_down === true) || (journal && journal.halt === true);
+    }
+
+    function isMobileNarrow() {
+      return window.matchMedia('(max-width: 480px)').matches;
+    }
+
+    function applyNightAway() {
+      const night = isNightDenver();
+      SEATS.forEach(seat => {
+        const btn = document.getElementById('desk-' + seat);
+        let away = false;
+        if (night) {
+          if (seat === 'dev') {
+            away = !isWorking(seatStamp('dev', seatData.dev));
+          } else {
+            away = true;
+          }
+        }
+        if (away) {
+          btn.classList.add('away');
+          btn.classList.remove('walking');
+        } else {
+          btn.classList.remove('away');
+        }
+        applySeatStatus(seat, seatData[seat]);
+      });
+    }
+
+    function eligibleWalkers() {
+      if (walkerBusy || isStandDownOrHalt() || isMobileNarrow()) return [];
+      return SEATS.filter(seat => {
+        const btn = document.getElementById('desk-' + seat);
+        return btn && !btn.classList.contains('away') && !btn.classList.contains('walking');
+      });
+    }
+
+    function startWalk() {
+      applyNightAway();
+      const eligible = eligibleWalkers();
+      if (!eligible.length) return;
+      const seat = eligible[Math.floor(Math.random() * eligible.length)];
+      const btn = document.getElementById('desk-' + seat);
+      walkerBusy = true;
+      btn.classList.add('walking');
+      window.setTimeout(() => {
+        btn.classList.remove('walking');
+        walkerBusy = false;
+      }, WALK_DURATION_MS);
+    }
+
+    function startMotionLoop() {
+      applyNightAway();
+      if (walkTimer) clearInterval(walkTimer);
+      walkTimer = window.setInterval(startWalk, WALK_INTERVAL_MS);
+      // first stroll shortly after load (still only if eligible)
+      window.setTimeout(startWalk, 20000);
     }
 
     function renderV1(w) {
@@ -264,8 +366,9 @@
     }
 
     function statusLine(seat) {
-      const info = seatData[seat] || {};
-      return isWorking(info.updated) ? 'Working' : 'Idle';
+      const btn = document.getElementById('desk-' + seat);
+      if (btn && btn.classList.contains('away')) return 'Away';
+      return isWorking(seatStamp(seat, seatData[seat])) ? 'Working' : 'Idle';
     }
 
     function disclaimerHtml() {
@@ -379,6 +482,8 @@
         setTape(w);
 
         SEATS.forEach(seat => applySeatStatus(seat, seatData[seat]));
+        applyNightAway();
+        startMotionLoop();
         renderV1(w);
       })
       .catch(e => {

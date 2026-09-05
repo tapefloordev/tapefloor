@@ -77,6 +77,7 @@ header.site h1 {
 .tape-strip {
   background: var(--tape-bg);
   border-bottom: 3px solid #222830;
+  min-height: 48px;
   height: 48px;
   overflow: hidden;
   position: relative;
@@ -100,24 +101,27 @@ header.site h1 {
   background: linear-gradient(270deg, var(--tape-bg), transparent);
 }
 
-.tape-marquee {
+.tape-track {
   display: flex;
   width: max-content;
-  overflow: visible;
-  animation: scroll-tape 32s linear infinite;
+  will-change: transform;
+  animation: scroll-tape 36s linear infinite;
 }
 
 .tape-copy {
   display: inline-block;
   flex-shrink: 0;
   white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
   font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
   font-size: 14px;
-  line-height: 48px;
-  letter-spacing: .08em;
+  line-height: 48px; /* >= font-size; fills strip height */
+  letter-spacing: .06em;
   color: var(--accent);
   text-transform: uppercase;
   padding: 0 2.5rem 0 0;
+  box-sizing: content-box;
 }
 
 @keyframes scroll-tape {
@@ -128,6 +132,7 @@ header.site h1 {
 .floor-room {
   position: relative;
   min-height: 280px;
+  overflow: visible;
   padding: 1.25rem 1rem 1.5rem;
   background:
     repeating-linear-gradient(
@@ -199,6 +204,8 @@ header.site h1 {
 
 @media (max-width: 480px) {
   .desks { grid-template-columns: 1fr; max-width: 240px; }
+  /* Narrow mobile: sit/type only — no walking */
+  .desk.walking .worker { animation: none !important; }
 }
 
 .desk {
@@ -405,6 +412,45 @@ header.site h1 {
 
 .desk.working .desk-status {
   color: var(--accent);
+}
+
+/* Away (night empty chair) + walk desk → tape → desk */
+.desk.away .worker {
+  visibility: hidden;
+}
+
+.desk.walking .worker {
+  z-index: 12;
+  animation: walk-to-tape-right 5s ease-in-out forwards;
+}
+
+.desk.walking .worker .arm.left,
+.desk.walking .worker .arm.right {
+  animation: none;
+  transform: rotate(0deg);
+}
+
+.desk[data-seat="chief"].walking .worker,
+.desk[data-seat="dev"].walking .worker {
+  animation-name: walk-to-tape-left;
+}
+
+@keyframes walk-to-tape-right {
+  0%   { transform: translate(0, 0); }
+  22%  { transform: translate(12px, -48px); }
+  45%  { transform: translate(18px, -118px); }
+  55%  { transform: translate(22px, -118px); }
+  78%  { transform: translate(10px, -48px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes walk-to-tape-left {
+  0%   { transform: translate(0, 0); }
+  22%  { transform: translate(-12px, -48px); }
+  45%  { transform: translate(-18px, -118px); }
+  55%  { transform: translate(-22px, -118px); }
+  78%  { transform: translate(-10px, -48px); }
+  100% { transform: translate(0, 0); }
 }
 
 /* ——— Detail panel ——— */
