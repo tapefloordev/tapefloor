@@ -248,8 +248,11 @@
     }
 
     /* ——— v2.1 motion: night away + occasional desk→tape→desk walks ——— */
-    const WALK_INTERVAL_MS = 4 * 60 * 1000;
     const WALK_DURATION_MS = 5000;
+    const WALK_FIRST_MIN_MS = 5 * 1000;
+    const WALK_FIRST_MAX_MS = 10 * 1000;
+    const WALK_GAP_MIN_MS = 60 * 1000;
+    const WALK_GAP_MAX_MS = 90 * 1000;
     let walkerBusy = false;
     let walkTimer = null;
 
@@ -302,10 +305,15 @@
       });
     }
 
+    function randBetween(minMs, maxMs) {
+      return minMs + Math.floor(Math.random() * (maxMs - minMs + 1));
+    }
+
     function startWalk() {
       applyNightAway();
       const eligible = eligibleWalkers();
       if (!eligible.length) return;
+      // One worker only — never all four at once
       const seat = eligible[Math.floor(Math.random() * eligible.length)];
       const btn = document.getElementById('desk-' + seat);
       walkerBusy = true;
@@ -316,12 +324,18 @@
       }, WALK_DURATION_MS);
     }
 
+    function scheduleNextWalk(minMs, maxMs) {
+      if (walkTimer) clearTimeout(walkTimer);
+      walkTimer = window.setTimeout(() => {
+        startWalk();
+        scheduleNextWalk(WALK_GAP_MIN_MS, WALK_GAP_MAX_MS);
+      }, randBetween(minMs, maxMs));
+    }
+
     function startMotionLoop() {
       applyNightAway();
-      if (walkTimer) clearInterval(walkTimer);
-      walkTimer = window.setInterval(startWalk, WALK_INTERVAL_MS);
-      // first stroll shortly after load (still only if eligible)
-      window.setTimeout(startWalk, 20000);
+      // First walk 5–10s after open so a visitor sees motion; then every 60–90s
+      scheduleNextWalk(WALK_FIRST_MIN_MS, WALK_FIRST_MAX_MS);
     }
 
     function renderV1(w) {
