@@ -998,3 +998,6 @@ th {
   text-transform: uppercase;
   margin: 0 0 .5rem;
 }
+
+.card table a { color: var(--accent); text-decoration: none; }
+.card table a:hover { text-decoration: underline; }

@@ -742,6 +742,26 @@
       root.innerHTML = `<ul class="journal-list">${last3.map(journalEntryCardHtml).join('')}</ul>`;
     }
 
+
+    function tickerCellHtml(n) {
+      // Watch table link: DexScreener pair URL if present; else Solscan mint.
+      // Never invent a mint — plain text ticker if mint missing.
+      const pair = n.pair_url || n.dexscreener_url || n.dexscreener || n.pair || null;
+      const mint = n.mint || n.token_mint || null;
+      const label = esc(n.ticker || '');
+      if (pair && typeof pair === 'string' && /^https?:\/\//i.test(pair)) {
+        return `<a href="${esc(pair)}" rel="noopener noreferrer" target="_blank">${label}</a>`;
+      }
+      if (mint && typeof mint === 'string' && mint.trim()) {
+        const m = mint.trim();
+        // only link real-looking base58 mints already provided — do not invent
+        if (/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(m)) {
+          return `<a href="https://solscan.io/token/${esc(m)}" rel="noopener noreferrer" target="_blank">${label}</a>`;
+        }
+      }
+      return label;
+    }
+
     function renderV1(w) {
       const t = new Date(w.time);
       document.getElementById('meta').textContent =
@@ -773,7 +793,7 @@
         const laneCell = showLane
           ? `<td>${esc(n.lane != null && n.lane !== '' ? n.lane : (w.lane || '—'))}</td>`
           : '';
-        return `<tr><td>${esc(n.ticker)}</td><td>mc ${fmt(n.mcap)}</td><td>vol ${fmt(n.vol24)}</td>${laneCell}<td class="flag">${esc(n.flag || '')}</td></tr>`;
+        return `<tr><td>${tickerCellHtml(n)}</td><td>mc ${fmt(n.mcap)}</td><td>vol ${fmt(n.vol24)}</td>${laneCell}<td class="flag">${esc(n.flag || '')}</td></tr>`;
       }).join('');
       document.getElementById('names').innerHTML =
         rows || `<tr><td colspan="${cols}" class="err">No names in watch.json</td></tr>`;
