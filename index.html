@@ -348,6 +348,18 @@
       return n;
     }
 
+    function publicEntryType(typ) {
+      // Public UI: never render "pass" — PASS → Skipped
+      const t = String(typ || 'LOG').toUpperCase();
+      if (t === 'PASS') return 'Skipped';
+      if (t === 'CALL') return 'Called';
+      if (t === 'WATCH') return 'Watch';
+      if (t === 'BRIEF') return 'Brief';
+      if (t === 'CLOSE') return 'Close';
+      return t.charAt(0) + t.slice(1).toLowerCase();
+    }
+
+
     function journalPaperPnl(j) {
       if (!j) return 0;
       return toPnlNumber(firstPresent(j, ['paper_pnl_usd', 'paper_pnl', 'pnl.paper']));
@@ -361,7 +373,7 @@
     function renderWhiteboard(j, w) {
       // Human labels only — no fake book / invented wins.
       // Halt: j.halt if present else OFF. Stand-down: j then watch.
-      // Paper/Live P&L from journal fields. Passed/Called from LOG entries.
+      // Paper/Live P&L from journal fields. Skipped/Called from LOG entries (PASS→Skipped).
       let standDown = false;
       if (j && Object.prototype.hasOwnProperty.call(j, 'stand_down')) {
         standDown = !!j.stand_down;
@@ -374,7 +386,7 @@
         ['Stand-down', standDown ? 'yes' : 'no'],
         ['Paper P&L', fmtPnlUsd(journalPaperPnl(j))],
         ['Live P&L', fmtPnlUsd(journalLivePnl(j))],
-        ['Passed', String(countPassedNames(j))],
+        ['Skipped', String(countPassedNames(j))],
         ['Called', String(countCalled(j))]
       ];
       const ul = document.getElementById('whiteboardLines');
@@ -770,7 +782,7 @@
       const when = fmtMT(e.time) || '—';
       const names = Array.isArray(e.names) ? e.names.filter(Boolean) : [];
       let html = `<li class="journal-entry">`;
-      html += `<div class="journal-meta"><span class="journal-type">${esc(typ)}</span><span>${esc(when)}</span></div>`;
+      html += `<div class="journal-meta"><span class="journal-type">${esc(publicEntryType(typ))}</span><span>${esc(when)}</span></div>`;
       if (names.length) {
         html += `<p class="journal-names">${esc(names.join(', '))}</p>`;
       }
@@ -896,7 +908,7 @@
       if (!e || typeof e !== 'object') return '—';
       const typ = String(e.type || 'LOG').toUpperCase();
       const when = fmtMT(e.time) || '—';
-      const parts = [typ, when];
+      const parts = [publicEntryType(typ), when];
       const names = Array.isArray(e.names) ? e.names.filter(Boolean) : [];
       if (names.length === 1) parts.push(String(names[0]));
       else if (names.length > 1) parts.push(names.length + ' names');

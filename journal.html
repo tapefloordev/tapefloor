@@ -62,13 +62,23 @@
       return (v < 0 ? '-$' : '$') + body;
     }
 
+    function publicEntryType(typ) {
+      const t = String(typ || 'LOG').toUpperCase();
+      if (t === 'PASS') return 'Skipped';
+      if (t === 'CALL') return 'Called';
+      if (t === 'WATCH') return 'Watch';
+      if (t === 'BRIEF') return 'Brief';
+      if (t === 'CLOSE') return 'Close';
+      return t.charAt(0) + t.slice(1).toLowerCase();
+    }
+
     function entryHtml(e) {
       if (!e || typeof e !== 'object') return '';
       const typ = String(e.type || 'LOG').toUpperCase();
       const when = fmtMT(e.time);
       const names = Array.isArray(e.names) ? e.names.filter(Boolean) : [];
       let html = `<li class="journal-entry">`;
-      html += `<div class="journal-meta"><span class="journal-type">${esc(typ)}</span><span>${esc(when)}</span></div>`;
+      html += `<div class="journal-meta"><span class="journal-type">${esc(publicEntryType(typ))}</span><span>${esc(when)}</span></div>`;
       if (names.length) {
         html += `<p class="journal-names">${esc(names.join(', '))}</p>`;
       }
