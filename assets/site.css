@@ -1,0 +1,189 @@
+/* Tape Floor — shared site chrome (nav, journal, how) */
+:root {
+  color-scheme: dark;
+  --bg: #0b0d10;
+  --fg: #e8eaed;
+  --muted: #9aa0a6;
+  --line: #2a2f36;
+  --accent: #7dd3a7;
+  --card: #12151a;
+}
+
+* { box-sizing: border-box; }
+
+body.site-page {
+  margin: 0;
+  font: 15px/1.45 ui-sans-serif, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+
+header.site {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem 1rem;
+  margin-bottom: .75rem;
+}
+
+header.site h1 {
+  font-size: 1.1rem;
+  letter-spacing: .08em;
+  margin: 0;
+}
+
+.links { color: var(--muted); font-size: .9rem; }
+.links a + a::before { content: " · "; color: var(--muted); margin: 0 .15rem; }
+
+nav.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .75rem;
+  margin: 0 0 1rem;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+nav.page-nav a {
+  color: var(--muted);
+  padding: .15rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+nav.page-nav a:hover {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+nav.page-nav a[aria-current="page"],
+nav.page-nav a.is-current {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  text-decoration: none;
+}
+
+nav.page-nav .sep {
+  color: var(--line);
+  user-select: none;
+}
+
+.disclaimer-bar {
+  color: var(--muted);
+  font-size: .85rem;
+  margin: 0 0 1rem;
+  letter-spacing: .02em;
+}
+
+.page-title {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.1rem 1.15rem;
+  background: var(--card);
+}
+
+/* Journal entries */
+.journal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.journal-entry {
+  padding: .85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.journal-entry:first-child { padding-top: 0; }
+.journal-entry:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.journal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .6rem;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .8rem;
+  color: var(--muted);
+  margin-bottom: .35rem;
+}
+
+.journal-type {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.journal-names {
+  color: var(--fg);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .85rem;
+  margin: 0 0 .35rem;
+}
+
+.journal-note {
+  margin: 0 0 .35rem;
+  color: var(--fg);
+  font-size: .95rem;
+}
+
+.journal-pnl {
+  margin: 0 0 .35rem;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .85rem;
+  color: var(--accent);
+}
+
+.journal-nfa {
+  margin: 0;
+  color: var(--muted);
+  font-size: .8rem;
+  letter-spacing: .02em;
+}
+
+.journal-empty {
+  color: var(--muted);
+  margin: 0;
+}
+
+/* How page */
+.how-prose {
+  color: var(--fg);
+  font-size: .95rem;
+}
+
+.how-prose p { margin: 0 0 .85rem; }
+.how-prose ul {
+  margin: 0 0 1rem;
+  padding-left: 1.15rem;
+}
+.how-prose li { margin: 0 0 .4rem; }
+.how-prose .muted { color: var(--muted); }
+
+/* Recent journal on floor */
+.recent-journal {
+  margin-top: 1.5rem;
+}
+
+.recent-journal .page-title {
+  margin-bottom: .5rem;
+}

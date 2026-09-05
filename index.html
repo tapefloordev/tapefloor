@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tape Floor</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="./assets/floor.css" />
+  <link rel="stylesheet" href="./assets/site.css" />
 </head>
 <body>
   <div class="wrap">
@@ -15,6 +17,14 @@
         <a href="https://github.com/tapefloordev/tapefloor" rel="noopener noreferrer">github</a>
       </nav>
     </header>
+
+    <nav class="page-nav" aria-label="Site">
+      <a href="./index.html" aria-current="page">Floor</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="./journal.html">Journal</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="./how.html">How</a>
+    </nav>
 
     <p class="disclaimer-bar" id="disclaimerTop">not a call · nfa</p>
 
@@ -205,6 +215,13 @@
       <div id="stand"></div>
       <p class="disclaimer" id="disclaimer">not a call · nfa</p>
     </div>
+
+    <section class="recent-journal" aria-label="Recent journal">
+      <h2 class="page-title">Recent journal</h2>
+      <div class="card">
+        <div id="recentJournal"><p class="journal-empty">Loading…</p></div>
+      </div>
+    </section>
   </div>
 
   <script>
@@ -665,6 +682,50 @@
       scheduleNextWalk(WALK_FIRST_MIN_MS, WALK_FIRST_MAX_MS);
     }
 
+    function watchHasLane(w) {
+      if (!w) return false;
+      if (w.lane != null && w.lane !== '') return true;
+      return (w.names || []).some(n => n && n.lane != null && n.lane !== '');
+    }
+
+    function journalEntryCardHtml(e) {
+      if (!e || typeof e !== 'object') return '';
+      const typ = String(e.type || 'LOG').toUpperCase();
+      const when = fmtMT(e.time) || '—';
+      const names = Array.isArray(e.names) ? e.names.filter(Boolean) : [];
+      let html = `<li class="journal-entry">`;
+      html += `<div class="journal-meta"><span class="journal-type">${esc(typ)}</span><span>${esc(when)}</span></div>`;
+      if (names.length) {
+        html += `<p class="journal-names">${esc(names.join(', '))}</p>`;
+      }
+      if (e.note) {
+        html += `<p class="journal-note">${esc(e.note)}</p>`;
+      }
+      if (typ === 'CLOSE' && e.pnl_usd != null && e.pnl_usd !== '') {
+        html += `<p class="journal-pnl">P&amp;L ${esc(fmtPnlUsd(toPnlNumber(e.pnl_usd)))}</p>`;
+      }
+      html += `<p class="journal-nfa">not a call · nfa</p>`;
+      html += `</li>`;
+      return html;
+    }
+
+    function renderRecentJournal(j) {
+      const root = document.getElementById('recentJournal');
+      if (!root) return;
+      const entries = journalEntries(j).slice();
+      if (!entries.length) {
+        root.innerHTML = `<p class="journal-empty">No journal entries yet.</p>`;
+        return;
+      }
+      entries.sort((a, b) => {
+        const ta = Date.parse(a && a.time) || 0;
+        const tb = Date.parse(b && b.time) || 0;
+        return tb - ta;
+      });
+      const last3 = entries.slice(0, 3);
+      root.innerHTML = `<ul class="journal-list">${last3.map(journalEntryCardHtml).join('')}</ul>`;
+    }
+
     function renderV1(w) {
       const t = new Date(w.time);
       document.getElementById('meta').textContent =
@@ -684,11 +745,22 @@
       document.getElementById('tape').textContent =
         `SOL ${sol >= 0 ? '+' : ''}${sol}% · BTC ${btc >= 0 ? '+' : ''}${btc}% (${tape.source || ''})`;
 
-      const rows = (w.names || []).map(n =>
-        `<tr><td>${esc(n.ticker)}</td><td>mc ${fmt(n.mcap)}</td><td>vol ${fmt(n.vol24)}</td><td class="flag">${esc(n.flag || '')}</td></tr>`
-      ).join('');
+      const showLane = watchHasLane(w);
+      const thead = document.querySelector('.card table thead tr');
+      if (thead) {
+        thead.innerHTML = showLane
+          ? '<th>Name</th><th>mc</th><th>vol</th><th>Lane</th><th>flag</th>'
+          : '<th>Name</th><th>mc</th><th>vol</th><th>flag</th>';
+      }
+      const cols = showLane ? 5 : 4;
+      const rows = (w.names || []).map(n => {
+        const laneCell = showLane
+          ? `<td>${esc(n.lane != null && n.lane !== '' ? n.lane : (w.lane || '—'))}</td>`
+          : '';
+        return `<tr><td>${esc(n.ticker)}</td><td>mc ${fmt(n.mcap)}</td><td>vol ${fmt(n.vol24)}</td>${laneCell}<td class="flag">${esc(n.flag || '')}</td></tr>`;
+      }).join('');
       document.getElementById('names').innerHTML =
-        rows || '<tr><td colspan="4" class="err">No names in watch.json</td></tr>';
+        rows || `<tr><td colspan="${cols}" class="err">No names in watch.json</td></tr>`;
 
       const stand = document.getElementById('stand');
       if (w.stand_down) {
@@ -852,6 +924,7 @@
         applyNightAway();
         startMotionLoop();
         renderV1(w);
+        renderRecentJournal(j);
       })
       .catch(e => {
         document.getElementById('meta').innerHTML = `<span class="err">Failed to load watch.json / journal.json</span>`;
