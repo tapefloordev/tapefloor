@@ -18,17 +18,34 @@
 
     <p class="disclaimer-bar" id="disclaimerTop">not a call · nfa</p>
 
-    <!-- v2 pixel trading floor (above v1 table) -->
+    <!-- v3 pixel trading floor (above v1 table) -->
     <section class="floor-stage" aria-label="Trading floor">
       <div class="tape-strip" aria-hidden="true">
         <div class="tape-track" id="tapeTrack"></div>
       </div>
 
       <div class="floor-room">
+        <div class="room-door" title="door" aria-hidden="true">
+          <div class="door-frame">
+            <div class="door-leaf">
+              <span class="door-panel top"></span>
+              <span class="door-panel bot"></span>
+              <span class="door-knob"></span>
+            </div>
+          </div>
+        </div>
+
         <div class="halt-lamp" id="haltLamp" title="Halt status">
           <span class="halt-bulb" aria-hidden="true"></span>
           <span id="haltLabel">HALT OFF</span>
         </div>
+
+        <aside class="whiteboard" id="whiteboard" aria-label="Floor board">
+          <div class="wb-frame">
+            <div class="wb-title">board</div>
+            <ul class="wb-lines" id="whiteboardLines"></ul>
+          </div>
+        </aside>
 
         <div class="desks">
           <button type="button" class="desk" data-seat="scout" id="desk-scout" aria-label="Scout desk">
@@ -38,6 +55,11 @@
                 <div class="body"></div>
                 <div class="arm left"></div>
                 <div class="arm right"></div>
+              </div>
+              <div class="desk-lamp" aria-hidden="true">
+                <span class="lamp-stem"></span>
+                <span class="lamp-shade"></span>
+                <span class="lamp-glow"></span>
               </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
@@ -56,6 +78,11 @@
                 <div class="arm left"></div>
                 <div class="arm right"></div>
               </div>
+              <div class="desk-lamp" aria-hidden="true">
+                <span class="lamp-stem"></span>
+                <span class="lamp-shade"></span>
+                <span class="lamp-glow"></span>
+              </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
               <div class="desk-body" aria-hidden="true"></div>
@@ -72,6 +99,11 @@
                 <div class="body"></div>
                 <div class="arm left"></div>
                 <div class="arm right"></div>
+              </div>
+              <div class="desk-lamp" aria-hidden="true">
+                <span class="lamp-stem"></span>
+                <span class="lamp-shade"></span>
+                <span class="lamp-glow"></span>
               </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
@@ -90,6 +122,11 @@
                 <div class="arm left"></div>
                 <div class="arm right"></div>
               </div>
+              <div class="desk-lamp" aria-hidden="true">
+                <span class="lamp-stem"></span>
+                <span class="lamp-shade"></span>
+                <span class="lamp-glow"></span>
+              </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
               <div class="desk-body" aria-hidden="true"></div>
@@ -97,6 +134,28 @@
             </div>
             <div class="desk-label">Dev</div>
             <div class="desk-status" id="status-dev">idle</div>
+          </button>
+
+          <button type="button" class="desk empty" data-seat="trader" id="desk-trader" aria-label="Trader desk">
+            <div class="desk-art">
+              <div class="monitor" aria-hidden="true"></div>
+              <div class="desk-top" aria-hidden="true"></div>
+              <div class="desk-body" aria-hidden="true"></div>
+              <div class="chair" aria-hidden="true"></div>
+            </div>
+            <div class="desk-label">Trader</div>
+            <div class="desk-status" id="status-trader">empty</div>
+          </button>
+
+          <button type="button" class="desk empty" data-seat="open" id="desk-open" aria-label="open desk">
+            <div class="desk-art">
+              <div class="monitor" aria-hidden="true"></div>
+              <div class="desk-top" aria-hidden="true"></div>
+              <div class="desk-body" aria-hidden="true"></div>
+              <div class="chair" aria-hidden="true"></div>
+            </div>
+            <div class="desk-label">open</div>
+            <div class="desk-status" id="status-open">empty</div>
           </button>
         </div>
       </div>
@@ -126,9 +185,18 @@
   </div>
 
   <script>
+    // Seated workers only — Trader/open are empty desks and never walk.
     const SEATS = ['scout', 'chief', 'steno', 'dev'];
+    const EMPTY_DESKS = ['trader', 'open'];
     const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
-    const SEAT_TITLES = { scout: 'Scout', chief: 'Chief', steno: 'Steno', dev: 'Dev' };
+    const SEAT_TITLES = {
+      scout: 'Scout',
+      chief: 'Chief',
+      steno: 'Steno',
+      dev: 'Dev',
+      trader: 'Trader',
+      open: 'open'
+    };
 
     const fmt = n => {
       if (typeof n !== 'number' || !isFinite(n)) return '—';
@@ -193,6 +261,31 @@
       }
     }
 
+    function renderWhiteboard(j, w) {
+      // halt / paper / live / passed / called from journal.json only.
+      // stand-down: journal.stand_down if present, else watch.stand_down
+      // (desk state already loaded for the halt lamp; not invented).
+      const book = (j && j.book) || {};
+      let standDown = null;
+      if (j && Object.prototype.hasOwnProperty.call(j, 'stand_down')) {
+        standDown = j.stand_down;
+      } else if (w && Object.prototype.hasOwnProperty.call(w, 'stand_down')) {
+        standDown = w.stand_down;
+      }
+      const lines = [
+        ['Halt', (j && j.halt) ? 'ON' : 'OFF'],
+        ['Stand-down', standDown ? 'yes' : 'no'],
+        ['Paper', fmtMoney(book.paper)],
+        ['Live', fmtMoney(book.live)],
+        ['Passed', String((j && j.skipped) ?? 0)],
+        ['Called', String((j && j.called) ?? 0)]
+      ];
+      const ul = document.getElementById('whiteboardLines');
+      ul.innerHTML = lines.map(([k, v]) =>
+        `<li><span class="wb-k">${esc(k)}</span><span class="wb-v">${esc(v)}</span></li>`
+      ).join('');
+    }
+
     function seatStamp(seat, data) {
       if (seat === 'dev') {
         return (data && (data.updated || data.pushed_at))
@@ -247,7 +340,7 @@
       track.style.animation = '';
     }
 
-    /* ——— v2.1 motion: night away + occasional desk→tape→desk walks ——— */
+    /* ——— motion: night away + occasional desk→tape→desk walks ——— */
     const WALK_DURATION_MS = 5000;
     const WALK_FIRST_MIN_MS = 5 * 1000;
     const WALK_FIRST_MAX_MS = 10 * 1000;
@@ -299,6 +392,7 @@
 
     function eligibleWalkers() {
       if (walkerBusy || isStandDownOrHalt()) return [];
+      // Scout / Chief / Steno / Dev only — never Trader or open
       return SEATS.filter(seat => {
         const btn = document.getElementById('desk-' + seat);
         return btn && !btn.classList.contains('away') && !btn.classList.contains('walking');
@@ -405,45 +499,54 @@
 
       const w = watch || {};
       const j = journal || {};
-      let html = `<p class="panel-status">${statusLine(seat)}</p>`;
+      let html = '';
 
-      if (seat === 'scout') {
-        const when = fmtMT(w.time);
-        html += `<p class="panel-line">Watch time · ${esc(when || '—')}</p>`;
-        const names = w.names || [];
-        if (names.length) {
-          html += `<ul class="panel-names">`;
-          names.forEach(n => {
-            const flag = humanFlag(n.flag);
-            html += `<li>${esc(n.ticker)} · mc ${fmt(n.mcap)} · vol ${fmt(n.vol24)}${flag ? ' · ' + esc(flag) : ''}</li>`;
-          });
-          html += `</ul>`;
+      if (seat === 'trader') {
+        html = `<p class="panel-line">no trader bot yet. paper fills are human.</p>`;
+      } else if (seat === 'open') {
+        html = `<p class="panel-line">unused.</p>`;
+      } else {
+        html = `<p class="panel-status">${statusLine(seat)}</p>`;
+
+        if (seat === 'scout') {
+          const when = fmtMT(w.time);
+          html += `<p class="panel-line">Watch time · ${esc(when || '—')}</p>`;
+          const names = w.names || [];
+          if (names.length) {
+            html += `<ul class="panel-names">`;
+            names.forEach(n => {
+              const flag = humanFlag(n.flag);
+              html += `<li>${esc(n.ticker)} · mc ${fmt(n.mcap)} · vol ${fmt(n.vol24)}${flag ? ' · ' + esc(flag) : ''}</li>`;
+            });
+            html += `</ul>`;
+          }
+        } else if (seat === 'chief') {
+          const book = j.book || {};
+          const pos = book.position ? String(book.position) : '—';
+          html += `<p class="panel-line">Halt: ${j.halt ? 'ON' : 'OFF'}</p>`;
+          html += `<p class="panel-line">Open tickets: ${esc(j.open_tickets ?? 0)}</p>`;
+          html += `<p class="panel-line">Book: paper ${fmtMoney(book.paper)} · live ${fmtMoney(book.live)} · ${esc(pos)}</p>`;
+          html += `<p class="panel-line">Passed: ${esc(j.skipped ?? 0)}</p>`;
+          html += `<p class="panel-line">Called: ${esc(j.called ?? 0)}</p>`;
+          if (j.time) {
+            html += `<p class="panel-line">Time: ${esc(fmtMT(j.time) || j.time)}</p>`;
+          }
+          if (j.source) {
+            html += `<p class="panel-line">Source: ${esc(j.source)}</p>`;
+          }
+        } else if (seat === 'steno') {
+          const card = await loadXcard();
+          html += `<div class="panel-section"><h3>Last X card</h3>`;
+          html += `<pre class="xcard">${esc(card)}</pre></div>`;
+        } else if (seat === 'dev') {
+          const pushed = (deploy && deploy.pushed_at) || (seatData.dev && seatData.dev.pushed_at);
+          html += `<p class="panel-line"><a href="https://github.com/tapefloordev/tapefloor" rel="noopener noreferrer">https://github.com/tapefloordev/tapefloor</a></p>`;
+          html += `<p class="panel-line">Last push: ${esc(fmtMT(pushed) || '—')}</p>`;
         }
-      } else if (seat === 'chief') {
-        const book = j.book || {};
-        const pos = book.position ? String(book.position) : '—';
-        html += `<p class="panel-line">Halt: ${j.halt ? 'ON' : 'OFF'}</p>`;
-        html += `<p class="panel-line">Open tickets: ${esc(j.open_tickets ?? 0)}</p>`;
-        html += `<p class="panel-line">Book: paper ${fmtMoney(book.paper)} · live ${fmtMoney(book.live)} · ${esc(pos)}</p>`;
-        html += `<p class="panel-line">Passed: ${esc(j.skipped ?? 0)}</p>`;
-        html += `<p class="panel-line">Called: ${esc(j.called ?? 0)}</p>`;
-        if (j.time) {
-          html += `<p class="panel-line">Time: ${esc(fmtMT(j.time) || j.time)}</p>`;
-        }
-        if (j.source) {
-          html += `<p class="panel-line">Source: ${esc(j.source)}</p>`;
-        }
-      } else if (seat === 'steno') {
-        const card = await loadXcard();
-        html += `<div class="panel-section"><h3>Last X card</h3>`;
-        html += `<pre class="xcard">${esc(card)}</pre></div>`;
-      } else if (seat === 'dev') {
-        const pushed = (deploy && deploy.pushed_at) || (seatData.dev && seatData.dev.pushed_at);
-        html += `<p class="panel-line"><a href="https://github.com/tapefloordev/tapefloor" rel="noopener noreferrer">https://github.com/tapefloordev/tapefloor</a></p>`;
-        html += `<p class="panel-line">Last push: ${esc(fmtMT(pushed) || '—')}</p>`;
+
+        html += disclaimerHtml();
       }
 
-      html += disclaimerHtml();
       body.innerHTML = html;
       panel.classList.add('open');
       panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -455,6 +558,9 @@
 
     document.getElementById('panelClose').addEventListener('click', closePanel);
     SEATS.forEach(seat => {
+      document.getElementById('desk-' + seat).addEventListener('click', () => { openPanel(seat); });
+    });
+    EMPTY_DESKS.forEach(seat => {
       document.getElementById('desk-' + seat).addEventListener('click', () => { openPanel(seat); });
     });
 
@@ -488,6 +594,7 @@
 
         // Halt lamp: ON iff journal.halt===true OR watch.stand_down===true
         setHalt(j.halt === true || w.stand_down === true);
+        renderWhiteboard(j, w);
 
         setTape(w);
 

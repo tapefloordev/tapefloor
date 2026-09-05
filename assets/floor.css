@@ -1,4 +1,4 @@
-/* Tape Floor v2 — CSS pixel trading floor */
+/* Tape Floor v3 — CSS pixel trading floor */
 :root {
   color-scheme: dark;
   --bg: #0b0d10;
@@ -18,6 +18,10 @@
   --tape-bg: #0e1014;
   --pixel: 4px;
   --skin: #d4b896;
+  --lamp-off: #3a4048;
+  --lamp-on: #f4d06f;
+  --board: #e8e0c8;
+  --board-ink: #2a2418;
   image-rendering: pixelated;
 }
 
@@ -34,7 +38,7 @@ a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .wrap {
-  max-width: 720px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 1.5rem 1rem 4rem;
 }
@@ -131,9 +135,9 @@ header.site h1 {
 
 .floor-room {
   position: relative;
-  min-height: 280px;
+  min-height: 340px;
   overflow: visible;
-  padding: 1.25rem 1rem 1.5rem;
+  padding: 12px 12px 20px 52px;
   background:
     repeating-linear-gradient(
       0deg,
@@ -150,6 +154,61 @@ header.site h1 {
       rgba(0,0,0,.08) 8px
     ),
     linear-gradient(180deg, #22182a 0%, #1a1520 40%, #141018 100%);
+}
+
+/* Pixel door on the left wall / floor */
+.room-door {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-42%);
+  width: 34px;
+  height: 78px;
+  z-index: 2;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.door-frame {
+  position: absolute;
+  inset: 0;
+  background: #1a100c;
+  box-shadow:
+    2px 2px 0 #0a0806,
+    inset 0 0 0 3px #2a1c14;
+}
+
+.door-leaf {
+  position: absolute;
+  inset: 5px 4px 3px 4px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #6a4a36 0 7px,
+      #5c4033 7px 8px
+    );
+  box-shadow: inset 0 0 0 1px #3d2b1f;
+}
+
+.door-panel {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  height: 22px;
+  border: 2px solid #3d2b1f;
+  background: rgba(26, 16, 12, .18);
+}
+.door-panel.top { top: 4px; }
+.door-panel.bot { bottom: 8px; }
+
+.door-knob {
+  position: absolute;
+  right: 3px;
+  top: 36px;
+  width: 5px;
+  height: 5px;
+  background: #c9a227;
+  box-shadow: 0 0 0 1px #1a100c, 1px 1px 0 #8a7018;
 }
 
 .halt-lamp {
@@ -194,34 +253,100 @@ header.site h1 {
   50% { opacity: .55; }
 }
 
-.desks {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem 1.5rem;
-  max-width: 520px;
-  margin: 1.75rem auto 0;
+/* Small pixel whiteboard — journal (+ watch stand-down) */
+.whiteboard {
+  width: max-content;
+  max-width: calc(100% - 88px);
+  margin: 4px auto 10px;
+  z-index: 3;
+  image-rendering: pixelated;
 }
 
-@media (max-width: 480px) {
-  .desks { grid-template-columns: 1fr; max-width: 240px; }
+.wb-frame {
+  background: var(--board);
+  border: 3px solid #3d2b1f;
+  box-shadow:
+    3px 3px 0 #1a100c,
+    inset 0 0 0 2px #c4b896;
+  padding: 5px 8px 6px;
+  color: var(--board-ink);
+  min-width: 148px;
+}
+
+.wb-title {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 8px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #5c4033;
+  text-align: center;
+  margin-bottom: 3px;
+}
+
+.wb-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.wb-lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(61, 43, 31, .16);
+  padding: 1px 0;
+}
+
+.wb-k { color: #5c4033; }
+.wb-v { color: var(--board-ink); font-variant-numeric: tabular-nums; }
+
+.desks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem 0.7rem;
+  max-width: 560px;
+  margin: 0.35rem auto 0;
+}
+
+@media (max-width: 560px) {
+  .wrap { padding: 1rem 0.6rem 3rem; }
+  .floor-room { padding: 10px 8px 16px 40px; }
+  .room-door { width: 26px; height: 60px; left: 6px; }
+  .desk-art {
+    transform: scale(0.78);
+    transform-origin: top center;
+    margin-bottom: -18px;
+  }
+  .desks { gap: 0.55rem 0.25rem; max-width: 100%; }
   /* Keep walking on mobile; shorter path so it stays on-screen */
   .desk.walking .worker {
     animation-duration: 4.2s;
   }
   @keyframes walk-to-tape-right {
     0%   { transform: translate(0, 0); }
-    22%  { transform: translate(8px, -36px); }
-    45%  { transform: translate(10px, -88px); }
-    55%  { transform: translate(12px, -88px); }
-    78%  { transform: translate(6px, -36px); }
+    22%  { transform: translate(6px, -36px); }
+    45%  { transform: translate(8px, -88px); }
+    55%  { transform: translate(10px, -88px); }
+    78%  { transform: translate(5px, -36px); }
     100% { transform: translate(0, 0); }
   }
   @keyframes walk-to-tape-left {
     0%   { transform: translate(0, 0); }
-    22%  { transform: translate(-8px, -36px); }
-    45%  { transform: translate(-10px, -88px); }
-    55%  { transform: translate(-12px, -88px); }
-    78%  { transform: translate(-6px, -36px); }
+    22%  { transform: translate(-6px, -36px); }
+    45%  { transform: translate(-8px, -88px); }
+    55%  { transform: translate(-10px, -88px); }
+    78%  { transform: translate(-5px, -36px); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes walk-to-tape-from-back {
+    0%   { transform: translate(0, 0); }
+    22%  { transform: translate(6px, -52px); }
+    45%  { transform: translate(8px, -124px); }
+    55%  { transform: translate(10px, -124px); }
+    78%  { transform: translate(5px, -52px); }
     100% { transform: translate(0, 0); }
   }
 }
@@ -318,6 +443,10 @@ header.site h1 {
   animation: screen-flicker 2.4s steps(3, end) infinite;
 }
 
+.desk.empty .monitor::before {
+  opacity: .12;
+}
+
 @keyframes screen-flicker {
   0%, 100% { opacity: .85; }
   40% { opacity: .55; }
@@ -335,6 +464,69 @@ header.site h1 {
   border: 2px solid #111;
   border-radius: 2px 2px 0 0;
   z-index: 0;
+}
+
+/* Desk lamp — ON only when .working (updated < 2h and not night-away) */
+.desk-lamp {
+  position: absolute;
+  right: 14px;
+  bottom: 42px;
+  width: 16px;
+  height: 24px;
+  z-index: 5;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+.lamp-stem {
+  position: absolute;
+  left: 6px;
+  bottom: 0;
+  width: 3px;
+  height: 13px;
+  background: #2a2f36;
+  box-shadow: 0 0 0 1px #111;
+}
+
+.lamp-shade {
+  position: absolute;
+  left: 1px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 9px solid var(--lamp-off);
+}
+
+.lamp-glow {
+  position: absolute;
+  left: 2px;
+  top: 9px;
+  width: 12px;
+  height: 8px;
+  background: transparent;
+  opacity: 0;
+}
+
+.desk.working .lamp-shade {
+  border-top-color: var(--lamp-on);
+}
+
+.desk.working .lamp-glow {
+  opacity: .7;
+  background: rgba(244, 208, 111, .45);
+  box-shadow: 0 4px 10px 3px rgba(244, 208, 111, .4);
+}
+
+.desk.away .lamp-shade {
+  border-top-color: var(--lamp-off);
+}
+
+.desk.away .lamp-glow {
+  opacity: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 /* Tiny pixel worker — always sitting; arms type, stronger when working */
@@ -432,6 +624,10 @@ header.site h1 {
   color: var(--accent);
 }
 
+.desk.empty .desk-status {
+  opacity: .7;
+}
+
 /* Away (night empty chair) + walk desk → tape → desk */
 .desk.away .worker {
   visibility: hidden;
@@ -448,26 +644,39 @@ header.site h1 {
   transform: rotate(0deg);
 }
 
-.desk[data-seat="chief"].walking .worker,
-.desk[data-seat="dev"].walking .worker {
+/* Right-column Steno walks left toward tape; back-row Dev walks farther up */
+.desk[data-seat="steno"].walking .worker {
   animation-name: walk-to-tape-left;
+}
+
+.desk[data-seat="dev"].walking .worker {
+  animation-name: walk-to-tape-from-back;
 }
 
 @keyframes walk-to-tape-right {
   0%   { transform: translate(0, 0); }
-  22%  { transform: translate(12px, -48px); }
-  45%  { transform: translate(18px, -118px); }
-  55%  { transform: translate(22px, -118px); }
-  78%  { transform: translate(10px, -48px); }
+  22%  { transform: translate(10px, -48px); }
+  45%  { transform: translate(14px, -118px); }
+  55%  { transform: translate(16px, -118px); }
+  78%  { transform: translate(8px, -48px); }
   100% { transform: translate(0, 0); }
 }
 
 @keyframes walk-to-tape-left {
   0%   { transform: translate(0, 0); }
-  22%  { transform: translate(-12px, -48px); }
-  45%  { transform: translate(-18px, -118px); }
-  55%  { transform: translate(-22px, -118px); }
-  78%  { transform: translate(-10px, -48px); }
+  22%  { transform: translate(-10px, -48px); }
+  45%  { transform: translate(-14px, -118px); }
+  55%  { transform: translate(-16px, -118px); }
+  78%  { transform: translate(-8px, -48px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes walk-to-tape-from-back {
+  0%   { transform: translate(0, 0); }
+  22%  { transform: translate(8px, -70px); }
+  45%  { transform: translate(12px, -168px); }
+  55%  { transform: translate(14px, -168px); }
+  78%  { transform: translate(6px, -70px); }
   100% { transform: translate(0, 0); }
 }
 
