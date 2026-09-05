@@ -677,6 +677,7 @@ header.site h1 {
 .desk[data-seat="chief"] .worker .body { background: #7a5a3a; }
 .desk[data-seat="steno"] .worker .body { background: #5a4a7a; }
 .desk[data-seat="dev"] .worker .body { background: #3a6a7a; }
+.desk[data-seat="trader"] .worker .body { background: #6a4a3a; }
 
 @keyframes type-l {
   0%, 100% { transform: rotate(18deg); }
@@ -725,6 +726,12 @@ header.site h1 {
   opacity: .7;
 }
 
+/* Empty chair: hide worker + lamp (HTML may still be present for seating toggle) */
+.desk.empty .worker,
+.desk.empty .desk-lamp {
+  visibility: hidden;
+}
+
 /* Away (night empty chair) + walk desk → tape → desk */
 .desk.away .worker {
   visibility: hidden;
@@ -746,7 +753,8 @@ header.site h1 {
   animation-name: walk-to-tape-left;
 }
 
-.desk[data-seat="dev"].walking .worker {
+.desk[data-seat="dev"].walking .worker,
+.desk[data-seat="trader"].walking .worker {
   animation-name: walk-to-tape-from-back;
 }
 

@@ -171,6 +171,17 @@
 
           <button type="button" class="desk empty" data-seat="trader" id="desk-trader" aria-label="Trader desk">
             <div class="desk-art">
+              <div class="worker" aria-hidden="true">
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+              </div>
+              <div class="desk-lamp" aria-hidden="true">
+                <span class="lamp-stem"></span>
+                <span class="lamp-shade"></span>
+                <span class="lamp-glow"></span>
+              </div>
               <div class="monitor" aria-hidden="true"></div>
               <div class="desk-top" aria-hidden="true"></div>
               <div class="desk-body" aria-hidden="true"></div>
@@ -237,7 +248,7 @@
   </div>
 
   <script>
-    // Seated workers only — Trader/open are empty desks and never walk.
+    // Scout/Chief/Steno/Dev always seated; Trader seats from ./trader.json; open stays empty.
     const SEATS = ['scout', 'chief', 'steno', 'dev'];
     const EMPTY_DESKS = ['trader', 'open'];
     const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
@@ -292,6 +303,7 @@
     let journal = null;
     let xcardText = '';
     let deploy = null;
+    let trader = null;
     const seatData = {};
 
     function isWorking(updated) {
@@ -579,6 +591,48 @@
       }
     }
 
+    function traderIsSeated(t) {
+      if (!t || typeof t !== 'object') return false;
+      return !!(t.time || t.event);
+    }
+
+    function latestJournalClose(j) {
+      const entries = journalEntries(j);
+      for (let i = entries.length - 1; i >= 0; i--) {
+        const e = entries[i];
+        if (e && String(e.type || '').toUpperCase() === 'CLOSE') return e;
+      }
+      return null;
+    }
+
+    function applyTraderDesk() {
+      const btn = document.getElementById('desk-trader');
+      const status = document.getElementById('status-trader');
+      if (!btn || !status) return;
+      if (!traderIsSeated(trader)) {
+        btn.classList.add('empty');
+        btn.classList.remove('working', 'away', 'walking');
+        status.textContent = 'empty';
+        return;
+      }
+      btn.classList.remove('empty');
+      // Night away like Scout / Chief / Steno (23:00–07:00 MT)
+      if (isNightDenver()) {
+        btn.classList.add('away');
+        btn.classList.remove('working', 'walking');
+        status.textContent = 'away';
+        return;
+      }
+      btn.classList.remove('away');
+      if (trader.status === 'working') {
+        btn.classList.add('working');
+        status.textContent = 'working';
+      } else {
+        btn.classList.remove('working');
+        status.textContent = 'idle';
+      }
+    }
+
     function buildTapeMarquee(w) {
       const names = (w && w.names) || [];
       if (!names.length) return 'NO NAMES';
@@ -654,14 +708,20 @@
         }
         applySeatStatus(seat, seatData[seat]);
       });
+      applyTraderDesk();
     }
 
     function eligibleWalkers() {
       if (walkerBusy || isStandDownOrHalt()) return [];
-      // Scout / Chief / Steno / Dev only — never Trader or open
-      return SEATS.filter(seat => {
+      // Scout / Chief / Steno / Dev + seated Trader (never open)
+      const pool = SEATS.slice();
+      if (traderIsSeated(trader)) pool.push('trader');
+      return pool.filter(seat => {
         const btn = document.getElementById('desk-' + seat);
-        return btn && !btn.classList.contains('away') && !btn.classList.contains('walking');
+        return btn
+          && !btn.classList.contains('empty')
+          && !btn.classList.contains('away')
+          && !btn.classList.contains('walking');
       });
     }
 
@@ -859,7 +919,35 @@
       let html = '';
 
       if (seat === 'trader') {
-        html = `<p class="panel-line">no trader bot yet. paper fills are human.</p>`;
+        if (!traderIsSeated(trader)) {
+          html = `<p class="panel-line">awaiting trader.</p>`;
+        } else {
+          const btn = document.getElementById('desk-trader');
+          if (btn && btn.classList.contains('away')) {
+            html = `<p class="panel-status">Away</p>`;
+          } else {
+            const st = trader.status === 'working' ? 'working' : 'idle';
+            html = `<p class="panel-status">${st === 'working' ? 'Working' : 'Idle'}</p>`;
+            html += `<p class="panel-line">Status: ${esc(st)}</p>`;
+          }
+          const close = latestJournalClose(j);
+          if (close) {
+            html += `<p class="panel-line">Last fill: ${esc(formatJournalLine(close))}</p>`;
+          } else {
+            html += `<p class="panel-line">Last fill: none</p>`;
+          }
+          html += `<p class="panel-line">paper only.</p>`;
+          if (trader.open_ticket) {
+            html += `<p class="panel-line">Open ticket: ${esc(trader.open_ticket)}</p>`;
+          }
+          if (trader.pair) {
+            html += `<p class="panel-line">Pair: ${esc(trader.pair)}</p>`;
+          }
+          if (trader.note) {
+            html += `<p class="panel-line">Note: ${esc(trader.note)}</p>`;
+          }
+          html += disclaimerHtml();
+        }
       } else if (seat === 'open') {
         html = `<p class="panel-line">unused.</p>`;
       } else {
@@ -1019,6 +1107,9 @@
       fetch('./deploy.json', { cache: 'no-store' })
         .then(r => (r.ok ? r.json() : null))
         .catch(() => null),
+      fetch('./trader.json', { cache: 'no-store' })
+        .then(r => (r.ok ? r.json() : null))
+        .catch(() => null),
       ...SEATS.map(seat =>
         fetch(`./seats/${seat}.json`, { cache: 'no-store' })
           .then(r => (r.ok ? r.json() : { updated: null }))
@@ -1026,11 +1117,12 @@
           .then(d => { seatData[seat] = d; })
       )
     ])
-      .then(([w, j, xcard, dep]) => {
+      .then(([w, j, xcard, dep, tr]) => {
         watch = w;
         journal = j;
         xcardText = xcard || '';
         deploy = dep;
+        trader = tr;
 
         // Halt lamp: ON iff journal.halt===true OR watch.stand_down===true
         setHalt(j.halt === true || w.stand_down === true);
@@ -1041,6 +1133,7 @@
         setTape(w);
 
         SEATS.forEach(seat => applySeatStatus(seat, seatData[seat]));
+        applyTraderDesk();
         applyNightAway();
         startMotionLoop();
         renderV1(w);
