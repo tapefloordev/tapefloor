@@ -276,6 +276,25 @@ header.site h1 {
   image-rendering: pixelated;
 }
 
+.wall-clickable {
+  cursor: pointer;
+}
+
+.wall-clickable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.wall-clickable:hover .tv-bezel,
+.wall-clickable:hover .clock-bezel,
+.wall-clickable:hover .wb-frame {
+  border-color: #4a5560;
+}
+
+.wall-clickable:hover .wb-frame {
+  border-color: #6a4a38;
+}
+
 .tv-bezel,
 .clock-bezel,
 .wb-frame {
@@ -865,6 +884,68 @@ pre.xcard {
   color: var(--fg);
   overflow: visible;
 }
+
+/* ——— Wall zoom overlay ——— */
+.wall-zoom {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  box-sizing: border-box;
+}
+
+.wall-zoom.open {
+  display: flex;
+}
+
+.wall-zoom-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 8, 10, .72);
+  cursor: pointer;
+}
+
+.wall-zoom-panel {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(520px, 100%);
+  max-height: min(80vh, 640px);
+  margin: 0;
+  overflow: auto;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .55);
+}
+
+.wall-zoom-body {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.wall-zoom-line {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 15px;
+  margin: 0 0 .55rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.wall-zoom-wb {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.wall-zoom-wb li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(42, 47, 54, .55);
+  padding: .35rem 0;
+}
+
+.wall-zoom-wb .wb-k { color: var(--muted); }
+.wall-zoom-wb .wb-v { color: var(--fg); font-variant-numeric: tabular-nums; }
 
 /* ——— v1 watch card ——— */
 .card {

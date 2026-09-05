@@ -51,7 +51,7 @@
         </div>
 
         <div class="wall-row" aria-label="Wall board">
-          <aside class="wall-tv" id="wallTv" aria-label="P and L TV">
+          <aside class="wall-tv wall-clickable" id="wallTv" role="button" tabindex="0" aria-label="Open TV" data-wall="tv">
             <div class="tv-bezel">
               <div class="tv-screen">
                 <div class="tv-title">tv</div>
@@ -61,14 +61,14 @@
             </div>
           </aside>
 
-          <aside class="whiteboard" id="whiteboard" aria-label="Floor board">
+          <aside class="whiteboard wall-clickable" id="whiteboard" role="button" tabindex="0" aria-label="Open Board" data-wall="board">
             <div class="wb-frame">
               <div class="wb-title">board</div>
               <ul class="wb-lines" id="whiteboardLines"></ul>
             </div>
           </aside>
 
-          <aside class="wall-clock" id="wallClock" aria-label="Floor clock">
+          <aside class="wall-clock wall-clickable" id="wallClock" role="button" tabindex="0" aria-label="Open Clock" data-wall="clock">
             <div class="clock-bezel">
               <div class="clock-face">
                 <div class="clock-title">clock</div>
@@ -202,6 +202,18 @@
       </div>
       <div class="panel-body" id="panelBody"></div>
     </aside>
+
+    <!-- Shared wall zoom overlay (TV / Board / Clock) -->
+    <div class="wall-zoom" id="wallZoom" hidden>
+      <div class="wall-zoom-backdrop" id="wallZoomBackdrop" tabindex="-1"></div>
+      <aside class="wall-zoom-panel panel open" role="dialog" aria-modal="true" aria-labelledby="wallZoomTitle">
+        <div class="panel-head">
+          <h2 id="wallZoomTitle">TV</h2>
+          <button type="button" class="panel-close" id="wallZoomClose">close</button>
+        </div>
+        <div class="panel-body wall-zoom-body" id="wallZoomBody"></div>
+      </aside>
+    </div>
 
     <!-- v1 watch table (fallback if art fails) -->
     <p class="v1-label">Watch table</p>
@@ -357,6 +369,7 @@
       ul.innerHTML = lines.map(([k, v]) =>
         `<li><span class="wb-k">${esc(k)}</span><span class="wb-v">${esc(v)}</span></li>`
       ).join('');
+      if (typeof refreshWallZoomIfOpen === 'function') refreshWallZoomIfOpen('board');
     }
 
     function firstPresent(obj, paths) {
@@ -421,6 +434,7 @@
       }
       document.getElementById('tvPaper').textContent = 'Paper P&L: ' + fmtPnlUsd(paper);
       document.getElementById('tvLive').textContent = 'Live P&L: ' + fmtPnlUsd(live);
+      if (typeof refreshWallZoomIfOpen === 'function') refreshWallZoomIfOpen('tv');
     }
 
     function denverParts(date) {
@@ -524,11 +538,13 @@
       if (!nextAt) {
         nextEl.hidden = true;
         nextEl.textContent = '';
+        if (typeof refreshWallZoomIfOpen === 'function') refreshWallZoomIfOpen('clock');
         return;
       }
       const withDate = denverDateKey(nextAt) !== denverDateKey(now);
       nextEl.hidden = false;
       nextEl.textContent = 'NEXT WATCH ' + fmtClockTime(nextAt, withDate);
+      if (typeof refreshWallZoomIfOpen === 'function') refreshWallZoomIfOpen('clock');
     }
 
     function startClockLoop() {
@@ -875,6 +891,90 @@
     function closePanel() {
       document.getElementById('deskPanel').classList.remove('open');
     }
+
+    /* ——— Wall zoom (TV / Board / Clock) ——— */
+    let wallZoomKind = null;
+
+    function wallZoomIsOpen() {
+      const el = document.getElementById('wallZoom');
+      return el && !el.hidden;
+    }
+
+    function buildWallZoomHtml(kind) {
+      if (kind === 'tv') {
+        const paper = document.getElementById('tvPaper').textContent;
+        const live = document.getElementById('tvLive').textContent;
+        return `<p class="panel-line wall-zoom-line">${esc(paper)}</p>` +
+               `<p class="panel-line wall-zoom-line">${esc(live)}</p>`;
+      }
+      if (kind === 'board') {
+        const items = [...document.querySelectorAll('#whiteboardLines li')].map(li => {
+          const k = li.querySelector('.wb-k');
+          const v = li.querySelector('.wb-v');
+          const left = k ? k.textContent : '';
+          const right = v ? v.textContent : li.textContent;
+          return `<li><span class="wb-k">${esc(left)}</span><span class="wb-v">${esc(right)}</span></li>`;
+        }).join('');
+        return `<ul class="wb-lines wall-zoom-wb">${items}</ul>`;
+      }
+      if (kind === 'clock') {
+        const now = document.getElementById('clockNow').textContent;
+        const nextEl = document.getElementById('clockNext');
+        const brief = document.getElementById('clockBrief').textContent;
+        let html = `<p class="panel-line wall-zoom-line">${esc(now)}</p>`;
+        if (nextEl && !nextEl.hidden && nextEl.textContent) {
+          html += `<p class="panel-line wall-zoom-line">${esc(nextEl.textContent)}</p>`;
+        }
+        html += `<p class="panel-line wall-zoom-line">${esc(brief)}</p>`;
+        return html;
+      }
+      return '';
+    }
+
+    function fillWallZoom(kind) {
+      const titles = { tv: 'TV', board: 'Board', clock: 'Clock' };
+      document.getElementById('wallZoomTitle').textContent = titles[kind] || kind;
+      document.getElementById('wallZoomBody').innerHTML = buildWallZoomHtml(kind);
+    }
+
+    function openWallZoom(kind) {
+      wallZoomKind = kind;
+      fillWallZoom(kind);
+      const el = document.getElementById('wallZoom');
+      el.hidden = false;
+      el.classList.add('open');
+      document.getElementById('wallZoomClose').focus();
+    }
+
+    function closeWallZoom() {
+      const el = document.getElementById('wallZoom');
+      el.hidden = true;
+      el.classList.remove('open');
+      wallZoomKind = null;
+    }
+
+    function refreshWallZoomIfOpen(kind) {
+      if (wallZoomIsOpen() && wallZoomKind === kind) fillWallZoom(kind);
+    }
+
+    document.getElementById('wallZoomClose').addEventListener('click', closeWallZoom);
+    document.getElementById('wallZoomBackdrop').addEventListener('click', closeWallZoom);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && wallZoomIsOpen()) {
+        e.preventDefault();
+        closeWallZoom();
+      }
+    });
+
+    document.querySelectorAll('.wall-clickable').forEach(el => {
+      el.addEventListener('click', () => { openWallZoom(el.dataset.wall); });
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openWallZoom(el.dataset.wall);
+        }
+      });
+    });
 
     document.getElementById('panelClose').addEventListener('click', closePanel);
     SEATS.forEach(seat => {
