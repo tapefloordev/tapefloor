@@ -11,59 +11,83 @@
   "names": [
     {
       "ticker": "ROI",
-      "mcap": 230951318,
-      "vol24": 1027755,
+      "mcap": 230951318.0,
+      "vol24": 1027755.34,
       "flag": "dead_1h",
-      "lane": "GAMBLE"
+      "lane": "GAMBLE",
+      "mint": "EWy4CaQqsHxQPfLyyLLJ2mMxDqR5KHbHu76eJVuZJHs4",
+      "pair_url": "https://dexscreener.com/solana/fh3javd7hhikwvmx9sro4r1yvlekpaxvfltgwpfvhgrj",
+      "pair_address": "Fh3JavD7HHikwVMX9sRo4r1yvLeKpaxvFLTgWpFVHgrJ"
     },
     {
       "ticker": "SWIFT",
-      "mcap": 141786,
-      "vol24": 219335,
+      "mcap": 75396.0,
+      "vol24": 233371.43,
       "flag": "NEW",
-      "lane": "GAMBLE"
+      "lane": "GAMBLE",
+      "mint": "DHLqUh8wJjJCnfdZpjFkeKhdic9nTpMxzD1Vkx8DG17U",
+      "pair_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut",
+      "pair_address": "2Q5kyZ1jHWCr3jGR5eiRsfPTNfmUDS5qKG43osmcqJUT"
     },
     {
       "ticker": "memestonk",
-      "mcap": 269607,
-      "vol24": 4792010,
+      "mcap": 298067.0,
+      "vol24": 4813848.02,
       "flag": "NEW",
-      "lane": "GAMBLE"
+      "lane": "GAMBLE",
+      "mint": "CYAQyGC9Nc9RV5MiSiJxdE8utWZtdjtt3tKe1Uvjpump",
+      "pair_url": "https://dexscreener.com/solana/bw4vqqxvaij7ncqqxitnymakbf3nsskbfhrriehaom8w",
+      "pair_address": "Bw4vQqXVAij7NCQQxitnyMAkBf3nSsKBFhrRiEHAoM8w"
     },
     {
       "ticker": "STONKCHUMP",
-      "mcap": 1298096,
-      "vol24": 1866310,
+      "mcap": 1474508.0,
+      "vol24": 1977646.55,
       "flag": "NEW",
-      "lane": "BUILD"
+      "lane": "BUILD",
+      "mint": "8Ge69MMq3SN6G2UfvhqYt5ywUDVzXeBtASnZjQXbpump",
+      "pair_url": "https://dexscreener.com/solana/7cvxjtkeauxus7rrcagwtstxzeboqztihg8y9acv28h5",
+      "pair_address": "7cVxjTKeAUxUS7RrCaGwtStxZEboQZTiHg8Y9AcV28h5"
     },
     {
       "ticker": "HeeHaw",
-      "mcap": 1234291,
-      "vol24": 1986657,
+      "mcap": 1229962.0,
+      "vol24": 1930012.92,
       "flag": "NEW",
-      "lane": "BUILD"
+      "lane": "BUILD",
+      "mint": "EEpng77ZPn9FbgbT4xsRjwuxNCcMBYq3HTwEscyTpump",
+      "pair_url": "https://dexscreener.com/solana/6qyydc6jgeknfp1fwhiexmyq3jq3sidsyoubjwuto3rm",
+      "pair_address": "6QyYdc6jgeKnfP1FWhiexMYq3JQ3sidSYoubjWUTo3rm"
     },
     {
       "ticker": "SAAR",
-      "mcap": 913916,
-      "vol24": 461170,
+      "mcap": 781990.0,
+      "vol24": 470676.87,
       "flag": "NEW",
-      "lane": "BUILD"
+      "lane": "BUILD",
+      "mint": "8H5yfL1GoDETLDaLYZzrgQuZs37eiKJjdfP21b6ypump",
+      "pair_url": "https://dexscreener.com/solana/6hzduckrzgoj5ugz2vwwkd56odxzizwymen7ccf7hsky",
+      "pair_address": "6hzdUCkrzgoJ5ugz2vWwKd56odxziZwyMEN7CCF7hSKy"
     },
     {
       "ticker": "USELESS",
-      "mcap": 260720187,
-      "vol24": 16805003,
+      "mcap": 267419349.0,
+      "vol24": 16887525.44,
       "flag": "context",
-      "lane": "HOLD"
+      "lane": "HOLD",
+      "mint": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
+      "pair_url": "https://dexscreener.com/solana/q2sphpduwfmg7m7wwrqklrn619caucfrsmhvjffodsp",
+      "pair_address": "Q2sPHPdUWFMg7M7wwrQKLrn619cAucfRsmhVJffodSp"
     },
     {
       "ticker": "TROLL",
-      "mcap": 58406056,
-      "vol24": 3011901,
+      "mcap": 59674711.0,
+      "vol24": 3016548.96,
       "flag": "context",
-      "lane": "HOLD"
+      "lane": "HOLD",
+      "mint": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
+      "pair_url": "https://dexscreener.com/solana/4w2cysotx6czaugmmwg13hdpy4qemg2czekyeqyk9ama",
+      "pair_address": "4w2cysotX6czaUGmmWg13hDpY4QEMG2CzeKYEQyK9Ama"
     }
   ],
   "disclaimer": "not a call \u00b7 nfa"
