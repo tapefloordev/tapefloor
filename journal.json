@@ -90,6 +90,35 @@
       "lane": null,
       "note": "READ three; ROI dropped; STONKCAT NEW list-only; no CALL; no X card (inside 6h of 15:13)",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T16:24-06:00",
+      "type": "SKIP",
+      "names": [
+        "STONKCHUMP",
+        "HeeHaw",
+        "SAAR"
+      ],
+      "lane": null,
+      "note": "READ three \u2014 STONKCHUMP 1h dump; HeeHaw/SAAR no draft thesis; skipped 3 \u00b7 called 0; no X card inside 6h",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T16:24-06:00",
+      "type": "WATCH",
+      "names": [
+        "SWIFT",
+        "memestonk",
+        "STONKCHUMP",
+        "STONKCAT",
+        "HeeHaw",
+        "SAAR",
+        "USELESS",
+        "TROLL"
+      ],
+      "lane": null,
+      "note": "Scout FULL LIST 16:23 site-only refresh; skipped/called board; no AUTO-POST X (<6h)",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": 0,

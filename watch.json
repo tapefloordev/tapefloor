@@ -1,94 +1,137 @@
 {
-  "time": "2026-09-05T15:30-06:00",
-  "stand_down": false,
-  "stand_down_why": "majors not dumped hard",
+  "time": "2026-09-05T16:23-06:00",
+  "label": "FULL LIST",
   "tape": {
-    "SOL_24h_pct": 1.63,
-    "BTC_24h_pct": -0.02,
+    "SOL_usd": 103.62,
+    "SOL_24h_pct": 1.85,
+    "BTC_usd": 79866,
+    "BTC_24h_pct": 0.2,
     "source": "CoinGecko"
   },
-  "liquid_tape_day": false,
   "names": [
     {
-      "ticker": "STONKCAT",
-      "mcap": 61721.0,
-      "vol24": 643760.86,
-      "flag": "NEW",
-      "lane": "GAMBLE",
-      "mint": "2pwi16Jepton8ncLZ9XTrsB2c5R1fPK4EpdeKwrDpump",
-      "pair_url": "https://dexscreener.com/solana/dro4nev6kfd9lfmtn91iu7k6bjqijbotjvzgjyjbmcjh",
-      "pair_address": "DRo4NEv6KfD9LfMTN91iU7k6bJqijBoTjVzgjYJbmcjH"
-    },
-    {
       "ticker": "SWIFT",
-      "mcap": 73388.0,
-      "vol24": 234850.79,
-      "flag": "watch",
       "lane": "GAMBLE",
+      "flag": "WATCH",
       "mint": "DHLqUh8wJjJCnfdZpjFkeKhdic9nTpMxzD1Vkx8DG17U",
+      "pair_address": "2Q5kyZ1jHWCr3jGR5eiRsfPTNfmUDS5qKG43osmcqJUT",
       "pair_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut",
-      "pair_address": "2Q5kyZ1jHWCr3jGR5eiRsfPTNfmUDS5qKG43osmcqJUT"
+      "mcap": 201640,
+      "vol24": 426255,
+      "vol1h": 199972,
+      "liq": 38873,
+      "age_h": 2.3,
+      "src": "DexScreener"
     },
     {
       "ticker": "memestonk",
-      "mcap": 314086.0,
-      "vol24": 4818835.61,
-      "flag": "NEW",
       "lane": "GAMBLE",
+      "flag": "WATCH",
       "mint": "CYAQyGC9Nc9RV5MiSiJxdE8utWZtdjtt3tKe1Uvjpump",
+      "pair_address": "Bw4vQqXVAij7NCQQxitnyMAkBf3nSsKBFhrRiEHAoM8w",
       "pair_url": "https://dexscreener.com/solana/bw4vqqxvaij7ncqqxitnymakbf3nsskbfhrriehaom8w",
-      "pair_address": "Bw4vQqXVAij7NCQQxitnyMAkBf3nSsKBFhrRiEHAoM8w"
+      "mcap": 288324,
+      "vol24": 4905128,
+      "vol1h": 95873,
+      "liq": 52317,
+      "age_h": 19.3,
+      "src": "DexScreener"
     },
     {
       "ticker": "STONKCHUMP",
-      "mcap": 878140.0,
-      "vol24": 2013553.68,
-      "flag": "watch",
-      "lane": "BUILD",
+      "lane": "GAMBLE",
+      "flag": "WATCH",
       "mint": "8Ge69MMq3SN6G2UfvhqYt5ywUDVzXeBtASnZjQXbpump",
+      "pair_address": "7cVxjTKeAUxUS7RrCaGwtStxZEboQZTiHg8Y9AcV28h5",
       "pair_url": "https://dexscreener.com/solana/7cvxjtkeauxus7rrcagwtstxzeboqztihg8y9acv28h5",
-      "pair_address": "7cVxjTKeAUxUS7RrCaGwtStxZEboQZTiHg8Y9AcV28h5"
+      "mcap": 281177,
+      "vol24": 2670341,
+      "vol1h": 727007,
+      "liq": 47900,
+      "age_h": 6.1,
+      "note": "1h -80% dump; was BUILD earlier",
+      "src": "DexScreener"
+    },
+    {
+      "ticker": "STONKCAT",
+      "lane": "GAMBLE",
+      "flag": "WATCH",
+      "mint": "2pwi16Jepton8ncLZ9XTrsB2c5R1fPK4EpdeKwrDpump",
+      "pair_address": "DRo4NEv6KfD9LfMTN91iU7k6bJqijBoTjVzgjYJbmcjH",
+      "pair_url": "https://dexscreener.com/solana/dro4nev6kfd9lfmtn91iu7k6bjqijbotjvzgjyjbmcjh",
+      "mcap": 59864,
+      "vol24": 650647,
+      "vol1h": 8811,
+      "liq": 20283,
+      "age_h": 4.4,
+      "note": "thin 1h",
+      "src": "DexScreener"
     },
     {
       "ticker": "HeeHaw",
-      "mcap": 1265020.0,
-      "vol24": 1929019.68,
-      "flag": "watch",
       "lane": "BUILD",
+      "flag": "WATCH",
       "mint": "EEpng77ZPn9FbgbT4xsRjwuxNCcMBYq3HTwEscyTpump",
+      "pair_address": "6QyYdc6jgeKnfP1FWhiexMYq3JQ3sidSYoubjWUTo3rm",
       "pair_url": "https://dexscreener.com/solana/6qyydc6jgeknfp1fwhiexmyq3jq3sidsyoubjwuto3rm",
-      "pair_address": "6QyYdc6jgeKnfP1FWhiexMYq3JQ3sidSYoubjWUTo3rm"
+      "mcap": 1112368,
+      "vol24": 1919439,
+      "vol1h": 50625,
+      "liq": 137326,
+      "age_d": 6.3,
+      "src": "DexScreener"
     },
     {
       "ticker": "SAAR",
-      "mcap": 779561.0,
-      "vol24": 470884.25,
-      "flag": "watch",
       "lane": "BUILD",
+      "flag": "WATCH",
       "mint": "8H5yfL1GoDETLDaLYZzrgQuZs37eiKJjdfP21b6ypump",
+      "pair_address": "6hzdUCkrzgoJ5ugz2vWwKd56odxziZwyMEN7CCF7hSKy",
       "pair_url": "https://dexscreener.com/solana/6hzduckrzgoj5ugz2vwwkd56odxzizwymen7ccf7hsky",
-      "pair_address": "6hzdUCkrzgoJ5ugz2vWwKd56odxziZwyMEN7CCF7hSKy"
+      "mcap": 629288,
+      "vol24": 495333,
+      "vol1h": 27948,
+      "liq": 68683,
+      "age_h": 23.5,
+      "src": "DexScreener"
     },
     {
       "ticker": "USELESS",
-      "mcap": 269678315.0,
-      "vol24": 16908976.09,
-      "flag": "context",
       "lane": "HOLD",
+      "flag": "WATCH",
       "mint": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
+      "pair_address": "Q2sPHPdUWFMg7M7wwrQKLrn619cAucfRsmhVJffodSp",
       "pair_url": "https://dexscreener.com/solana/q2sphpduwfmg7m7wwrqklrn619caucfrsmhvjffodsp",
-      "pair_address": "Q2sPHPdUWFMg7M7wwrQKLrn619cAucfRsmhVJffodSp"
+      "mcap": 270752207,
+      "vol24": 16855415,
+      "vol1h": 423320,
+      "liq": 5036025,
+      "age_d": 483,
+      "src": "DexScreener"
     },
     {
       "ticker": "TROLL",
-      "mcap": 59686267.0,
-      "vol24": 3016873.71,
-      "flag": "context",
       "lane": "HOLD",
+      "flag": "WATCH",
       "mint": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
+      "pair_address": "4w2cysotX6czaUGmmWg13hDpY4QEMG2CzeKYEQyK9Ama",
       "pair_url": "https://dexscreener.com/solana/4w2cysotx6czaugmmwg13hdpy4qemg2czekyeqyk9ama",
-      "pair_address": "4w2cysotX6czaUGmmWg13hDpY4QEMG2CzeKYEQyK9Ama"
+      "mcap": 61016591,
+      "vol24": 3013085,
+      "vol1h": 171084,
+      "liq": 3591518,
+      "age_d": 503,
+      "src": "DexScreener"
     }
   ],
+  "drop": [
+    {
+      "ticker": "ROI",
+      "mint": "4kde5Gy2ZaE1d6JmyxdCQL5jPaEEjQQNyS7GiiCvpump",
+      "pair": "GRLKJhGeoDNxk86gat7U4j7n7JeD8xhqiewvsKFYPrd2",
+      "why": "mcap~$2.2k liq~$2.4k vol1h~$131 dead"
+    }
+  ],
+  "liquid_tape_day": false,
   "disclaimer": "not a call \u00b7 nfa"
 }
