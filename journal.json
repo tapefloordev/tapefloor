@@ -131,17 +131,14 @@
       "pnl_usd": null
     },
     {
-      "time": "2026-09-05T16:34:43-06:00",
-      "type": "CALL",
+      "time": "2026-09-05T16:34:00-06:00",
+      "type": "OPEN",
       "names": [
         "SWIFT"
       ],
-      "ticket_id": "20260905-01",
       "lane": "GAMBLE",
-      "note": "PAPER FILL Dex last 0.0002313 \u00b7 size 0.005 SOL \u00b7 SOL@$103.37 \u00b7 stop 0.000173475 \u00b7 time 2026-09-05 16:54 MT \u00b7 PUMP NO CALL NO",
-      "pnl_sol": null,
-      "pnl_usd": null,
-      "sol_usd_at_fill": 103.37
+      "note": "TICKET 20260905-01 FILL 0.0002313 USD / 0.0001628 SWIFT/wXRP \u00b7 0.005 SOL \u00b7 STOP 0.000173475 \u00b7 TIME 16:54 MT \u00b7 PUMP NO CALL NO",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": 0,
@@ -150,5 +147,6 @@
   "ticket_sol_default": 0.01,
   "ticket_sol_gamble": 0.005,
   "skipped": 7,
-  "called": 1
+  "called": 0,
+  "open_ticket": "20260905-01"
 }

@@ -359,6 +359,8 @@
       if (t === 'CALL') return 'Called';
       if (t === 'WATCH') return 'Watch';
       if (t === 'BRIEF') return 'Brief';
+      if (t === 'DRAFT') return 'Draft';
+      if (t === 'OPEN') return 'Paper open';
       if (t === 'CLOSE') return 'Close';
       return t.charAt(0) + t.slice(1).toLowerCase();
     }
@@ -640,6 +642,17 @@
       for (let i = entries.length - 1; i >= 0; i--) {
         const e = entries[i];
         if (e && String(e.type || '').toUpperCase() === 'CLOSE') return e;
+      }
+      return null;
+    }
+
+    function latestJournalOpenOrFill(j) {
+      // PAPER OPEN / FILL is not a CALL. Prefer OPEN entries for last fill display.
+      const entries = journalEntries(j);
+      for (let i = entries.length - 1; i >= 0; i--) {
+        const e = entries[i];
+        const t = e && String(e.type || '').toUpperCase();
+        if (t === 'OPEN' || t === 'CLOSE') return e;
       }
       return null;
     }
@@ -969,9 +982,14 @@
             html = `<p class="panel-status">${st === 'working' ? 'Working' : 'Idle'}</p>`;
             html += `<p class="panel-line">Status: ${esc(st)}</p>`;
           }
-          const close = latestJournalClose(j);
-          if (close) {
-            html += `<p class="panel-line">Last fill: ${esc(formatJournalLine(close))}</p>`;
+          if (trader.status === 'working' && trader.open_ticket) {
+            html += `<p class="panel-line">PAPER OPEN on ${esc(trader.open_ticket)}${trader.pair ? ' ' + esc(String(trader.pair).split('/')[0]) : ''}</p>`;
+          }
+          const fill = latestJournalOpenOrFill(j);
+          if (fill) {
+            html += `<p class="panel-line">Last fill: ${esc(formatJournalLine(fill))}</p>`;
+          } else if (trader.fill_time || trader.fill_usd != null) {
+            html += `<p class="panel-line">Last fill: ${esc(trader.pair || '—')} · ${esc(trader.fill_usd != null ? String(trader.fill_usd) : '—')}</p>`;
           } else {
             html += `<p class="panel-line">Last fill: none</p>`;
           }
