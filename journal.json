@@ -1,5 +1,5 @@
 {
-  "paper_pnl_usd": 0,
+  "paper_pnl_usd": 0.3826,
   "live_pnl_usd": 0,
   "entries": [
     {
@@ -138,15 +138,29 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-01 FILL 0.0002313 USD / 0.0001628 SWIFT/wXRP \u00b7 0.005 SOL \u00b7 STOP 0.000173475 \u00b7 TIME 16:54 MT \u00b7 PUMP NO CALL NO",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-01"
+    },
+    {
+      "time": "2026-09-05T16:56:24-06:00",
+      "type": "CLOSE",
+      "names": [
+        "SWIFT"
+      ],
+      "lane": "GAMBLE",
+      "ticket_id": "20260905-01",
+      "note": "TICKET 20260905-01 EXIT 0.0004025 USD \u00b7 reason +20% \u00b7 R 2.96 \u00b7 px vs fill +74.0% \u00b7 liq $55.1k \u00b7 h1 384/324",
+      "pnl_sol": 0.003701,
+      "pnl_usd": 0.3826,
+      "sol_usd_at_fill": 103.37
     }
   ],
-  "paper_pnl_sol": 0,
+  "paper_pnl_sol": 0.003701,
   "live_pnl_sol": 0,
   "paper_book_sol": 1.0,
   "ticket_sol_default": 0.01,
   "ticket_sol_gamble": 0.005,
   "skipped": 7,
   "called": 0,
-  "open_ticket": "20260905-01"
+  "open_ticket": null
 }

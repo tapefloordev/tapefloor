@@ -1,22 +1,14 @@
 {
-  "time": "2026-09-05T16:34:00-06:00",
+  "time": "2026-09-05T16:56:00-06:00",
   "event": "trader.updated",
-  "status": "working",
+  "status": "idle",
   "mode": "paper",
   "paper_auto": true,
   "live_approve": false,
   "book_sol": 1.0,
   "default_size_sol": 0.01,
   "gamble_size_sol": 0.005,
-  "open_ticket": "20260905-01",
-  "pair": "SWIFT/wXRP",
-  "ticker": "SWIFT",
-  "fill_usd": 0.0002313,
-  "fill_native": 0.0001628,
-  "size_sol": 0.005,
-  "sol_usd": 103.37,
-  "stop": 0.000173475,
-  "tp20": 0.00027756,
-  "time_stop": "2026-09-05T16:54:00-06:00",
-  "note": "OPEN \u00b7 PAPER FILL \u00b7 STOP/TIME/+20%/INVALIDATE live \u00b7 PUMP NO CALL NO"
+  "open_ticket": null,
+  "pair": null,
+  "note": "idle \u00b7 last CLOSE 20260905-01 SWIFT +20% \u00b7 R +2.96 \u00b7 open 0 \u00b7 PUMP NO CALL NO"
 }
