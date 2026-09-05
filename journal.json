@@ -1,12 +1,54 @@
 {
-  "time": "2026-09-05T08:02:00-06:00",
-  "halt": false,
-  "open_tickets": 0,
-  "book": { "paper": 500, "live": 0, "position": "NOT IN" },
-  "skipped": 0,
-  "called": 0,
-  "auto_post": false,
-  "pump_auto": false,
-  "source": "MORNING BRIEF 2026-09-05",
-  "disclaimer": "not a call · nfa"
+  "paper_pnl_usd": 0,
+  "live_pnl_usd": 0,
+  "entries": [
+    {
+      "time": "2026-09-04T22:33:00-06:00",
+      "type": "PASS",
+      "names": [
+        "USELESS",
+        "memestonk",
+        "GoMeme",
+        "PUMPLIFE",
+        "fone"
+      ],
+      "lane": null,
+      "note": "USELESS context; others heat/fade/no thesis \u2014 called 0",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T08:02:00-06:00",
+      "type": "BRIEF",
+      "names": [
+        "USELESS",
+        "CAT",
+        "fone",
+        "ANSEM",
+        "CATE",
+        "TROLL",
+        "Fartcoin",
+        "PENGU"
+      ],
+      "lane": null,
+      "note": "WATCH eight, liquid tape day, called 0; NEW Fartcoin/PENGU list-only",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T08:02:00-06:00",
+      "type": "WATCH",
+      "names": [
+        "USELESS",
+        "CAT",
+        "fone",
+        "ANSEM",
+        "CATE",
+        "TROLL",
+        "Fartcoin",
+        "PENGU"
+      ],
+      "lane": null,
+      "note": "liquid tape day, called 0",
+      "pnl_usd": null
+    }
+  ]
 }

@@ -284,24 +284,57 @@
       }
     }
 
-    function renderWhiteboard(j, w) {
-      // halt / paper / live / passed / called from journal.json only.
-      // stand-down: journal.stand_down if present, else watch.stand_down
-      // (desk state already loaded for the halt lamp; not invented).
-      const book = (j && j.book) || {};
-      let standDown = null;
-      if (j && Object.prototype.hasOwnProperty.call(j, 'stand_down')) {
-        standDown = j.stand_down;
-      } else if (w && Object.prototype.hasOwnProperty.call(w, 'stand_down')) {
-        standDown = w.stand_down;
+    function journalEntries(j) {
+      return (j && Array.isArray(j.entries)) ? j.entries : [];
+    }
+
+    function countPassedNames(j) {
+      let n = 0;
+      for (const e of journalEntries(j)) {
+        if (!e || e.type !== 'PASS') continue;
+        if (Array.isArray(e.names)) n += e.names.length;
       }
+      return n;
+    }
+
+    function countCalled(j) {
+      let n = 0;
+      for (const e of journalEntries(j)) {
+        if (!e || e.type !== 'CALL') continue;
+        if (Array.isArray(e.names) && e.names.length) n += e.names.length;
+        else n += 1;
+      }
+      return n;
+    }
+
+    function journalPaperPnl(j) {
+      if (!j) return 0;
+      return toPnlNumber(firstPresent(j, ['paper_pnl_usd', 'paper_pnl', 'pnl.paper']));
+    }
+
+    function journalLivePnl(j) {
+      if (!j) return 0;
+      return toPnlNumber(firstPresent(j, ['live_pnl_usd', 'live_pnl', 'pnl.live']));
+    }
+
+    function renderWhiteboard(j, w) {
+      // Human labels only — no fake book / invented wins.
+      // Halt: j.halt if present else OFF. Stand-down: j then watch.
+      // Paper/Live P&L from journal fields. Passed/Called from LOG entries.
+      let standDown = false;
+      if (j && Object.prototype.hasOwnProperty.call(j, 'stand_down')) {
+        standDown = !!j.stand_down;
+      } else if (w && Object.prototype.hasOwnProperty.call(w, 'stand_down')) {
+        standDown = !!w.stand_down;
+      }
+      const haltOn = !!(j && j.halt === true);
       const lines = [
-        ['Halt', (j && j.halt) ? 'ON' : 'OFF'],
+        ['Halt', haltOn ? 'ON' : 'OFF'],
         ['Stand-down', standDown ? 'yes' : 'no'],
-        ['Paper', fmtMoney(book.paper)],
-        ['Live', fmtMoney(book.live)],
-        ['Passed', String((j && j.skipped) ?? 0)],
-        ['Called', String((j && j.called) ?? 0)]
+        ['Paper P&L', fmtPnlUsd(journalPaperPnl(j))],
+        ['Live P&L', fmtPnlUsd(journalLivePnl(j))],
+        ['Passed', String(countPassedNames(j))],
+        ['Called', String(countCalled(j))]
       ];
       const ul = document.getElementById('whiteboardLines');
       ul.innerHTML = lines.map(([k, v]) =>
@@ -329,6 +362,11 @@
 
     function hasClosedTicket(j) {
       if (!j) return false;
+      // New LOG: any CLOSE entry unlocks TV P&L fields.
+      for (const e of journalEntries(j)) {
+        if (e && e.type === 'CLOSE') return true;
+      }
+      // Legacy shapes
       const ct = firstPresent(j, ['closed_tickets']);
       if (typeof ct === 'number' && isFinite(ct) && ct > 0) return true;
       const closed = firstPresent(j, ['closed']);
@@ -356,11 +394,13 @@
     }
 
     function renderTv(j) {
+      // Gate: only show non-zero journal P&L after a real CLOSE (or legacy closed).
+      // Missing / no CLOSE → $0. No animation.
       let paper = 0;
       let live = 0;
       if (hasClosedTicket(j)) {
-        paper = toPnlNumber(firstPresent(j, ['paper_pnl', 'pnl.paper', 'paper_pnl_usd']));
-        live = toPnlNumber(firstPresent(j, ['live_pnl', 'pnl.live', 'live_pnl_usd']));
+        paper = journalPaperPnl(j);
+        live = journalLivePnl(j);
       }
       document.getElementById('tvPaper').textContent = 'Paper P&L: ' + fmtPnlUsd(paper);
       document.getElementById('tvLive').textContent = 'Live P&L: ' + fmtPnlUsd(live);
@@ -684,6 +724,22 @@
       return xcardText;
     }
 
+    function formatJournalLine(e) {
+      if (!e || typeof e !== 'object') return '—';
+      const typ = String(e.type || 'LOG').toUpperCase();
+      const when = fmtMT(e.time) || '—';
+      const parts = [typ, when];
+      const names = Array.isArray(e.names) ? e.names.filter(Boolean) : [];
+      if (names.length === 1) parts.push(String(names[0]));
+      else if (names.length > 1) parts.push(names.length + ' names');
+      if (e.lane) parts.push(String(e.lane));
+      if (typ === 'CLOSE' && e.pnl_usd != null && e.pnl_usd !== '') {
+        parts.push(fmtPnlUsd(toPnlNumber(e.pnl_usd)));
+      }
+      if (e.note) parts.push(String(e.note));
+      return parts.join(' · ');
+    }
+
     async function openPanel(seat) {
       const panel = document.getElementById('deskPanel');
       const title = document.getElementById('panelTitle');
@@ -714,18 +770,17 @@
             html += `</ul>`;
           }
         } else if (seat === 'chief') {
-          const book = j.book || {};
-          const pos = book.position ? String(book.position) : '—';
-          html += `<p class="panel-line">Halt: ${j.halt ? 'ON' : 'OFF'}</p>`;
-          html += `<p class="panel-line">Open tickets: ${esc(j.open_tickets ?? 0)}</p>`;
-          html += `<p class="panel-line">Book: paper ${fmtMoney(book.paper)} · live ${fmtMoney(book.live)} · ${esc(pos)}</p>`;
-          html += `<p class="panel-line">Passed: ${esc(j.skipped ?? 0)}</p>`;
-          html += `<p class="panel-line">Called: ${esc(j.called ?? 0)}</p>`;
-          if (j.time) {
-            html += `<p class="panel-line">Time: ${esc(fmtMT(j.time) || j.time)}</p>`;
-          }
-          if (j.source) {
-            html += `<p class="panel-line">Source: ${esc(j.source)}</p>`;
+          html += `<p class="panel-line">Paper P&L: ${esc(fmtPnlUsd(journalPaperPnl(j)))}</p>`;
+          html += `<p class="panel-line">Live P&L: ${esc(fmtPnlUsd(journalLivePnl(j)))}</p>`;
+          const entries = journalEntries(j).slice().reverse();
+          if (entries.length) {
+            html += `<div class="panel-section"><h3>Journal</h3><ul class="panel-names">`;
+            entries.forEach(e => {
+              html += `<li>${esc(formatJournalLine(e))}</li>`;
+            });
+            html += `</ul></div>`;
+          } else {
+            html += `<p class="panel-line">No journal entries yet.</p>`;
           }
         } else if (seat === 'steno') {
           const card = await loadXcard();
