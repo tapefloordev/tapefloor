@@ -40,12 +40,35 @@
           <span id="haltLabel">HALT OFF</span>
         </div>
 
-        <aside class="whiteboard" id="whiteboard" aria-label="Floor board">
-          <div class="wb-frame">
-            <div class="wb-title">board</div>
-            <ul class="wb-lines" id="whiteboardLines"></ul>
-          </div>
-        </aside>
+        <div class="wall-row" aria-label="Wall board">
+          <aside class="wall-tv" id="wallTv" aria-label="P and L TV">
+            <div class="tv-bezel">
+              <div class="tv-screen">
+                <div class="tv-title">tv</div>
+                <div class="tv-line" id="tvPaper">Paper P&amp;L: $0</div>
+                <div class="tv-line" id="tvLive">Live P&amp;L: $0</div>
+              </div>
+            </div>
+          </aside>
+
+          <aside class="whiteboard" id="whiteboard" aria-label="Floor board">
+            <div class="wb-frame">
+              <div class="wb-title">board</div>
+              <ul class="wb-lines" id="whiteboardLines"></ul>
+            </div>
+          </aside>
+
+          <aside class="wall-clock" id="wallClock" aria-label="Floor clock">
+            <div class="clock-bezel">
+              <div class="clock-face">
+                <div class="clock-title">clock</div>
+                <div class="clock-line" id="clockNow">—</div>
+                <div class="clock-line" id="clockNext" hidden></div>
+                <div class="clock-line" id="clockBrief">BRIEF 07:00 MT</div>
+              </div>
+            </div>
+          </aside>
+        </div>
 
         <div class="desks">
           <button type="button" class="desk" data-seat="scout" id="desk-scout" aria-label="Scout desk">
@@ -284,6 +307,176 @@
       ul.innerHTML = lines.map(([k, v]) =>
         `<li><span class="wb-k">${esc(k)}</span><span class="wb-v">${esc(v)}</span></li>`
       ).join('');
+    }
+
+    function firstPresent(obj, paths) {
+      if (!obj) return undefined;
+      for (const path of paths) {
+        const parts = path.split('.');
+        let cur = obj;
+        let ok = true;
+        for (const p of parts) {
+          if (cur == null || !Object.prototype.hasOwnProperty.call(cur, p)) {
+            ok = false;
+            break;
+          }
+          cur = cur[p];
+        }
+        if (ok && cur !== undefined && cur !== null) return cur;
+      }
+      return undefined;
+    }
+
+    function hasClosedTicket(j) {
+      if (!j) return false;
+      const ct = firstPresent(j, ['closed_tickets']);
+      if (typeof ct === 'number' && isFinite(ct) && ct > 0) return true;
+      const closed = firstPresent(j, ['closed']);
+      if (typeof closed === 'number' && isFinite(closed) && closed > 0) return true;
+      if (Array.isArray(closed) && closed.length > 0) return true;
+      const tc = firstPresent(j, ['tickets_closed']);
+      if (typeof tc === 'number' && isFinite(tc) && tc > 0) return true;
+      return false;
+    }
+
+    function toPnlNumber(v) {
+      if (typeof v === 'number' && isFinite(v)) return v;
+      if (typeof v === 'string' && v.trim() !== '') {
+        const n = Number(v);
+        if (isFinite(n)) return n;
+      }
+      return 0;
+    }
+
+    function fmtPnlUsd(n) {
+      const v = typeof n === 'number' && isFinite(n) ? n : 0;
+      const abs = Math.abs(v);
+      const body = abs.toLocaleString('en-US', { maximumFractionDigits: 0 });
+      return (v < 0 ? '-$' : '$') + body;
+    }
+
+    function renderTv(j) {
+      let paper = 0;
+      let live = 0;
+      if (hasClosedTicket(j)) {
+        paper = toPnlNumber(firstPresent(j, ['paper_pnl', 'pnl.paper', 'paper_pnl_usd']));
+        live = toPnlNumber(firstPresent(j, ['live_pnl', 'pnl.live', 'live_pnl_usd']));
+      }
+      document.getElementById('tvPaper').textContent = 'Paper P&L: ' + fmtPnlUsd(paper);
+      document.getElementById('tvLive').textContent = 'Live P&L: ' + fmtPnlUsd(live);
+    }
+
+    function denverParts(date) {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Denver',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hourCycle: 'h23'
+      }).formatToParts(date);
+      const get = t => parts.find(p => p.type === t).value;
+      return {
+        year: parseInt(get('year'), 10),
+        month: parseInt(get('month'), 10),
+        day: parseInt(get('day'), 10),
+        hour: parseInt(get('hour'), 10) % 24,
+        minute: parseInt(get('minute'), 10),
+        second: parseInt(get('second'), 10)
+      };
+    }
+
+    function denverDateKey(date) {
+      const p = denverParts(date);
+      return p.year + '-' + String(p.month).padStart(2, '0') + '-' + String(p.day).padStart(2, '0');
+    }
+
+    // Build a Date for America/Denver wall-clock Y-M-D H:M:S via iterative offset.
+    function denverWallTime(year, month, day, hour, minute, second) {
+      const utcGuess = Date.UTC(year, month - 1, day, hour, minute, second || 0);
+      let t = utcGuess;
+      for (let i = 0; i < 3; i++) {
+        const p = denverParts(new Date(t));
+        const asUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+        const want = Date.UTC(year, month - 1, day, hour, minute, second || 0);
+        t += want - asUtc;
+      }
+      return new Date(t);
+    }
+
+    function nextBrief0700(from) {
+      const p = denverParts(from);
+      if (p.hour < 7) {
+        return denverWallTime(p.year, p.month, p.day, 7, 0, 0);
+      }
+      // tomorrow 07:00 MT
+      const tomorrow = new Date(from.getTime() + 24 * 60 * 60 * 1000);
+      // walk forward until Denver calendar day advances
+      let probe = from;
+      const todayKey = denverDateKey(from);
+      for (let i = 0; i < 50; i++) {
+        probe = new Date(probe.getTime() + 60 * 60 * 1000);
+        if (denverDateKey(probe) !== todayKey) break;
+      }
+      const n = denverParts(probe);
+      return denverWallTime(n.year, n.month, n.day, 7, 0, 0);
+    }
+
+    function fmtClockTime(date, withDate) {
+      const opts = {
+        timeZone: 'America/Denver',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      };
+      if (withDate) {
+        opts.month = 'short';
+        opts.day = 'numeric';
+      }
+      return date.toLocaleString('en-US', opts) + ' MT';
+    }
+
+    function parseWatchTime(w) {
+      if (!w || !w.time) return null;
+      const t = new Date(w.time);
+      if (!isFinite(t.getTime())) return null;
+      return t;
+    }
+
+    function nextWatchAt(w, now) {
+      const watchTime = parseWatchTime(w);
+      if (!watchTime) return null;
+      const hour = denverHour();
+      // Night [23:00, 07:00) → next 07:00 MT
+      if (hour >= 23 || hour < 7) {
+        return nextBrief0700(now);
+      }
+      const candidateA = new Date(watchTime.getTime() + 6 * 60 * 60 * 1000);
+      const candidateB = nextBrief0700(now);
+      return candidateA.getTime() <= candidateB.getTime() ? candidateA : candidateB;
+    }
+
+    function renderClock(w) {
+      const now = new Date();
+      document.getElementById('clockNow').textContent = fmtClockTime(now, false);
+      document.getElementById('clockBrief').textContent = 'BRIEF 07:00 MT';
+      const nextEl = document.getElementById('clockNext');
+      const nextAt = nextWatchAt(w, now);
+      if (!nextAt) {
+        nextEl.hidden = true;
+        nextEl.textContent = '';
+        return;
+      }
+      const withDate = denverDateKey(nextAt) !== denverDateKey(now);
+      nextEl.hidden = false;
+      nextEl.textContent = 'NEXT WATCH ' + fmtClockTime(nextAt, withDate);
+    }
+
+    function startClockLoop() {
+      renderClock(watch);
+      window.setInterval(() => { renderClock(watch); }, 30000);
     }
 
     function seatStamp(seat, data) {
@@ -595,6 +788,8 @@
         // Halt lamp: ON iff journal.halt===true OR watch.stand_down===true
         setHalt(j.halt === true || w.stand_down === true);
         renderWhiteboard(j, w);
+        renderTv(j);
+        startClockLoop();
 
         setTape(w);
 
