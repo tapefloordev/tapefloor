@@ -125,5 +125,7 @@
   "live_pnl_sol": 0,
   "paper_book_sol": 1.0,
   "ticket_sol_default": 0.01,
-  "ticket_sol_gamble": 0.005
+  "ticket_sol_gamble": 0.005,
+  "skipped": 8,
+  "called": 0
 }

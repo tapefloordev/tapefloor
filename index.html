@@ -330,18 +330,22 @@
     }
 
     function countPassedNames(j) {
+      // Prefer cycle counts from journal root when Chief sets them (X-style skipped N).
+      if (j && j.skipped != null && isFinite(Number(j.skipped))) return Number(j.skipped);
       let n = 0;
       for (const e of journalEntries(j)) {
-        if (!e || e.type !== 'PASS') continue;
+        const t = e && String(e.type || '').toUpperCase();
+        if (t !== 'PASS' && t !== 'SKIP') continue;
         if (Array.isArray(e.names)) n += e.names.length;
       }
       return n;
     }
 
     function countCalled(j) {
+      if (j && j.called != null && isFinite(Number(j.called))) return Number(j.called);
       let n = 0;
       for (const e of journalEntries(j)) {
-        if (!e || e.type !== 'CALL') continue;
+        if (!e || String(e.type || '').toUpperCase() !== 'CALL') continue;
         if (Array.isArray(e.names) && e.names.length) n += e.names.length;
         else n += 1;
       }
@@ -349,9 +353,9 @@
     }
 
     function publicEntryType(typ) {
-      // Public UI: never render "pass" — PASS → Skipped
+      // Public UI: never render "pass" — PASS/SKIP → Skipped
       const t = String(typ || 'LOG').toUpperCase();
-      if (t === 'PASS') return 'Skipped';
+      if (t === 'PASS' || t === 'SKIP') return 'Skipped';
       if (t === 'CALL') return 'Called';
       if (t === 'WATCH') return 'Watch';
       if (t === 'BRIEF') return 'Brief';
