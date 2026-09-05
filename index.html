@@ -272,10 +272,6 @@
       return (watch && watch.stand_down === true) || (journal && journal.halt === true);
     }
 
-    function isMobileNarrow() {
-      return window.matchMedia('(max-width: 480px)').matches;
-    }
-
     function applyNightAway() {
       const night = isNightDenver();
       SEATS.forEach(seat => {
@@ -299,7 +295,7 @@
     }
 
     function eligibleWalkers() {
-      if (walkerBusy || isStandDownOrHalt() || isMobileNarrow()) return [];
+      if (walkerBusy || isStandDownOrHalt()) return [];
       return SEATS.filter(seat => {
         const btn = document.getElementById('desk-' + seat);
         return btn && !btn.classList.contains('away') && !btn.classList.contains('walking');

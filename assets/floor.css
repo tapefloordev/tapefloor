@@ -204,8 +204,26 @@ header.site h1 {
 
 @media (max-width: 480px) {
   .desks { grid-template-columns: 1fr; max-width: 240px; }
-  /* Narrow mobile: sit/type only — no walking */
-  .desk.walking .worker { animation: none !important; }
+  /* Keep walking on mobile; shorter path so it stays on-screen */
+  .desk.walking .worker {
+    animation-duration: 4.2s;
+  }
+  @keyframes walk-to-tape-right {
+    0%   { transform: translate(0, 0); }
+    22%  { transform: translate(8px, -36px); }
+    45%  { transform: translate(10px, -88px); }
+    55%  { transform: translate(12px, -88px); }
+    78%  { transform: translate(6px, -36px); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes walk-to-tape-left {
+    0%   { transform: translate(0, 0); }
+    22%  { transform: translate(-8px, -36px); }
+    45%  { transform: translate(-10px, -88px); }
+    55%  { transform: translate(-12px, -88px); }
+    78%  { transform: translate(-6px, -36px); }
+    100% { transform: translate(0, 0); }
+  }
 }
 
 .desk {
