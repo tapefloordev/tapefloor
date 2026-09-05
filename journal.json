@@ -119,6 +119,29 @@
       "lane": null,
       "note": "Scout FULL LIST 16:23 site-only refresh; skipped/called board; no AUTO-POST X (<6h)",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T16:35:00-06:00",
+      "type": "DRAFT",
+      "names": [
+        "SWIFT"
+      ],
+      "lane": "GAMBLE",
+      "note": "TICKET 20260905-01 PAPER APPROVE \u00b7 checklist re-audit \u00b7 PAPER-AUTO to Trader",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T16:34:43-06:00",
+      "type": "CALL",
+      "names": [
+        "SWIFT"
+      ],
+      "ticket_id": "20260905-01",
+      "lane": "GAMBLE",
+      "note": "PAPER FILL Dex last 0.0002313 \u00b7 size 0.005 SOL \u00b7 SOL@$103.37 \u00b7 stop 0.000173475 \u00b7 time 2026-09-05 16:54 MT \u00b7 PUMP NO CALL NO",
+      "pnl_sol": null,
+      "pnl_usd": null,
+      "sol_usd_at_fill": 103.37
     }
   ],
   "paper_pnl_sol": 0,
@@ -126,6 +149,6 @@
   "paper_book_sol": 1.0,
   "ticket_sol_default": 0.01,
   "ticket_sol_gamble": 0.005,
-  "skipped": 8,
-  "called": 0
+  "skipped": 7,
+  "called": 1
 }
