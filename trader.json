@@ -10,16 +10,9 @@
   "paper_pnl_sol": -0.061396,
   "size_pct": 0.04,
   "risk_pct": 0.01,
+  "next_size_sol": 0.037544,
+  "next_risk_sol": 0.009386,
   "open_ticket": null,
-  "ticker": null,
   "pair": null,
-  "fill_usd": null,
-  "fill_native": null,
-  "size_sol": null,
-  "sol_usd": 106.031,
-  "stop": null,
-  "t1": null,
-  "time_stop": null,
-  "note": "IDLE \u00b7 last CLOSE 20260905-04 BAG STOP \u00b7 book 0.938604",
-  "last_px": 9.901e-05
+  "note": "idle \u00b7 CLOSE 20260905-04 BAG STOP \u00b7 book 0.938604 \u00b7 next size 0.037544 \u00b7 CLOSE AUTO-POST to STENO"
 }
