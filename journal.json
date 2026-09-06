@@ -1,5 +1,5 @@
 {
-  "paper_pnl_usd": 0.3826,
+  "paper_pnl_usd": -2.2895,
   "live_pnl_usd": 0,
   "entries": [
     {
@@ -198,15 +198,28 @@
       "lane": "GAMBLE",
       "note": "TICKET 20260905-02 FILL 0.0004051 USD / 0.000003917 \u00b7 size 0.040148 SOL \u00b7 STOP 0.000303825 \u00b7 T1 0.00060765 \u00b7 TIME ~19:04 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T19:02:31-06:00",
+      "type": "CLOSE",
+      "names": [
+        "STONKGUY"
+      ],
+      "lane": "GAMBLE",
+      "ticket_id": "20260905-02",
+      "note": "TICKET 20260905-02 EXIT 0.0001444 USD \u00b7 reason STOP \u00b7 R -2.57 \u00b7 px vs fill -64.4% \u00b7 liq $33.2k \u00b7 h1 12226/1922",
+      "pnl_sol": -0.025837,
+      "pnl_usd": -2.6721,
+      "sol_usd_at_fill": 103.42
     }
   ],
-  "paper_pnl_sol": 0.003701,
+  "paper_pnl_sol": -0.022136,
   "live_pnl_sol": 0,
-  "paper_book_sol": 1.003701,
+  "paper_book_sol": 0.977864,
   "skipped": 7,
   "called": 0,
-  "open_ticket": "20260905-02",
-  "book_now_sol": 1.003701,
+  "open_ticket": null,
+  "book_now_sol": 0.977864,
   "ticket_sol_pct": 0.04,
   "risk_sol_pct": 0.01,
   "size_rule": "size=4% book_now; risk=1% at -25% stop; book_now=1+sum(paper_pnl_sol)"
