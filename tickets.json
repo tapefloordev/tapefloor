@@ -75,6 +75,21 @@
       "exit_usd": 0.0004696,
       "pnl_sol": -0.001349,
       "book_after": 0.937255
+    },
+    {
+      "ticket_id": "20260906-02",
+      "ticker": "ZDOG",
+      "lane": "BUILD",
+      "status": "DRAFT",
+      "why": "Anonymous Dog / Zcash-pair BUILD with multi-day liq book (~$159k) and live 1h tape.",
+      "wrong_if": "liq under ~$60k or sibling anonymous-animal CA takes flow.",
+      "mint": "EbT2jpoeRJVFNWAFJE97EGfQF3iwHsEY8sh17fGbL5ER",
+      "pair_url": "https://dexscreener.com/solana/9trkbpkwfbr6dmfax1kgx1mrez48k1j9vpcjubmm4toq",
+      "exit_url": null,
+      "fill_usd": null,
+      "exit_usd": null,
+      "pnl_sol": null,
+      "book_after": null
     }
   ]
 }

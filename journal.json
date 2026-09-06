@@ -533,6 +533,49 @@
       "pair_url": "https://dexscreener.com/solana/5bxuo3pch6axrjvfwfwtp3tbhsjaanzz4g6vtojxxjoq",
       "mint": "DTrR7ZN9czw8hJeo6G2DpVWBg4SQjCx3kRWhm5awpump",
       "exit_url": "https://dexscreener.com/solana/5bxuo3pch6axrjvfwfwtp3tbhsjaanzz4g6vtojxxjoq"
+    },
+    {
+      "time": "2026-09-06T14:32:00-06:00",
+      "type": "SKIP",
+      "names": [
+        "SWIFT",
+        "zolana"
+      ],
+      "lane": null,
+      "note": "FULL LIST READ \u2014 SWIFT vol1h thin after mcap reset; zolana soft/one_open; DRAFT ZDOG; SWIFT BUILD\u2192GAMBLE lane change",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-06T14:32:00-06:00",
+      "type": "DRAFT",
+      "ticket_id": "20260906-02",
+      "names": [
+        "ZDOG"
+      ],
+      "lane": "BUILD",
+      "why": "Anonymous Dog / Zcash-pair BUILD with multi-day liq book (~$159k) and live 1h tape.",
+      "wrong_if": "liq under ~$60k or sibling anonymous-animal CA takes flow.",
+      "mint": "EbT2jpoeRJVFNWAFJE97EGfQF3iwHsEY8sh17fGbL5ER",
+      "pair_url": "https://dexscreener.com/solana/9trkbpkwfbr6dmfax1kgx1mrez48k1j9vpcjubmm4toq",
+      "note": "TICKET 20260906-02 PAPER APPROVE \u00b7 size 0.03749 SOL",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-06T14:32:00-06:00",
+      "type": "WATCH",
+      "names": [
+        "SWIFT",
+        "BAG",
+        "zolana",
+        "HeeHaw",
+        "SAAR",
+        "USELESS",
+        "TROLL",
+        "ZDOG"
+      ],
+      "lane": null,
+      "note": "FULL LIST lane change SWIFT\u2192gamble; X Premium card to STENO @TapeFloorDesk",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.062745,
