@@ -488,7 +488,7 @@
     }
 
     function paperEquityPoints(j) {
-      // Starting book 1.00 SOL, then book after each paper CLOSE (sum pnl_sol). No fake points.
+      // Start 1.00 SOL, then each paper CLOSE. Prefer entry.book_after (Alex lock); else sum pnl_sol.
       const startRaw = j && (j.paper_book_start_sol != null ? j.paper_book_start_sol : j.book_start_sol);
       const start = (startRaw != null && isFinite(Number(startRaw))) ? Number(startRaw) : 1;
       const closes = journalEntries(j)
@@ -498,9 +498,15 @@
       const pts = [{ book: start, kind: 'start' }];
       let book = start;
       for (const e of closes) {
-        const pnl = e.pnl_sol != null ? Number(e.pnl_sol) : NaN;
-        if (!isFinite(pnl)) continue;
-        book = Math.round((book + pnl) * 1e6) / 1e6;
+        let next = NaN;
+        if (e.book_after != null && e.book_after !== '' && isFinite(Number(e.book_after))) {
+          next = Number(e.book_after);
+        } else {
+          const pnl = e.pnl_sol != null ? Number(e.pnl_sol) : NaN;
+          if (!isFinite(pnl)) continue;
+          next = Math.round((book + pnl) * 1e6) / 1e6;
+        }
+        book = next;
         pts.push({
           book,
           kind: 'close',
