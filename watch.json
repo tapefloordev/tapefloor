@@ -6,31 +6,37 @@
   "names": [
     {
       "ticker": "STONKGUY",
-      "mcap": 425000,
-      "vol24": null,
-      "vol1h": 567000,
+      "lane": "gamble",
       "flag": "NEW",
-      "lane": "gamble"
+      "mint": "EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump",
+      "pair_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8",
+      "mcap": 425000,
+      "vol1h": 567000
     },
     {
       "ticker": "Paperbag",
-      "mcap": 152000,
-      "vol1h": 40000,
+      "lane": "gamble",
       "flag": "NEW",
-      "lane": "gamble"
+      "mint": "8RQniNaU348sKHap11zQWWSh6WfDgWm5GbEMjsVRpump",
+      "pair_url": "https://dexscreener.com/solana/cmzefrkzjhf9mz96kfxefez5gzembsfgn8m7zpne36uq",
+      "mcap": 152000,
+      "vol1h": 40000
     },
     {
       "ticker": "zolana",
-      "mcap": 15000,
-      "vol1h": 126000,
+      "lane": "gamble",
       "flag": "NEW",
-      "lane": "gamble"
+      "mint": "2zb8qWKVGneyJL2MyMqt9iBJum8HHXyZ937K96EEanh2",
+      "pair_url": "https://dexscreener.com/solana/4ju11dzulxjwwup1haqxyw39kgfdcxlpfe9crq2fbcdh",
+      "mcap": 15000,
+      "vol1h": 126000
     },
     {
       "ticker": "STARE",
+      "lane": "gamble",
       "flag": "FAST",
-      "lane": "gamble"
+      "mint": "F5PYCFQdD7EWfwBabtxiKTmRAJBCH4AxDZApt4fZpump"
     }
   ],
-  "note": "site-only FAST emit; no X WATCH card"
+  "note": "site-only FAST emit; pair_url+mint restored; no X WATCH card"
 }
