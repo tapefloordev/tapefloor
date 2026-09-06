@@ -248,7 +248,8 @@
   </div>
 
   <script>
-    // Scout/Chief/Steno/Dev always seated; Trader seats from ./trader.json; open stays empty.
+    // Day: Scout/Chief/Steno/Dev seated; Trader from trader.json; open empty.
+    // Night 23:00–07:00 MT: Scout/Chief/Steno empty chairs; Trader empty until seat rule; Dev stays only if recent push.
     const SEATS = ['scout', 'chief', 'steno', 'dev'];
     const EMPTY_DESKS = ['trader', 'open'];
     const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
@@ -618,6 +619,11 @@
       const working = isWorking(seatStamp(seat, data));
       const btn = document.getElementById('desk-' + seat);
       const status = document.getElementById('status-' + seat);
+      if (btn.classList.contains('empty')) {
+        btn.classList.remove('working', 'away', 'walking');
+        status.textContent = 'empty';
+        return;
+      }
       if (btn.classList.contains('away')) {
         btn.classList.remove('working');
         status.textContent = 'away';
@@ -661,21 +667,14 @@
       const btn = document.getElementById('desk-trader');
       const status = document.getElementById('status-trader');
       if (!btn || !status) return;
-      if (!traderIsSeated(trader)) {
+      // Night: empty until Trader has an explicit night seat rule. Day: seat from trader.json.
+      if (!traderIsSeated(trader) || isNightDenver()) {
         btn.classList.add('empty');
         btn.classList.remove('working', 'away', 'walking');
         status.textContent = 'empty';
         return;
       }
-      btn.classList.remove('empty');
-      // Night away like Scout / Chief / Steno (23:00–07:00 MT)
-      if (isNightDenver()) {
-        btn.classList.add('away');
-        btn.classList.remove('working', 'walking');
-        status.textContent = 'away';
-        return;
-      }
-      btn.classList.remove('away');
+      btn.classList.remove('empty', 'away');
       if (trader.status === 'working') {
         btn.classList.add('working');
         status.textContent = 'working';
@@ -741,24 +740,26 @@
     }
 
     function applyNightAway() {
+      // 23:00–07:00 MT: Scout/Chief/Steno leave — empty chairs (not dimmed away).
+      // Dev stays only if recent push (<2h). Trader handled in applyTraderDesk (empty at night).
       const night = isNightDenver();
       SEATS.forEach(seat => {
         const btn = document.getElementById('desk-' + seat);
-        let away = false;
+        const status = document.getElementById('status-' + seat);
+        if (!btn || !status) return;
         if (night) {
-          if (seat === 'dev') {
-            away = !isWorking(seatStamp('dev', seatData.dev));
+          if (seat === 'dev' && isWorking(seatStamp('dev', seatData.dev))) {
+            btn.classList.remove('empty', 'away');
+            applySeatStatus(seat, seatData[seat]);
           } else {
-            away = true;
+            btn.classList.add('empty');
+            btn.classList.remove('away', 'working', 'walking');
+            status.textContent = 'empty';
           }
-        }
-        if (away) {
-          btn.classList.add('away');
-          btn.classList.remove('walking');
         } else {
-          btn.classList.remove('away');
+          btn.classList.remove('empty', 'away');
+          applySeatStatus(seat, seatData[seat]);
         }
-        applySeatStatus(seat, seatData[seat]);
       });
       applyTraderDesk();
     }

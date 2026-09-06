@@ -732,7 +732,7 @@ header.site h1 {
   visibility: hidden;
 }
 
-/* Away (night empty chair) + walk desk → tape → desk */
+/* Away (legacy) + walk desk → tape → desk; night leave uses .empty */
 .desk.away .worker {
   visibility: hidden;
 }
