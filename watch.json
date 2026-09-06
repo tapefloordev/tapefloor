@@ -193,10 +193,10 @@
   "end": "Not a ticket",
   "disclaimer": "watching \u00b7 not in \u00b7 not a call \u00b7 nfa",
   "tape": {
-    "SOL_usd": 105.91,
-    "SOL_24h_pct": 4.06,
-    "BTC_usd": 79890,
-    "BTC_24h_pct": 0.48,
-    "source": "Coinbase"
+    "SOL_usd": 105.85,
+    "SOL_24h_pct": 4.0,
+    "BTC_usd": 79920.0,
+    "BTC_24h_pct": 0.51,
+    "source": "Coinbase 24h"
   }
 }
