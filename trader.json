@@ -1,5 +1,5 @@
 {
-  "time": "2026-09-05T19:02:31-06:00",
+  "time": "2026-09-05T19:02:00-06:00",
   "event": "trader.updated",
   "status": "idle",
   "mode": "paper",
@@ -10,14 +10,9 @@
   "paper_pnl_sol": -0.022136,
   "size_pct": 0.04,
   "risk_pct": 0.01,
+  "next_size_sol": 0.039115,
+  "next_risk_sol": 0.009779,
   "open_ticket": null,
-  "ticker": null,
   "pair": null,
-  "note": "CLOSED 20260905-02 STONKGUY STOP \u00b7 exit $0.0001444 \u00b7 R -2.57 \u00b7 pnl -0.025837 SOL / $-2.6721 \u00b7 book 0.977864",
-  "last_px": 0.0001444,
-  "liq_usd": 33191.36,
-  "h1_buys": 12226,
-  "h1_sells": 1922,
-  "high_usd": 0.0004427,
-  "remaining_pct": 0
+  "note": "idle \u00b7 CLOSE 20260905-02 STONKGUY STOP \u00b7 book 0.977864 \u00b7 next size 0.039115 \u00b7 PUMP NO CALL NO"
 }
