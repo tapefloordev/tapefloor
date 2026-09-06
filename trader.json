@@ -1,7 +1,7 @@
 {
-  "time": "2026-09-05T18:14:00-06:00",
+  "time": "2026-09-05T18:44:00-06:00",
   "event": "trader.updated",
-  "status": "idle",
+  "status": "working",
   "mode": "paper",
   "paper_auto": true,
   "live_approve": false,
@@ -10,9 +10,18 @@
   "paper_pnl_sol": 0.003701,
   "size_pct": 0.04,
   "risk_pct": 0.01,
-  "next_size_sol": 0.040148,
-  "next_risk_sol": 0.010037,
-  "open_ticket": null,
-  "pair": null,
-  "note": "idle \u00b7 compound book 1.003701 SOL \u00b7 next size 0.040148 (4%) \u00b7 risk 0.010037 (1%) \u00b7 SCALE on \u00b7 LIVE off \u00b7 PUMP NO CALL NO"
+  "open_ticket": "20260905-02",
+  "ticker": "STONKGUY",
+  "pair": "STONKGUY/SOL",
+  "fill_usd": 0.0004051,
+  "fill_native": 3.917e-06,
+  "size_sol": 0.040148,
+  "sol_usd": 103.42,
+  "stop": 0.000303825,
+  "t1": 0.00060765,
+  "t2": 0.0008102,
+  "t3": 0.0012153,
+  "t4": 0.0020255,
+  "time_stop": "2026-09-05T19:04:00-06:00",
+  "note": "OPEN \u00b7 SCALE clock \u00b7 STOP/T1\u2013T4/MOON/TIME \u00b7 PUMP NO CALL NO"
 }

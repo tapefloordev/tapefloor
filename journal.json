@@ -175,6 +175,29 @@
       "lane": "GAMBLE",
       "note": "TICKET 20260905-02 PAPER APPROVE \u00b7 size 0.040148 SOL (4% book 1.003701) \u00b7 SCALE \u00b7 FAST NEW \u00b7 no X WATCH",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T18:44:39-06:00",
+      "type": "OPEN",
+      "names": [
+        "STONKGUY"
+      ],
+      "ticket_id": "20260905-02",
+      "lane": "GAMBLE",
+      "note": "PAPER OPEN FILL 0.0004051 \u00b7 0.040148 SOL \u00b7 book 1.003701 \u00b7 SCALE \u00b7 STOP 0.000303825 \u00b7 time 2026-09-05 19:04 MT \u00b7 PUMP NO CALL NO",
+      "pnl_sol": null,
+      "pnl_usd": null,
+      "sol_usd_at_fill": 103.42
+    },
+    {
+      "time": "2026-09-05T18:44:00-06:00",
+      "type": "OPEN",
+      "names": [
+        "STONKGUY"
+      ],
+      "lane": "GAMBLE",
+      "note": "TICKET 20260905-02 FILL 0.0004051 USD / 0.000003917 \u00b7 size 0.040148 SOL \u00b7 STOP 0.000303825 \u00b7 T1 0.00060765 \u00b7 TIME ~19:04 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": 0.003701,
@@ -182,7 +205,7 @@
   "paper_book_sol": 1.003701,
   "skipped": 7,
   "called": 0,
-  "open_ticket": null,
+  "open_ticket": "20260905-02",
   "book_now_sol": 1.003701,
   "ticket_sol_pct": 0.04,
   "risk_sol_pct": 0.01,
