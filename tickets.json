@@ -50,16 +50,16 @@
       "ticket_id": "20260905-04",
       "ticker": "BAG",
       "lane": "GAMBLE",
-      "status": "OPEN",
+      "status": "CLOSED",
       "why": "Independent Paper Bag Cult Raydium book (not Paperbag 8RQni\u2026) with large two-sided 1h notional.",
       "wrong_if": "liq under ~$15k, 1h buys+sells collapse under ~200, or flow to Paperbag 8RQni\u2026.",
       "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik",
       "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
-      "exit_url": null,
+      "exit_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
       "fill_usd": 0.0002177,
-      "exit_usd": null,
-      "pnl_sol": null,
-      "book_after": null
+      "exit_usd": 9.901e-05,
+      "pnl_sol": -0.020925,
+      "book_after": 0.938604
     }
   ]
 }

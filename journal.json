@@ -1,5 +1,5 @@
 {
-  "paper_pnl_usd": -4.1951,
+  "paper_pnl_usd": -6.4138,
   "live_pnl_usd": 0,
   "entries": [
     {
@@ -410,15 +410,35 @@
       "wrong_if": "liq under ~$15k, 1h buys+sells collapse under ~200, or flow to Paperbag 8RQni\u2026.",
       "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
       "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik"
+    },
+    {
+      "time": "2026-09-05T22:43:00-06:00",
+      "type": "CLOSE",
+      "names": [
+        "BAG"
+      ],
+      "lane": "GAMBLE",
+      "ticket_id": "20260905-04",
+      "note": "TICKET 20260905-04 EXIT 9.901e-05 USD \u00b7 reason STOP \u00b7 R -2.18 \u00b7 px vs fill -54.5% \u00b7 liq $28.1k \u00b7 h1 1298/793",
+      "pnl_sol": -0.020925,
+      "pnl_usd": -2.2187,
+      "sol_usd_at_fill": 106.031,
+      "date_mt": "2026-09-05",
+      "book_after": 0.938604,
+      "why": "Independent Paper Bag Cult Raydium book (not Paperbag 8RQni\u2026) with large two-sided 1h notional.",
+      "wrong_if": "liq under ~$15k, 1h buys+sells collapse under ~200, or flow to Paperbag 8RQni\u2026.",
+      "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
+      "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik",
+      "exit_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan"
     }
   ],
-  "paper_pnl_sol": -0.040471,
+  "paper_pnl_sol": -0.061396,
   "live_pnl_sol": 0,
-  "paper_book_sol": 0.959529,
+  "paper_book_sol": 0.938604,
   "skipped": 7,
   "called": 0,
-  "open_ticket": "20260905-04",
-  "book_now_sol": 0.959529,
+  "open_ticket": null,
+  "book_now_sol": 0.938604,
   "ticket_sol_pct": 0.04,
   "risk_sol_pct": 0.01,
   "size_rule": "size=4% book_now; risk=1% at -25% stop; book_now=1+sum(paper_pnl_sol)"
