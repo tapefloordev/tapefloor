@@ -576,6 +576,19 @@
       "lane": null,
       "note": "FULL LIST lane change SWIFT\u2192gamble; X Premium card to STENO @TapeFloorDesk",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-06T14:32:31-06:00",
+      "type": "OPEN",
+      "names": [
+        "ZDOG"
+      ],
+      "ticket_id": "20260906-02",
+      "lane": "BUILD",
+      "note": "PAPER OPEN FILL 0.0009887 \u00b7 0.03749 SOL \u00b7 book 0.937255 \u00b7 SCALE \u00b7 STOP 0.000741525 \u00b7 time 2026-09-06 14:52 MT \u00b7 PUMP NO CALL NO",
+      "pnl_sol": null,
+      "pnl_usd": null,
+      "sol_usd_at_fill": 105.75
     }
   ],
   "paper_pnl_sol": -0.062745,
