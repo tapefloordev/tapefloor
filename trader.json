@@ -1,5 +1,5 @@
 {
-  "time": "2026-09-05T20:32:06-06:00",
+  "time": "2026-09-05T20:32:00-06:00",
   "event": "trader.updated",
   "status": "idle",
   "mode": "paper",
@@ -10,19 +10,9 @@
   "paper_pnl_sol": -0.040471,
   "size_pct": 0.04,
   "risk_pct": 0.01,
+  "next_size_sol": 0.038381,
+  "next_risk_sol": 0.009595,
   "open_ticket": null,
-  "ticker": null,
   "pair": null,
-  "fill_usd": null,
-  "fill_native": null,
-  "size_sol": null,
-  "sol_usd": 103.93,
-  "stop": null,
-  "t1": null,
-  "t2": null,
-  "t3": null,
-  "t4": null,
-  "time_stop": null,
-  "last_px": 0.0001419,
-  "note": "CLOSE 20260905-03 zolana STOP \u00b7 pnl -0.018335 SOL / $-1.9056 \u00b7 book 0.959529"
+  "note": "idle \u00b7 CLOSE 20260905-03 zolana STOP \u00b7 book 0.959529 \u00b7 next size 0.038381 \u00b7 PUMP NO CALL NO"
 }
