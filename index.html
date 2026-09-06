@@ -56,6 +56,9 @@
               <div class="tv-screen">
                 <div class="tv-title">tv</div>
                 <div class="tv-line" id="tvPaper">Paper P&amp;L: $0</div>
+                <div class="tv-equity" id="tvEquityWrap" aria-hidden="true">
+                  <svg class="tv-equity-svg" id="tvEquity" viewBox="0 0 120 28" preserveAspectRatio="none" role="img" aria-label="Paper book equity"></svg>
+                </div>
                 <div class="tv-line" id="tvLive">Live P&amp;L: $0</div>
               </div>
             </div>
@@ -477,6 +480,111 @@
       return (v < 0 ? '-$' : '$') + body;
     }
 
+    function isLiveClose(e) {
+      if (!e || typeof e !== 'object') return false;
+      if (e.live === true || e.book === 'live' || e.mode === 'live') return true;
+      const lane = String(e.lane || '').toUpperCase();
+      return lane === 'LIVE';
+    }
+
+    function paperEquityPoints(j) {
+      // Starting book 1.00 SOL, then book after each paper CLOSE (sum pnl_sol). No fake points.
+      const startRaw = j && (j.paper_book_start_sol != null ? j.paper_book_start_sol : j.book_start_sol);
+      const start = (startRaw != null && isFinite(Number(startRaw))) ? Number(startRaw) : 1;
+      const closes = journalEntries(j)
+        .filter(e => e && String(e.type || '').toUpperCase() === 'CLOSE' && !isLiveClose(e))
+        .slice()
+        .sort((a, b) => String(a.time || '').localeCompare(String(b.time || '')));
+      const pts = [{ book: start, kind: 'start' }];
+      let book = start;
+      for (const e of closes) {
+        const pnl = e.pnl_sol != null ? Number(e.pnl_sol) : NaN;
+        if (!isFinite(pnl)) continue;
+        book = Math.round((book + pnl) * 1e6) / 1e6;
+        pts.push({
+          book,
+          kind: 'close',
+          time: e.time || null,
+          name: (Array.isArray(e.names) && e.names[0]) ? String(e.names[0]) : 'CLOSE'
+        });
+      }
+      return pts;
+    }
+
+    function liveEquityPoints(j) {
+      // Only if live CLOSEs exist — no flat filler path.
+      const closes = journalEntries(j)
+        .filter(e => e && String(e.type || '').toUpperCase() === 'CLOSE' && isLiveClose(e))
+        .slice()
+        .sort((a, b) => String(a.time || '').localeCompare(String(b.time || '')));
+      if (!closes.length) return [];
+      const startRaw = j && j.live_book_start_sol;
+      const start = (startRaw != null && isFinite(Number(startRaw))) ? Number(startRaw) : 0;
+      const pts = [{ book: start, kind: 'start' }];
+      let book = start;
+      for (const e of closes) {
+        const pnl = e.pnl_sol != null ? Number(e.pnl_sol) : NaN;
+        if (!isFinite(pnl)) continue;
+        book = Math.round((book + pnl) * 1e6) / 1e6;
+        pts.push({ book, kind: 'close', time: e.time || null });
+      }
+      return pts;
+    }
+
+    function appendEquityPath(svg, points, className, yMin, yMax) {
+      if (!svg || !points || points.length < 2) return;
+      const w = 120, h = 28, padX = 4, padY = 4;
+      let min = yMin, max = yMax;
+      if (min === max) { min -= 0.01; max += 0.01; }
+      const span = max - min;
+      const n = points.length;
+      const coords = points.map((p, i) => {
+        const x = padX + (i / (n - 1)) * (w - padX * 2);
+        const y = padY + (1 - (p.book - min) / span) * (h - padY * 2);
+        return { x, y };
+      });
+      const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+      poly.setAttribute('fill', 'none');
+      poly.setAttribute('stroke-width', '1.25');
+      poly.setAttribute('stroke-linejoin', 'round');
+      poly.setAttribute('stroke-linecap', 'round');
+      poly.setAttribute('points', coords.map(c => c.x.toFixed(2) + ',' + c.y.toFixed(2)).join(' '));
+      poly.setAttribute('class', className);
+      svg.appendChild(poly);
+      coords.forEach(c => {
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', c.x.toFixed(2));
+        dot.setAttribute('cy', c.y.toFixed(2));
+        dot.setAttribute('r', '1.6');
+        dot.setAttribute('class', className + '-dot');
+        svg.appendChild(dot);
+      });
+    }
+
+    function renderTvEquity(j) {
+      const svg = document.getElementById('tvEquity');
+      const wrap = document.getElementById('tvEquityWrap');
+      if (!svg || !wrap) return;
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      const paperPts = paperEquityPoints(j);
+      const livePts = liveEquityPoints(j);
+      const drawPaper = paperPts.length >= 2;
+      const drawLive = livePts.length >= 2;
+      const show = drawPaper || drawLive;
+      wrap.hidden = !show;
+      wrap.setAttribute('aria-hidden', show ? 'false' : 'true');
+      if (!show) return;
+      const books = [];
+      if (drawPaper) paperPts.forEach(p => books.push(p.book));
+      if (drawLive) livePts.forEach(p => books.push(p.book));
+      const yMin = Math.min.apply(null, books);
+      const yMax = Math.max.apply(null, books);
+      if (drawPaper) appendEquityPath(svg, paperPts, 'tv-eq-paper', yMin, yMax);
+      if (drawLive) appendEquityPath(svg, livePts, 'tv-eq-live', yMin, yMax);
+      const last = drawPaper ? paperPts[paperPts.length - 1] : livePts[livePts.length - 1];
+      svg.setAttribute('aria-label', 'Paper book ' + (last ? Number(last.book).toFixed(4) : '—') + ' SOL');
+    }
+
     function renderTv(j) {
       // Gate: only show non-zero journal P&L after a real CLOSE (or legacy closed).
       // Missing / no CLOSE → $0. No animation.
@@ -488,6 +596,7 @@
       }
       document.getElementById('tvPaper').textContent = 'Paper P&L: ' + fmtPnlUsd(paper);
       document.getElementById('tvLive').textContent = 'Live P&L: ' + fmtPnlUsd(live);
+      renderTvEquity(j);
       if (typeof refreshWallZoomIfOpen === 'function') refreshWallZoomIfOpen('tv');
     }
 
@@ -1070,8 +1179,13 @@
       if (kind === 'tv') {
         const paper = document.getElementById('tvPaper').textContent;
         const live = document.getElementById('tvLive').textContent;
-        return `<p class="panel-line wall-zoom-line">${esc(paper)}</p>` +
-               `<p class="panel-line wall-zoom-line">${esc(live)}</p>`;
+        const eq = document.getElementById('tvEquity');
+        let html = `<p class="panel-line wall-zoom-line">${esc(paper)}</p>`;
+        if (eq && eq.childNodes.length) {
+          html += `<div class="tv-equity wall-zoom-equity">${eq.outerHTML}</div>`;
+        }
+        html += `<p class="panel-line wall-zoom-line">${esc(live)}</p>`;
+        return html;
       }
       if (kind === 'board') {
         const items = [...document.querySelectorAll('#whiteboardLines li')].map(li => {

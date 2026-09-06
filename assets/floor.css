@@ -370,6 +370,48 @@ header.site h1 {
 }
 
 .tv-line { color: var(--accent); }
+
+.tv-equity {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 28px;
+  margin: 1px 0 2px;
+}
+
+.tv-equity-svg {
+  display: block;
+  width: 100%;
+  height: 28px;
+  overflow: visible;
+}
+
+.tv-eq-paper {
+  stroke: var(--accent);
+}
+
+.tv-eq-paper-dot {
+  fill: var(--accent);
+  stroke: none;
+}
+
+.tv-eq-live {
+  stroke: #7ec8ff;
+}
+
+.tv-eq-live-dot {
+  fill: #7ec8ff;
+  stroke: none;
+}
+
+.wall-zoom-equity {
+  height: 48px;
+  margin: 6px 0;
+}
+
+.wall-zoom-equity .tv-equity-svg {
+  height: 48px;
+}
+
 .clock-line { color: var(--fg); }
 
 .clock-line[hidden] {
