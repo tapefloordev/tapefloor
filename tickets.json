@@ -60,6 +60,21 @@
       "exit_usd": 9.901e-05,
       "pnl_sol": -0.020925,
       "book_after": 0.938604
+    },
+    {
+      "ticket_id": "20260906-01",
+      "ticker": "STONKZCAT",
+      "lane": "GAMBLE",
+      "status": "DRAFT",
+      "why": "Box-headed market-watcher cat distinct from stonkcat clones.",
+      "wrong_if": "cluster steals attention / sell catch-up.",
+      "mint": "DTrR7ZN9czw8hJeo6G2DpVWBg4SQjCx3kRWhm5awpump",
+      "pair_url": "https://dexscreener.com/solana/5bxuo3pch6axrjvfwfwtp3tbhsjaanzz4g6vtojxxjoq",
+      "exit_url": null,
+      "fill_usd": null,
+      "exit_usd": null,
+      "pnl_sol": null,
+      "book_after": null
     }
   ]
 }

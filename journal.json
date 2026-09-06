@@ -430,6 +430,32 @@
       "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
       "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik",
       "exit_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan"
+    },
+    {
+      "time": "2026-09-06T07:14:00-06:00",
+      "type": "SKIP",
+      "names": [
+        "ANOROBIN",
+        "Mudskipper"
+      ],
+      "lane": null,
+      "note": "FAST 07:12 \u2014 ANOROBIN extreme vol/mc heat-support but weaker WRONG IF + one_open; Mudskipper one_open; DRAFT STONKZCAT",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-06T07:14:00-06:00",
+      "type": "DRAFT",
+      "ticket_id": "20260906-01",
+      "names": [
+        "STONKZCAT"
+      ],
+      "lane": "GAMBLE",
+      "why": "Box-headed market-watcher cat distinct from stonkcat clones.",
+      "wrong_if": "cluster steals attention / sell catch-up.",
+      "mint": "DTrR7ZN9czw8hJeo6G2DpVWBg4SQjCx3kRWhm5awpump",
+      "pair_url": "https://dexscreener.com/solana/5bxuo3pch6axrjvfwfwtp3tbhsjaanzz4g6vtojxxjoq",
+      "note": "TICKET 20260906-01 PAPER APPROVE \u00b7 size 0.037544 SOL \u00b7 FAST NEW \u00b7 no X",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.061396,
