@@ -157,10 +157,12 @@
   ],
   "paper_pnl_sol": 0.003701,
   "live_pnl_sol": 0,
-  "paper_book_sol": 1.0,
-  "ticket_sol_default": 0.01,
-  "ticket_sol_gamble": 0.005,
+  "paper_book_sol": 1.003701,
   "skipped": 7,
   "called": 0,
-  "open_ticket": null
+  "open_ticket": null,
+  "book_now_sol": 1.003701,
+  "ticket_sol_pct": 0.04,
+  "risk_sol_pct": 0.01,
+  "size_rule": "size=4% book_now; risk=1% at -25% stop; book_now=1+sum(paper_pnl_sol)"
 }

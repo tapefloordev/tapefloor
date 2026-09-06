@@ -59,13 +59,15 @@ Active playbook: `PAPER-STRATEGY-v3.md` (v3.1).
 - `already_held`: we are not already in it
 - `one_open`: no second ticket
 
-## SIZE
+## SIZE (compound book)
 
-- Paper book $500 — one book
-- **1% ($5)** if 24h vol > $500k AND mcap > $1M
-- **0.5% ($2.50)** if mcap < $1M or 24h vol < $500k
-- Max loss = ticket size
-- One open ticket only
+- Paper book starts **1.00 SOL**. After every CLOSE: `book_now = 1 + sum(paper_pnl_sol)`.
+- Risk **1%** of book_now · Stop **−25%** · Size **4%** of book_now (1% ÷ 25% = 4%).
+- GAMBLE and BUILD use this size. HOLD not in PAPER-AUTO.
+- Max 1 open. LIVE off. PUMP NO. CALL NO unless Alex says so.
+- WHY + WRONG IF + CA + pair URL required; missing package = skip.
+- 20260905-01 stays as logged.
+
 
 ## EXIT (new tickets — GAMBLE / BUILD SCALE)
 

@@ -1,14 +1,18 @@
 {
-  "time": "2026-09-05T16:56:00-06:00",
+  "time": "2026-09-05T18:14:00-06:00",
   "event": "trader.updated",
   "status": "idle",
   "mode": "paper",
   "paper_auto": true,
   "live_approve": false,
-  "book_sol": 1.0,
-  "default_size_sol": 0.01,
-  "gamble_size_sol": 0.005,
+  "book_sol": 1.003701,
+  "book_start_sol": 1.0,
+  "paper_pnl_sol": 0.003701,
+  "size_pct": 0.04,
+  "risk_pct": 0.01,
+  "next_size_sol": 0.040148,
+  "next_risk_sol": 0.010037,
   "open_ticket": null,
   "pair": null,
-  "note": "idle \u00b7 last CLOSE 20260905-01 SWIFT +20% \u00b7 R +2.96 \u00b7 open 0 \u00b7 PUMP NO CALL NO"
+  "note": "idle \u00b7 compound book 1.003701 SOL \u00b7 next size 0.040148 (4%) \u00b7 risk 0.010037 (1%) \u00b7 SCALE on \u00b7 LIVE off \u00b7 PUMP NO CALL NO"
 }
