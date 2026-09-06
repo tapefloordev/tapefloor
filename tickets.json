@@ -1,0 +1,65 @@
+{
+  "rule": "Every ticket: why, wrong_if, pair_url, mint (why never blank). On CLOSE also exit_url (or same pair_url). DEV shows why + chart.",
+  "tickets": [
+    {
+      "ticket_id": "20260905-01",
+      "ticker": "SWIFT",
+      "lane": "GAMBLE",
+      "status": "CLOSED",
+      "why": "Settlement Layer brand trading vs wXRP with live site and two-sided flow still open ~2h post-pair.",
+      "wrong_if": "wXRP-pair liq slips under ~$15k, or 1h flow goes one-way sells with no reclaim prints for a full hour.",
+      "mint": "DHLqUh8wJjJCnfdZpjFkeKhdic9nTpMxzD1Vkx8DG17U",
+      "pair_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut",
+      "exit_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut",
+      "fill_usd": 0.0002313,
+      "exit_usd": 0.0004025,
+      "pnl_sol": 0.003701,
+      "book_after": 1.003701
+    },
+    {
+      "ticket_id": "20260905-02",
+      "ticker": "STONKGUY",
+      "lane": "GAMBLE",
+      "status": "CLOSED",
+      "why": "Stonk-meme cluster with primary X/site on Dex; largest verified sub-$500k 1h notional not on current 7.",
+      "wrong_if": "1h buys collapse under ~2k while sells elevated, or liq under ~$25k.",
+      "mint": "EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump",
+      "pair_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8",
+      "exit_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8",
+      "fill_usd": 0.0004051,
+      "exit_usd": 0.0001444,
+      "pnl_sol": -0.025837,
+      "book_after": 0.977864
+    },
+    {
+      "ticket_id": "20260905-03",
+      "ticker": "zolana",
+      "lane": "GAMBLE",
+      "status": "CLOSED",
+      "why": "Best book among evening zolana-cluster CAs (~2h age, liq ~$43k+, vol1h ~$230k+, buy-lean).",
+      "wrong_if": "Flow consolidates to sibling CAs (ZOLCAT / FQd7 / 2zb8) or liq under ~$15k.",
+      "mint": "752meQjs65b2c9wu49kd35tT9Y5AHMQ8haPLcyyd8XrT",
+      "pair_url": "https://dexscreener.com/solana/9hycjh8x2n2yuxc4gqajmu3ybjnocbuhswfyfxwgnbdq",
+      "exit_url": "https://dexscreener.com/solana/9hycjh8x2n2yuxc4gqajmu3ybjnocbuhswfyfxwgnbdq",
+      "fill_usd": 0.0002671,
+      "exit_usd": 0.0001419,
+      "pnl_sol": -0.018335,
+      "book_after": 0.959529
+    },
+    {
+      "ticket_id": "20260905-04",
+      "ticker": "BAG",
+      "lane": "GAMBLE",
+      "status": "OPEN",
+      "why": "Independent Paper Bag Cult Raydium book (not Paperbag 8RQni\u2026) with large two-sided 1h notional.",
+      "wrong_if": "liq under ~$15k, 1h buys+sells collapse under ~200, or flow to Paperbag 8RQni\u2026.",
+      "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik",
+      "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
+      "exit_url": null,
+      "fill_usd": 0.0002177,
+      "exit_usd": null,
+      "pnl_sol": null,
+      "book_after": null
+    }
+  ]
+}

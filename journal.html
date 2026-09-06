@@ -133,6 +133,31 @@
       return { openByTicket, draftByTicket };
     }
 
+    function ticketsById(payload) {
+      const map = {};
+      if (!payload || typeof payload !== 'object') return map;
+      const raw = payload.tickets || payload.entries || payload;
+      if (Array.isArray(raw)) {
+        raw.forEach(t => {
+          const id = t && (t.ticket_id || t.id);
+          if (id) map[String(id)] = t;
+        });
+      } else if (raw && typeof raw === 'object') {
+        Object.keys(raw).forEach(id => { map[String(id)] = raw[id]; });
+      }
+      return map;
+    }
+
+    function pickTicketField(ticket, entry, draft, open, key) {
+      const chain = [ticket, entry, draft, open];
+      for (const src of chain) {
+        if (!src) continue;
+        const v = src[key];
+        if (v != null && String(v).trim() !== '') return String(v).trim();
+      }
+      return '';
+    }
+
     function closeCardHtml(e, ctx) {
       const ticker = (Array.isArray(e.names) && e.names[0]) ? String(e.names[0]) : '—';
       const lane = e.lane ? String(e.lane) : '—';
@@ -140,14 +165,9 @@
       const open = tid && ctx.openByTicket[tid] ? ctx.openByTicket[tid] : null;
       const draft = tid && ctx.draftByTicket[tid] ? ctx.draftByTicket[tid] : null;
 
-      const whyRaw = (e.why != null && String(e.why).trim()) ? String(e.why).trim()
-        : (draft && draft.why && String(draft.why).trim()) ? String(draft.why).trim()
-        : (open && open.why && String(open.why).trim()) ? String(open.why).trim()
-        : '';
-      const wrongRaw = (e.wrong_if != null && String(e.wrong_if).trim()) ? String(e.wrong_if).trim()
-        : (draft && draft.wrong_if && String(draft.wrong_if).trim()) ? String(draft.wrong_if).trim()
-        : (open && open.wrong_if && String(open.wrong_if).trim()) ? String(open.wrong_if).trim()
-        : '';
+      const ticket = tid && ctx.tickets && ctx.tickets[tid] ? ctx.tickets[tid] : null;
+      const whyRaw = pickTicketField(ticket, e, draft, open, 'why');
+      const wrongRaw = pickTicketField(ticket, e, draft, open, 'wrong_if');
 
       const fillFromNote = parseNoteField(open && open.note, /FILL\s+([0-9.eE+-]+)/i)
         || parseNoteField(e.note, /fill\s+([0-9.eE+-]+)/i);
@@ -192,8 +212,10 @@
       if (reason) trade += (trade ? ' · ' : '') + esc(reason);
       if (trade) html += `<p class="journal-trade">${trade}</p>`;
 
-      const mint = e.mint || (open && open.mint) || (draft && draft.mint) || null;
-      const pairUrl = e.pair_url || e.exit_url || (open && open.pair_url) || (draft && draft.pair_url) || null;
+      const mint = pickTicketField(ticket, e, draft, open, 'mint') || null;
+      const pairUrl = pickTicketField(ticket, e, draft, open, 'exit_url')
+        || pickTicketField(ticket, e, draft, open, 'pair_url')
+        || null;
       const mintOk = looksLikeMint(mint);
       const embed = mintOk ? dexEmbedUrl(pairUrl) : null;
 
@@ -259,7 +281,7 @@
       });
     }
 
-    function render(j) {
+    function render(j, ticketsPayload) {
       const root = document.getElementById('journalRoot');
       const entries = (j && Array.isArray(j.entries)) ? j.entries.slice() : [];
       if (!entries.length) {
@@ -267,6 +289,7 @@
         return;
       }
       const ctx = indexByTicket(entries);
+      ctx.tickets = ticketsById(ticketsPayload);
       entries.sort((a, b) => {
         const ta = Date.parse(a && a.time) || 0;
         const tb = Date.parse(b && b.time) || 0;
@@ -276,12 +299,14 @@
       wireDexShots(root);
     }
 
-    fetch('./journal.json', { cache: 'no-store' })
-      .then(r => {
+    Promise.all([
+      fetch('./journal.json', { cache: 'no-store' }).then(r => {
         if (!r.ok) throw new Error('journal.json ' + r.status);
         return r.json();
-      })
-      .then(render)
+      }),
+      fetch('./tickets.json', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).catch(() => null)
+    ])
+      .then(([j, tickets]) => render(j, tickets))
       .catch(err => {
         document.getElementById('journalRoot').innerHTML =
           `<p class="journal-empty">Failed to load journal.json</p>`;
