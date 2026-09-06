@@ -254,6 +254,19 @@
       "lane": null,
       "note": "Evening FULL LIST; NEW Paperbag/zolana; DROP STONKCHUMP/STONKCAT; watching \u00b7 not in \u00b7 not a call \u00b7 nfa",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T20:21:46-06:00",
+      "type": "OPEN",
+      "names": [
+        "zolana"
+      ],
+      "ticket_id": "20260905-03",
+      "lane": "GAMBLE",
+      "note": "PAPER OPEN FILL 0.0002671 \u00b7 0.039115 SOL \u00b7 book 0.977864 \u00b7 SCALE \u00b7 STOP 0.000200325 \u00b7 time 2026-09-05 20:41 MT \u00b7 PUMP NO CALL NO",
+      "pnl_sol": null,
+      "pnl_usd": null,
+      "sol_usd_at_fill": 103.93
     }
   ],
   "paper_pnl_sol": -0.022136,
