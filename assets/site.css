@@ -187,3 +187,81 @@ nav.page-nav .sep {
 .recent-journal .page-title {
   margin-bottom: .5rem;
 }
+
+
+/* Journal CLOSE cards */
+.journal-close .journal-head {
+  margin: 4px 0 2px;
+  font-size: 15px;
+}
+.journal-ticker {
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.journal-lane {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  opacity: .75;
+  margin-left: 6px;
+}
+.journal-ticket {
+  opacity: .65;
+  font-size: 11px;
+}
+.journal-times {
+  margin: 0 0 8px;
+  font-size: 12px;
+  opacity: .7;
+}
+.journal-label {
+  margin: 8px 0 2px;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .55;
+}
+.journal-why,
+.journal-wrong,
+.journal-trade {
+  margin: 0 0 4px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.journal-missing {
+  opacity: .55;
+  font-style: italic;
+}
+.journal-trade {
+  margin-top: 8px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+}
+.journal-dex {
+  margin: 10px 0 6px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0b0f0e;
+}
+.journal-dex-shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: cover;
+}
+.journal-dex-embed {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border: 0;
+  background: #0b0f0e;
+}
+.journal-dex-embed[hidden] { display: none; }
+.journal-dex-skip {
+  margin: 8px 0;
+  font-size: 12px;
+  opacity: .55;
+  font-style: italic;
+}

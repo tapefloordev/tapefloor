@@ -58,8 +58,26 @@
       const v = typeof n === 'number' && isFinite(n) ? n : Number(n);
       if (!isFinite(v)) return null;
       const abs = Math.abs(v);
-      const body = abs.toLocaleString('en-US', { maximumFractionDigits: 0 });
-      return (v < 0 ? '-$' : '$') + body;
+      const body = abs.toLocaleString('en-US', {
+        minimumFractionDigits: abs < 1 ? 2 : 0,
+        maximumFractionDigits: abs < 1 ? 4 : 2
+      });
+      return (v < 0 ? '-$' : '+$') + body;
+    }
+
+    function fmtPnlSol(n) {
+      const v = typeof n === 'number' && isFinite(n) ? n : Number(n);
+      if (!isFinite(v)) return null;
+      const sign = v < 0 ? '' : '+';
+      return sign + v.toFixed(6) + ' SOL';
+    }
+
+    function fmtPx(n) {
+      const v = typeof n === 'number' && isFinite(n) ? n : Number(n);
+      if (!isFinite(v)) return null;
+      if (v === 0) return '0';
+      if (v < 0.0001) return v.toExponential(3);
+      return String(v);
     }
 
     function publicEntryType(typ) {
@@ -74,9 +92,135 @@
       return t.charAt(0) + t.slice(1).toLowerCase();
     }
 
-    function entryHtml(e) {
+    function looksLikeMint(m) {
+      if (!m || typeof m !== 'string') return false;
+      const s = m.trim();
+      // Solana base58 pubkey-ish; reject placeholders
+      if (s.length < 32 || s.length > 52) return false;
+      if (/missing|unknown|null|undefined|n\/a/i.test(s)) return false;
+      return /^[1-9A-HJ-NP-Za-km-z]+$/.test(s);
+    }
+
+    function pairAddressFromUrl(url) {
+      if (!url || typeof url !== 'string') return null;
+      const m = url.trim().match(/dexscreener\.com\/solana\/([a-zA-Z0-9]+)/i);
+      return m ? m[1] : null;
+    }
+
+    function dexEmbedUrl(pairUrl) {
+      const addr = pairAddressFromUrl(pairUrl);
+      if (!addr) return null;
+      return 'https://dexscreener.com/solana/' + addr + '?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15';
+    }
+
+    function parseNoteField(note, re) {
+      if (!note) return null;
+      const m = String(note).match(re);
+      return m ? m[1].trim() : null;
+    }
+
+    function indexByTicket(entries) {
+      const openByTicket = {};
+      const draftByTicket = {};
+      (entries || []).forEach(e => {
+        if (!e || !e.ticket_id) return;
+        const t = String(e.type || '').toUpperCase();
+        if (t === 'OPEN' && !openByTicket[e.ticket_id]) openByTicket[e.ticket_id] = e;
+        // prefer TICKET-prefixed OPEN note when duplicates
+        if (t === 'OPEN' && /TICKET\s+/.test(e.note || '')) openByTicket[e.ticket_id] = e;
+        if (t === 'DRAFT') draftByTicket[e.ticket_id] = e;
+      });
+      return { openByTicket, draftByTicket };
+    }
+
+    function closeCardHtml(e, ctx) {
+      const ticker = (Array.isArray(e.names) && e.names[0]) ? String(e.names[0]) : '—';
+      const lane = e.lane ? String(e.lane) : '—';
+      const tid = e.ticket_id ? String(e.ticket_id) : null;
+      const open = tid && ctx.openByTicket[tid] ? ctx.openByTicket[tid] : null;
+      const draft = tid && ctx.draftByTicket[tid] ? ctx.draftByTicket[tid] : null;
+
+      const whyRaw = (e.why != null && String(e.why).trim()) ? String(e.why).trim()
+        : (draft && draft.why && String(draft.why).trim()) ? String(draft.why).trim()
+        : (open && open.why && String(open.why).trim()) ? String(open.why).trim()
+        : '';
+      const wrongRaw = (e.wrong_if != null && String(e.wrong_if).trim()) ? String(e.wrong_if).trim()
+        : (draft && draft.wrong_if && String(draft.wrong_if).trim()) ? String(draft.wrong_if).trim()
+        : (open && open.wrong_if && String(open.wrong_if).trim()) ? String(open.wrong_if).trim()
+        : '';
+
+      const fillFromNote = parseNoteField(open && open.note, /FILL\s+([0-9.eE+-]+)/i)
+        || parseNoteField(e.note, /fill\s+([0-9.eE+-]+)/i);
+      const exitFromNote = parseNoteField(e.note, /EXIT\s+([0-9.eE+-]+)/i);
+      const reason = parseNoteField(e.note, /reason\s+([^·\n]+)/i) || e.reason || null;
+
+      const fillPx = e.fill_usd != null ? e.fill_usd : (fillFromNote != null ? Number(fillFromNote) : null);
+      const exitPx = e.exit_usd != null ? e.exit_usd : (exitFromNote != null ? Number(exitFromNote) : null);
+
+      const openTime = open && open.time ? open.time : null;
+      const closeTime = e.time || null;
+
+      let html = `<li class="journal-entry journal-close">`;
+      html += `<div class="journal-meta"><span class="journal-type">Close</span>`;
+      if (tid) html += `<span class="journal-ticket">${esc(tid)}</span>`;
+      html += `</div>`;
+      html += `<p class="journal-head"><span class="journal-ticker">$${esc(ticker)}</span>`;
+      html += ` <span class="journal-lane">${esc(lane)}</span></p>`;
+      html += `<p class="journal-times">open ${esc(fmtMT(openTime))} · close ${esc(fmtMT(closeTime))}</p>`;
+
+      html += `<p class="journal-label">WHY</p>`;
+      html += whyRaw
+        ? `<p class="journal-why">${esc(whyRaw)}</p>`
+        : `<p class="journal-why journal-missing">why missing</p>`;
+
+      html += `<p class="journal-label">WRONG IF</p>`;
+      html += wrongRaw
+        ? `<p class="journal-wrong">${esc(wrongRaw)}</p>`
+        : `<p class="journal-wrong journal-missing">wrong if missing</p>`;
+
+      const fillS = fmtPx(fillPx);
+      const exitS = fmtPx(exitPx);
+      const pnlSol = fmtPnlSol(e.pnl_sol);
+      const pnlUsd = fmtPnlUsd(e.pnl_usd);
+      let trade = '';
+      if (fillS && exitS) trade += `${esc(fillS)} → ${esc(exitS)}`;
+      else if (exitS) trade += `exit ${esc(exitS)}`;
+      else if (fillS) trade += `fill ${esc(fillS)}`;
+      if (pnlSol || pnlUsd) {
+        trade += (trade ? ' · ' : '') + 'pnl ' + esc([pnlSol, pnlUsd].filter(Boolean).join(' / '));
+      }
+      if (reason) trade += (trade ? ' · ' : '') + esc(reason);
+      if (trade) html += `<p class="journal-trade">${trade}</p>`;
+
+      const mint = e.mint || (open && open.mint) || (draft && draft.mint) || null;
+      const pairUrl = e.pair_url || e.exit_url || (open && open.pair_url) || (draft && draft.pair_url) || null;
+      const mintOk = looksLikeMint(mint);
+      const embed = mintOk ? dexEmbedUrl(pairUrl) : null;
+
+      if (tid && mintOk) {
+        const shot = `./assets/tickets/${encodeURIComponent(tid)}.png`;
+        html += `<div class="journal-dex" data-ticket="${esc(tid)}">`;
+        html += `<img class="journal-dex-shot" src="${esc(shot)}" alt="$${esc(ticker)} chart" loading="lazy" />`;
+        if (embed) {
+          html += `<iframe class="journal-dex-embed" title="$${esc(ticker)} DexScreener" src="${esc(embed)}" loading="lazy" allow="clipboard-write" allowfullscreen></iframe>`;
+        }
+        html += `</div>`;
+      } else if (!mintOk) {
+        html += `<p class="journal-dex-skip">no chart (mint missing or invalid)</p>`;
+      } else if (embed) {
+        html += `<div class="journal-dex"><iframe class="journal-dex-embed only" title="$${esc(ticker)} DexScreener" src="${esc(embed)}" loading="lazy" allow="clipboard-write" allowfullscreen></iframe></div>`;
+      }
+
+      html += `<p class="journal-nfa">not a call · nfa</p>`;
+      html += `</li>`;
+      return html;
+    }
+
+    function entryHtml(e, ctx) {
       if (!e || typeof e !== 'object') return '';
       const typ = String(e.type || 'LOG').toUpperCase();
+      if (typ === 'CLOSE') return closeCardHtml(e, ctx);
+
       const when = fmtMT(e.time);
       const names = Array.isArray(e.names) ? e.names.filter(Boolean) : [];
       let html = `<li class="journal-entry">`;
@@ -87,13 +231,32 @@
       if (e.note) {
         html += `<p class="journal-note">${esc(e.note)}</p>`;
       }
-      if (typ === 'CLOSE' && e.pnl_usd != null && e.pnl_usd !== '') {
-        const pnl = fmtPnlUsd(e.pnl_usd);
-        if (pnl) html += `<p class="journal-pnl">P&amp;L ${esc(pnl)}</p>`;
-      }
       html += `<p class="journal-nfa">not a call · nfa</p>`;
       html += `</li>`;
       return html;
+    }
+
+    function wireDexShots(root) {
+      root.querySelectorAll('.journal-dex').forEach(box => {
+        const img = box.querySelector('.journal-dex-shot');
+        const iframe = box.querySelector('.journal-dex-embed');
+        if (!img) return;
+        const showEmbed = () => {
+          img.hidden = true;
+          if (iframe) {
+            iframe.hidden = false;
+            iframe.classList.add('show');
+          }
+        };
+        img.addEventListener('load', () => {
+          // prefer saved screenshot when it actually loads
+          if (iframe) iframe.hidden = true;
+          img.hidden = false;
+        });
+        img.addEventListener('error', showEmbed);
+        // default: hide iframe until we know shot failed; if no shot path, show embed
+        if (iframe) iframe.hidden = true;
+      });
     }
 
     function render(j) {
@@ -103,12 +266,14 @@
         root.innerHTML = `<p class="journal-empty">No journal entries yet.</p>`;
         return;
       }
+      const ctx = indexByTicket(entries);
       entries.sort((a, b) => {
         const ta = Date.parse(a && a.time) || 0;
         const tb = Date.parse(b && b.time) || 0;
         return tb - ta;
       });
-      root.innerHTML = `<ul class="journal-list">${entries.map(entryHtml).join('')}</ul>`;
+      root.innerHTML = `<ul class="journal-list">${entries.map(e => entryHtml(e, ctx)).join('')}</ul>`;
+      wireDexShots(root);
     }
 
     fetch('./journal.json', { cache: 'no-store' })

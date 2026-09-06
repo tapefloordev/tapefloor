@@ -128,7 +128,12 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-01 PAPER APPROVE \u00b7 checklist re-audit \u00b7 PAPER-AUTO to Trader",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-01",
+      "why": "Settlement Layer brand trading vs wXRP with live site and two-sided flow still open ~2h post-pair.",
+      "wrong_if": "wXRP-pair liq slips under ~$15k, or 1h flow goes one-way sells with no reclaim prints for a full hour.",
+      "pair_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut",
+      "mint": "DHLqUh8wJjJCnfdZpjFkeKhdic9nTpMxzD1Vkx8DG17U"
     },
     {
       "time": "2026-09-05T16:34:00-06:00",
@@ -139,7 +144,11 @@
       "lane": "GAMBLE",
       "note": "TICKET 20260905-01 FILL 0.0002313 USD / 0.0001628 SWIFT/wXRP \u00b7 0.005 SOL \u00b7 STOP 0.000173475 \u00b7 TIME 16:54 MT \u00b7 PUMP NO CALL NO",
       "pnl_usd": null,
-      "ticket_id": "20260905-01"
+      "ticket_id": "20260905-01",
+      "why": "Settlement Layer brand trading vs wXRP with live site and two-sided flow still open ~2h post-pair.",
+      "wrong_if": "wXRP-pair liq slips under ~$15k, or 1h flow goes one-way sells with no reclaim prints for a full hour.",
+      "pair_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut",
+      "mint": "DHLqUh8wJjJCnfdZpjFkeKhdic9nTpMxzD1Vkx8DG17U"
     },
     {
       "time": "2026-09-05T16:56:24-06:00",
@@ -154,7 +163,12 @@
       "pnl_usd": 0.3826,
       "sol_usd_at_fill": 103.37,
       "date_mt": "2026-09-05",
-      "book_after": 1.003701
+      "book_after": 1.003701,
+      "why": "Settlement Layer brand trading vs wXRP with live site and two-sided flow still open ~2h post-pair.",
+      "wrong_if": "wXRP-pair liq slips under ~$15k, or 1h flow goes one-way sells with no reclaim prints for a full hour.",
+      "pair_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut",
+      "mint": "DHLqUh8wJjJCnfdZpjFkeKhdic9nTpMxzD1Vkx8DG17U",
+      "exit_url": "https://dexscreener.com/solana/2q5kyz1jhwcr3jgr5eirsfptnfmuds5qkg43osmcqjut"
     },
     {
       "time": "2026-09-05T18:42:00-06:00",
@@ -176,7 +190,12 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-02 PAPER APPROVE \u00b7 size 0.040148 SOL (4% book 1.003701) \u00b7 SCALE \u00b7 FAST NEW \u00b7 no X WATCH",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-02",
+      "why": "Stonk-meme cluster with primary X/site on Dex; largest verified sub-$500k 1h notional not on current 7.",
+      "wrong_if": "1h buys collapse under ~2k while sells elevated, or liq under ~$25k.",
+      "pair_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8",
+      "mint": "EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump"
     },
     {
       "time": "2026-09-05T18:44:39-06:00",
@@ -189,7 +208,11 @@
       "note": "PAPER OPEN FILL 0.0004051 \u00b7 0.040148 SOL \u00b7 book 1.003701 \u00b7 SCALE \u00b7 STOP 0.000303825 \u00b7 time 2026-09-05 19:04 MT \u00b7 PUMP NO CALL NO",
       "pnl_sol": null,
       "pnl_usd": null,
-      "sol_usd_at_fill": 103.42
+      "sol_usd_at_fill": 103.42,
+      "why": "Stonk-meme cluster with primary X/site on Dex; largest verified sub-$500k 1h notional not on current 7.",
+      "wrong_if": "1h buys collapse under ~2k while sells elevated, or liq under ~$25k.",
+      "pair_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8",
+      "mint": "EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump"
     },
     {
       "time": "2026-09-05T18:44:00-06:00",
@@ -199,7 +222,12 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-02 FILL 0.0004051 USD / 0.000003917 \u00b7 size 0.040148 SOL \u00b7 STOP 0.000303825 \u00b7 T1 0.00060765 \u00b7 TIME ~19:04 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-02",
+      "why": "Stonk-meme cluster with primary X/site on Dex; largest verified sub-$500k 1h notional not on current 7.",
+      "wrong_if": "1h buys collapse under ~2k while sells elevated, or liq under ~$25k.",
+      "pair_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8",
+      "mint": "EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump"
     },
     {
       "time": "2026-09-05T19:02:31-06:00",
@@ -214,7 +242,12 @@
       "pnl_usd": -2.6721,
       "sol_usd_at_fill": 103.42,
       "date_mt": "2026-09-05",
-      "book_after": 0.977864
+      "book_after": 0.977864,
+      "why": "Stonk-meme cluster with primary X/site on Dex; largest verified sub-$500k 1h notional not on current 7.",
+      "wrong_if": "1h buys collapse under ~2k while sells elevated, or liq under ~$25k.",
+      "pair_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8",
+      "mint": "EcZMqqYxFdcKSMMEYuacVoaeeRxpc7R7G7zWma9zpump",
+      "exit_url": "https://dexscreener.com/solana/5miplrtzrmwqn5ubb22gpcjjyzgbqmb5jei7znwdwez8"
     },
     {
       "time": "2026-09-05T20:20:00-06:00",
@@ -238,7 +271,12 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-03 PAPER APPROVE \u00b7 size 0.039115 SOL \u00b7 CA 752meQ\u2026 (cluster best book) \u00b7 SCALE",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-03",
+      "why": "Best book among evening zolana-cluster CAs (~2h age, liq ~$43k+, vol1h ~$230k+, buy-lean).",
+      "wrong_if": "Flow consolidates to sibling CAs (ZOLCAT / FQd7 / 2zb8) or liq under ~$15k.",
+      "pair_url": "https://dexscreener.com/solana/9hycjh8x2n2yuxc4gqajmu3ybjnocbuhswfyfxwgnbdq",
+      "mint": "752meQjs65b2c9wu49kd35tT9Y5AHMQ8haPLcyyd8XrT"
     },
     {
       "time": "2026-09-05T20:20:00-06:00",
@@ -268,7 +306,11 @@
       "note": "PAPER OPEN FILL 0.0002671 \u00b7 0.039115 SOL \u00b7 book 0.977864 \u00b7 SCALE \u00b7 STOP 0.000200325 \u00b7 time 2026-09-05 20:41 MT \u00b7 PUMP NO CALL NO",
       "pnl_sol": null,
       "pnl_usd": null,
-      "sol_usd_at_fill": 103.93
+      "sol_usd_at_fill": 103.93,
+      "why": "Best book among evening zolana-cluster CAs (~2h age, liq ~$43k+, vol1h ~$230k+, buy-lean).",
+      "wrong_if": "Flow consolidates to sibling CAs (ZOLCAT / FQd7 / 2zb8) or liq under ~$15k.",
+      "pair_url": "https://dexscreener.com/solana/9hycjh8x2n2yuxc4gqajmu3ybjnocbuhswfyfxwgnbdq",
+      "mint": "752meQjs65b2c9wu49kd35tT9Y5AHMQ8haPLcyyd8XrT"
     },
     {
       "time": "2026-09-05T20:21:00-06:00",
@@ -278,7 +320,12 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-03 FILL 0.0002671 USD / 0.0000002507 zolana/ZEC \u00b7 size 0.039115 SOL \u00b7 STOP 0.000200325 \u00b7 T1 0.00040065 \u00b7 TIME ~20:41 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-03",
+      "why": "Best book among evening zolana-cluster CAs (~2h age, liq ~$43k+, vol1h ~$230k+, buy-lean).",
+      "wrong_if": "Flow consolidates to sibling CAs (ZOLCAT / FQd7 / 2zb8) or liq under ~$15k.",
+      "pair_url": "https://dexscreener.com/solana/9hycjh8x2n2yuxc4gqajmu3ybjnocbuhswfyfxwgnbdq",
+      "mint": "752meQjs65b2c9wu49kd35tT9Y5AHMQ8haPLcyyd8XrT"
     },
     {
       "time": "2026-09-05T20:32:06-06:00",
@@ -293,7 +340,12 @@
       "pnl_usd": -1.9056,
       "sol_usd_at_fill": 103.93,
       "date_mt": "2026-09-05",
-      "book_after": 0.959529
+      "book_after": 0.959529,
+      "why": "Best book among evening zolana-cluster CAs (~2h age, liq ~$43k+, vol1h ~$230k+, buy-lean).",
+      "wrong_if": "Flow consolidates to sibling CAs (ZOLCAT / FQd7 / 2zb8) or liq under ~$15k.",
+      "pair_url": "https://dexscreener.com/solana/9hycjh8x2n2yuxc4gqajmu3ybjnocbuhswfyfxwgnbdq",
+      "mint": "752meQjs65b2c9wu49kd35tT9Y5AHMQ8haPLcyyd8XrT",
+      "exit_url": "https://dexscreener.com/solana/9hycjh8x2n2yuxc4gqajmu3ybjnocbuhswfyfxwgnbdq"
     },
     {
       "time": "2026-09-05T22:16:00-06:00",
@@ -303,7 +355,12 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-04 PAPER APPROVE \u00b7 size 0.038381 SOL \u00b7 distinct from Paperbag 8RQni\u2026 \u00b7 no X WATCH (<2h)",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-04",
+      "why": "Independent Paper Bag Cult Raydium book (not Paperbag 8RQni\u2026) with large two-sided 1h notional.",
+      "wrong_if": "liq under ~$15k, 1h buys+sells collapse under ~200, or flow to Paperbag 8RQni\u2026.",
+      "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
+      "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik"
     },
     {
       "time": "2026-09-05T22:16:00-06:00",
@@ -333,7 +390,11 @@
       "note": "PAPER OPEN FILL 0.0002177 \u00b7 0.038381 SOL \u00b7 book 0.959529 \u00b7 SCALE \u00b7 STOP 0.000163275 \u00b7 time 2026-09-05 22:37 MT \u00b7 PUMP NO CALL NO",
       "pnl_sol": null,
       "pnl_usd": null,
-      "sol_usd_at_fill": 106.031
+      "sol_usd_at_fill": 106.031,
+      "why": "Independent Paper Bag Cult Raydium book (not Paperbag 8RQni\u2026) with large two-sided 1h notional.",
+      "wrong_if": "liq under ~$15k, 1h buys+sells collapse under ~200, or flow to Paperbag 8RQni\u2026.",
+      "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
+      "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik"
     },
     {
       "time": "2026-09-05T22:17:00-06:00",
@@ -343,7 +404,12 @@
       ],
       "lane": "GAMBLE",
       "note": "TICKET 20260905-04 FILL 0.0002177 USD / 0.0000002025 BAG/ZEC \u00b7 size 0.038381 SOL \u00b7 STOP 0.000163275 \u00b7 T1 0.00032655 \u00b7 TIME ~22:37 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
-      "pnl_usd": null
+      "pnl_usd": null,
+      "ticket_id": "20260905-04",
+      "why": "Independent Paper Bag Cult Raydium book (not Paperbag 8RQni\u2026) with large two-sided 1h notional.",
+      "wrong_if": "liq under ~$15k, 1h buys+sells collapse under ~200, or flow to Paperbag 8RQni\u2026.",
+      "pair_url": "https://dexscreener.com/solana/mvgrdst3idwdrsktvcytxgqortghgykgmvsyugu8jan",
+      "mint": "4ytoC4JhuZsqyLC9jTYGxLvwGu4vELA9w4xWc4qRgHik"
     }
   ],
   "paper_pnl_sol": -0.040471,
