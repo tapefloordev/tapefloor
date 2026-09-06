@@ -153,6 +153,28 @@
       "pnl_sol": 0.003701,
       "pnl_usd": 0.3826,
       "sol_usd_at_fill": 103.37
+    },
+    {
+      "time": "2026-09-05T18:42:00-06:00",
+      "type": "SKIP",
+      "names": [
+        "Paperbag",
+        "zolana",
+        "STARE"
+      ],
+      "lane": null,
+      "note": "FAST 18:41 \u2014 Paperbag thin vol1h/one_open; zolana not_newborn_fade (~20m curve mcap~$15k); STARE FAST-not-NEW ack only; no X WATCH",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T18:42:00-06:00",
+      "type": "DRAFT",
+      "names": [
+        "STONKGUY"
+      ],
+      "lane": "GAMBLE",
+      "note": "TICKET 20260905-02 PAPER APPROVE \u00b7 size 0.040148 SOL (4% book 1.003701) \u00b7 SCALE \u00b7 FAST NEW \u00b7 no X WATCH",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": 0.003701,
