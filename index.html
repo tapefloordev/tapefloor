@@ -488,7 +488,7 @@
     }
 
     function paperEquityPoints(j) {
-      // Start 1.00 SOL, then each paper CLOSE. Prefer entry.book_after (Alex lock); else sum pnl_sol.
+      // Start 1.00 SOL, then each paper CLOSE. Prefer entry.book_after (operator lock); else sum pnl_sol.
       const startRaw = j && (j.paper_book_start_sol != null ? j.paper_book_start_sol : j.book_start_sol);
       const start = (startRaw != null && isFinite(Number(startRaw))) ? Number(startRaw) : 1;
       const closes = journalEntries(j)

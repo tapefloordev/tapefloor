@@ -1,6 +1,6 @@
 # Desk Constitution v3.1 — Public Tape Desk (Paper)
 
-One-person desk. Chief of Staff is desk chief. Operator: Alex Baker.
+One-person desk. Chief of Staff is desk chief. Operator: Tape Floor.
 
 Active playbook: `PAPER-STRATEGY-v3.md` (v3.1).
 
@@ -64,7 +64,7 @@ Active playbook: `PAPER-STRATEGY-v3.md` (v3.1).
 - Paper book starts **1.00 SOL**. After every CLOSE: `book_now = 1 + sum(paper_pnl_sol)`.
 - Risk **1%** of book_now · Stop **−25%** · Size **4%** of book_now (1% ÷ 25% = 4%).
 - GAMBLE and BUILD use this size. HOLD not in PAPER-AUTO.
-- Max 1 open. LIVE off. PUMP NO. CALL NO unless Alex says so.
+- Max 1 open. LIVE off. PUMP NO. CALL NO unless the operator says so.
 - WHY + WRONG IF + CA + pair URL required; missing package = skip.
 - 20260905-01 stays as logged.
 

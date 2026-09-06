@@ -16,5 +16,5 @@ Emit on status change so the site empty chair can show idle/working.
 ```
 
 - `status` idle = no approved open ticket; working = fill/exit clock running
-- `live_approve` stays false until Alex unlocks (currently never)
+- `live_approve` stays false until the operator unlocks (currently never)
 - Copy to `dev/public/trader.json` for Pages
