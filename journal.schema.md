@@ -12,7 +12,8 @@
   "entries": [
     {
       "time": "ISO-8601",
-      "type": "PASS | WATCH | CALL | CLOSE | BRIEF",
+      "date_mt": "YYYY-MM-DD (America/Denver) — required on CLOSE for 23:00 card",
+      "type": "PASS | WATCH | OPEN | CALL | CLOSE | BRIEF",
       "names": ["..."],
       "ticket_id": "optional on CALL/CLOSE",
       "lane": "HOLD | GAMBLE | BUILD | null",
@@ -28,6 +29,8 @@
 - Paper book: **1.00 SOL**. Default ticket **0.01 SOL**, GAMBLE **0.005 SOL**.
 - P&L display is **SOL + USD**. Mark USD from SOL at fill (`sol_usd_at_fill` / summed `paper_pnl_usd`).
 - `pnl_sol` / `pnl_usd` only on CLOSE. Elsewhere null.
+- On every **CLOSE**: write `date_mt` (MT calendar date), `pnl_sol`, `pnl_usd`. That feeds the **23:00** card.
+- Paper fills use type **OPEN** (PAPER-AUTO: PUMP NO · CALL NO). **CALL** = posted CALL-DRAFT only. `called` counts CALL-DRAFTs, not paper opens.
 - Do not invent wins. paper/live stay 0 until a CLOSE updates them. **Live stays $0** until live unlock.
 - Append after every JOURNAL / WATCH / CALL / CLOSE / BRIEF cycle.
 

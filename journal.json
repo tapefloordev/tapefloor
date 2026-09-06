@@ -152,7 +152,8 @@
       "note": "TICKET 20260905-01 EXIT 0.0004025 USD \u00b7 reason +20% \u00b7 R 2.96 \u00b7 px vs fill +74.0% \u00b7 liq $55.1k \u00b7 h1 384/324",
       "pnl_sol": 0.003701,
       "pnl_usd": 0.3826,
-      "sol_usd_at_fill": 103.37
+      "sol_usd_at_fill": 103.37,
+      "date_mt": "2026-09-05"
     },
     {
       "time": "2026-09-05T18:42:00-06:00",
@@ -210,7 +211,8 @@
       "note": "TICKET 20260905-02 EXIT 0.0001444 USD \u00b7 reason STOP \u00b7 R -2.57 \u00b7 px vs fill -64.4% \u00b7 liq $33.2k \u00b7 h1 12226/1922",
       "pnl_sol": -0.025837,
       "pnl_usd": -2.6721,
-      "sol_usd_at_fill": 103.42
+      "sol_usd_at_fill": 103.42,
+      "date_mt": "2026-09-05"
     }
   ],
   "paper_pnl_sol": -0.022136,
