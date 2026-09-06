@@ -1,7 +1,7 @@
 {
-  "time": "2026-09-05T20:32:00-06:00",
+  "time": "2026-09-05T22:17:00-06:00",
   "event": "trader.updated",
-  "status": "idle",
+  "status": "working",
   "mode": "paper",
   "paper_auto": true,
   "live_approve": false,
@@ -10,9 +10,15 @@
   "paper_pnl_sol": -0.040471,
   "size_pct": 0.04,
   "risk_pct": 0.01,
-  "next_size_sol": 0.038381,
-  "next_risk_sol": 0.009595,
-  "open_ticket": null,
-  "pair": null,
-  "note": "idle \u00b7 CLOSE 20260905-03 zolana STOP \u00b7 book 0.959529 \u00b7 next size 0.038381 \u00b7 PUMP NO CALL NO"
+  "open_ticket": "20260905-04",
+  "ticker": "BAG",
+  "pair": "BAG/ZEC",
+  "fill_usd": 0.0002177,
+  "fill_native": 2.025e-07,
+  "size_sol": 0.038381,
+  "sol_usd": 106.03,
+  "stop": 0.000163275,
+  "t1": 0.00032655,
+  "time_stop": "2026-09-05T22:37:00-06:00",
+  "note": "OPEN \u00b7 SCALE \u00b7 quote ZEC \u00b7 PUMP NO CALL NO"
 }

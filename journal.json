@@ -318,6 +318,29 @@
       "lane": null,
       "note": "REFRESH site-only; NEW BAG; DROP memestonk; SWIFT\u2192BUILD; no X card",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T22:17:45-06:00",
+      "type": "OPEN",
+      "names": [
+        "BAG"
+      ],
+      "ticket_id": "20260905-04",
+      "lane": "GAMBLE",
+      "note": "PAPER OPEN FILL 0.0002177 \u00b7 0.038381 SOL \u00b7 book 0.959529 \u00b7 SCALE \u00b7 STOP 0.000163275 \u00b7 time 2026-09-05 22:37 MT \u00b7 PUMP NO CALL NO",
+      "pnl_sol": null,
+      "pnl_usd": null,
+      "sol_usd_at_fill": 106.031
+    },
+    {
+      "time": "2026-09-05T22:17:00-06:00",
+      "type": "OPEN",
+      "names": [
+        "BAG"
+      ],
+      "lane": "GAMBLE",
+      "note": "TICKET 20260905-04 FILL 0.0002177 USD / 0.0000002025 BAG/ZEC \u00b7 size 0.038381 SOL \u00b7 STOP 0.000163275 \u00b7 T1 0.00032655 \u00b7 TIME ~22:37 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.040471,
@@ -325,7 +348,7 @@
   "paper_book_sol": 0.959529,
   "skipped": 7,
   "called": 0,
-  "open_ticket": null,
+  "open_ticket": "20260905-04",
   "book_now_sol": 0.959529,
   "ticket_sol_pct": 0.04,
   "risk_sol_pct": 0.01,
