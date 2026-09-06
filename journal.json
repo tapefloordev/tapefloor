@@ -291,6 +291,33 @@
       "pnl_usd": -1.9056,
       "sol_usd_at_fill": 103.93,
       "date_mt": "2026-09-05"
+    },
+    {
+      "time": "2026-09-05T22:16:00-06:00",
+      "type": "DRAFT",
+      "names": [
+        "BAG"
+      ],
+      "lane": "GAMBLE",
+      "note": "TICKET 20260905-04 PAPER APPROVE \u00b7 size 0.038381 SOL \u00b7 distinct from Paperbag 8RQni\u2026 \u00b7 no X WATCH (<2h)",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T22:16:00-06:00",
+      "type": "WATCH",
+      "names": [
+        "SWIFT",
+        "BAG",
+        "Paperbag",
+        "zolana",
+        "HeeHaw",
+        "SAAR",
+        "USELESS",
+        "TROLL"
+      ],
+      "lane": null,
+      "note": "REFRESH site-only; NEW BAG; DROP memestonk; SWIFT\u2192BUILD; no X card",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.040471,
