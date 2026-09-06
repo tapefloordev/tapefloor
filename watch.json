@@ -191,5 +191,12 @@
   "note": "SWIFT lane GAMBLE\u2192BUILD (mcap crossed ~$500k). R2L 9paA\u2026 alive (~$71k / age ~24m) held off list this tick (1 slot).",
   "auto_post": false,
   "end": "Not a ticket",
-  "disclaimer": "watching \u00b7 not in \u00b7 not a call \u00b7 nfa"
+  "disclaimer": "watching \u00b7 not in \u00b7 not a call \u00b7 nfa",
+  "tape": {
+    "SOL_usd": 105.91,
+    "SOL_24h_pct": 4.06,
+    "BTC_usd": 79890,
+    "BTC_24h_pct": 0.48,
+    "source": "Coinbase"
+  }
 }

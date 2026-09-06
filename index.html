@@ -1006,8 +1006,16 @@
       const tape = w.tape || {};
       const sol = tape.SOL_24h_pct;
       const btc = tape.BTC_24h_pct;
+      const fmtChg = v => {
+        const n = typeof v === 'number' ? v : Number(v);
+        if (!isFinite(n)) return '—';
+        return (n >= 0 ? '+' : '') + n + '%';
+      };
+      const src = tape.source ? ` (${tape.source})` : '';
       document.getElementById('tape').textContent =
-        `SOL ${sol >= 0 ? '+' : ''}${sol}% · BTC ${btc >= 0 ? '+' : ''}${btc}% (${tape.source || ''})`;
+        (isFinite(Number(sol)) || isFinite(Number(btc)))
+          ? `SOL ${fmtChg(sol)} · BTC ${fmtChg(btc)}${src}`
+          : 'SOL — · BTC —';
 
       const showLane = watchHasLane(w);
       const thead = document.querySelector('.card table thead tr');
