@@ -484,6 +484,35 @@
       "pair_url": "https://dexscreener.com/solana/5bxuo3pch6axrjvfwfwtp3tbhsjaanzz4g6vtojxxjoq",
       "note": "FILL 0.0004871 \u00b7 size 0.037544 SOL \u00b7 STOP 0.000365325 \u00b7 T1 0.00073065 \u00b7 TIME ~07:42 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-06T07:28:00-06:00",
+      "type": "SKIP",
+      "names": [
+        "ZDOG",
+        "BAG",
+        "zolana"
+      ],
+      "lane": null,
+      "note": "Morning FULL LIST READ \u2014 one_open (20260906-01 STONKZCAT); ZDOG NEW package ok held; no X (<2h of 07:08 WATCH)",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-06T07:28:00-06:00",
+      "type": "WATCH",
+      "names": [
+        "SWIFT",
+        "BAG",
+        "zolana",
+        "HeeHaw",
+        "SAAR",
+        "USELESS",
+        "TROLL",
+        "ZDOG"
+      ],
+      "lane": null,
+      "note": "FULL LIST 07:17 site emit; NEW ZDOG; tape Coinbase; no X card",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.061396,
