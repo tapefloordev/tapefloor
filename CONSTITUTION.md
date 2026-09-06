@@ -67,15 +67,19 @@ Active playbook: `PAPER-STRATEGY-v3.md` (v3.1).
 - Max loss = ticket size
 - One open ticket only
 
-## EXIT (new tickets)
+## EXIT (new tickets — GAMBLE / BUILD SCALE)
 
-- Hard stop: −25% from paper fill → flatten
-- Stagnation: 20 minutes after fill, if not +20% AND hourly ratio < 1 → flatten
-- If +20% hits before 20 min, cancel the 20-min kill; then:
-  - default flat at +20% for the first 10 tickets
-  - after 10 paper closes, ladder may turn on (see strategy file)
-- No “just in case” runner if red or flat
-- Still `PAPER APPROVE` before OPEN
+Replace “+20% flatten all.” TICKET 20260905-01 stays as closed (full +20% flatten) — do not rewrite.
+
+- **T1** 1.5x sell 35%; stop on rest → fill
+- **T2** 2x sell 25% of original
+- **T3** 3x sell 20% of original
+- **T4** 5x sell 10% of original
+- **MOON** 10% trail (last 10%)
+- **STOP −25%** / **TIME** 20m without T1 / **INVALIDATE** → flatten remainder
+- Log each slice. CLOSE when flat.
+- HOLD: no scale. Still `PAPER APPROVE` before OPEN.
+
 
 ## Ticket draft format
 
