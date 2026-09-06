@@ -1,5 +1,5 @@
 {
-  "paper_pnl_usd": -2.2895,
+  "paper_pnl_usd": -4.1951,
   "live_pnl_usd": 0,
   "entries": [
     {
@@ -277,15 +277,29 @@
       "lane": "GAMBLE",
       "note": "TICKET 20260905-03 FILL 0.0002671 USD / 0.0000002507 zolana/ZEC \u00b7 size 0.039115 SOL \u00b7 STOP 0.000200325 \u00b7 T1 0.00040065 \u00b7 TIME ~20:41 MT \u00b7 SCALE \u00b7 PUMP NO CALL NO",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-05T20:32:06-06:00",
+      "type": "CLOSE",
+      "names": [
+        "zolana"
+      ],
+      "lane": "GAMBLE",
+      "ticket_id": "20260905-03",
+      "note": "TICKET 20260905-03 EXIT 0.0001419 USD \u00b7 reason STOP \u00b7 R -1.88 \u00b7 px vs fill -46.9% \u00b7 liq $34.9k \u00b7 h1 1688/1205",
+      "pnl_sol": -0.018335,
+      "pnl_usd": -1.9056,
+      "sol_usd_at_fill": 103.93,
+      "date_mt": "2026-09-05"
     }
   ],
-  "paper_pnl_sol": -0.022136,
+  "paper_pnl_sol": -0.040471,
   "live_pnl_sol": 0,
-  "paper_book_sol": 0.977864,
+  "paper_book_sol": 0.959529,
   "skipped": 7,
   "called": 0,
-  "open_ticket": "20260905-03",
-  "book_now_sol": 0.977864,
+  "open_ticket": null,
+  "book_now_sol": 0.959529,
   "ticket_sol_pct": 0.04,
   "risk_sol_pct": 0.01,
   "size_rule": "size=4% book_now; risk=1% at -25% stop; book_now=1+sum(paper_pnl_sol)"
