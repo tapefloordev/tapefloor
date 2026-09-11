@@ -80,16 +80,24 @@
       "ticket_id": "20260906-02",
       "ticker": "ZDOG",
       "lane": "BUILD",
-      "status": "DRAFT",
+      "status": "CLOSED",
       "why": "Anonymous Dog / Zcash-pair BUILD with multi-day liq book (~$159k) and live 1h tape.",
       "wrong_if": "liq under ~$60k or sibling anonymous-animal CA takes flow.",
       "mint": "EbT2jpoeRJVFNWAFJE97EGfQF3iwHsEY8sh17fGbL5ER",
       "pair_url": "https://dexscreener.com/solana/9trkbpkwfbr6dmfax1kgx1mrez48k1j9vpcjubmm4toq",
-      "exit_url": null,
-      "fill_usd": null,
+      "exit_url": "https://dexscreener.com/solana/9trkbpkwfbr6dmfax1kgx1mrez48k1j9vpcjubmm4toq",
+      "fill_usd": 0.0009887,
       "exit_usd": null,
-      "pnl_sol": null,
-      "book_after": null
+      "pnl_sol": 0.0459,
+      "book_after": 0.983155,
+      "stop_usd": 0.000741525,
+      "t1_usd": 0.00148305,
+      "size_sol": 0.03749,
+      "book_at_fill": 0.937255,
+      "time_stop_mt": "14:52",
+      "filled_at": "2026-09-06T14:32:00-06:00",
+      "exit_note": "T1\u2013T4, moon at fill \u2014 do not reopen",
+      "closed_at": "2026-09-11T17:12:00-06:00"
     }
   ]
 }

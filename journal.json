@@ -589,16 +589,52 @@
       "pnl_sol": null,
       "pnl_usd": null,
       "sol_usd_at_fill": 105.75
+    },
+    {
+      "time": "2026-09-06T14:32:00-06:00",
+      "type": "FILL",
+      "ticket_id": "20260906-02",
+      "names": [
+        "ZDOG"
+      ],
+      "lane": "BUILD",
+      "why": "Anonymous Dog / Zcash-pair BUILD with multi-day liq book (~$159k) and live 1h tape.",
+      "wrong_if": "liq under ~$60k or sibling anonymous-animal CA takes flow.",
+      "mint": "EbT2jpoeRJVFNWAFJE97EGfQF3iwHsEY8sh17fGbL5ER",
+      "pair_url": "https://dexscreener.com/solana/9trkbpkwfbr6dmfax1kgx1mrez48k1j9vpcjubmm4toq",
+      "note": "FILL entry $0.0009887 \u00b7 size 0.03749 SOL \u00b7 STOP 0.000741525 \u00b7 T1 0.00148305 \u00b7 TIME ~14:52 MT \u00b7 open 1",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-11T17:12:00-06:00",
+      "date_mt": "2026-09-11",
+      "type": "CLOSE",
+      "names": [
+        "ZDOG"
+      ],
+      "ticket_id": "20260906-02",
+      "lane": "BUILD",
+      "note": "TICKET 20260906-02 EXIT \u00b7 SCALE T1\u2013T4 + moon@fill \u00b7 pnl +0.0459 SOL \u00b7 do not reopen \u00b7 PUMP NO CALL NO",
+      "pnl_sol": 0.0459,
+      "pnl_usd": null,
+      "book_after": 0.983155,
+      "why": "Anonymous Dog / Zcash-pair BUILD with multi-day liq book (~$159k) and live 1h tape.",
+      "wrong_if": "liq under ~$60k or sibling anonymous-animal CA takes flow.",
+      "mint": "EbT2jpoeRJVFNWAFJE97EGfQF3iwHsEY8sh17fGbL5ER",
+      "pair_url": "https://dexscreener.com/solana/9trkbpkwfbr6dmfax1kgx1mrez48k1j9vpcjubmm4toq",
+      "exit_url": "https://dexscreener.com/solana/9trkbpkwfbr6dmfax1kgx1mrez48k1j9vpcjubmm4toq"
     }
   ],
-  "paper_pnl_sol": -0.062745,
+  "paper_pnl_sol": -0.016845,
   "live_pnl_sol": 0,
-  "paper_book_sol": 0.937255,
+  "paper_book_sol": 0.983155,
   "skipped": 7,
   "called": 0,
   "open_ticket": null,
-  "book_now_sol": 0.937255,
+  "book_now_sol": 0.996302,
   "ticket_sol_pct": 0.04,
   "risk_sol_pct": 0.01,
-  "size_rule": "size=4% book_now; risk=1% at -25% stop; book_now=1+sum(paper_pnl_sol)"
+  "size_rule": "size=4% book_now; risk=1% at -25% stop; book_now=1+sum(paper_pnl_sol)",
+  "open_tickets": 0,
+  "book_now": 0.983155
 }
