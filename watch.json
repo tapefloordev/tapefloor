@@ -29,7 +29,8 @@
       "liq": 64763,
       "src": "both",
       "why": "Artificial Cat INU paired to NVDAx with live two-sided Raydium book and site + @catainvda.",
-      "wrong_if": "liq under ~$30k or 1h txn collapse while NVDAx-pair flow dies."
+      "wrong_if": "liq under ~$30k or 1h txn collapse while NVDAx-pair flow dies.",
+      "mcap": 357348.0
     },
     {
       "ticker": "Stunk",
@@ -45,7 +46,8 @@
       "liq": 139539,
       "src": "both",
       "why": "Pump-graduated Stunk with Dex liq ~$140k and multi-hour two-sided PumpSwap tape.",
-      "wrong_if": "liq under ~$60k or 1h vol dies under ~$20k."
+      "wrong_if": "liq under ~$60k or 1h vol dies under ~$20k.",
+      "mcap": 2251994.0
     },
     {
       "ticker": "XRPCAT",
@@ -61,7 +63,8 @@
       "liq": 106827,
       "src": "both",
       "why": "XRP Cat Pump graduate with liq >$100k and sustained 1h buys still open.",
-      "wrong_if": "liq under ~$50k or buy/sell flips hard one-way for a full hour."
+      "wrong_if": "liq under ~$50k or buy/sell flips hard one-way for a full hour.",
+      "mcap": 1034416.0
     },
     {
       "ticker": "HeeHaw",
@@ -77,7 +80,8 @@
       "liq": 116560,
       "src": "dex",
       "why": "Justice-for-HeeHaw multi-day BUILD with liq >$100k and live site + @justice4heehaw.",
-      "wrong_if": "liq under ~$60k or 1h volume dies under ~$5k for multiple hours."
+      "wrong_if": "liq under ~$60k or 1h volume dies under ~$5k for multiple hours.",
+      "mcap": 746300.0
     },
     {
       "ticker": "SAAR",
@@ -93,7 +97,8 @@
       "liq": 90113,
       "src": "dex",
       "why": "Village-to-world brand still in BUILD band with site + @originalsaar on Dex.",
-      "wrong_if": "liq under ~$40k or 1h goes silent."
+      "wrong_if": "liq under ~$40k or 1h goes silent.",
+      "mcap": 998575.0
     },
     {
       "ticker": "ZDOG",
@@ -111,7 +116,8 @@
       "src": "dex",
       "why": "Anonymous Dog / ZEC-pair still liquid after BUILD\u2192GAMBLE reset; prior paper CLOSED.",
       "wrong_if": "liq under ~$40k or sibling anonymous-animal CA takes flow.",
-      "context": true
+      "context": true,
+      "mcap": 379297.0
     },
     {
       "ticker": "USELESS",
@@ -127,7 +133,8 @@
       "vol24": 5838483,
       "liq": 4574870,
       "src": "dex",
-      "age_d": 489
+      "age_d": 489,
+      "mcap": 213349493.0
     },
     {
       "ticker": "TROLL",
