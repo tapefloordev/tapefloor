@@ -150,7 +150,9 @@
       "vol24": 1582800,
       "liq": 3208935,
       "src": "dex",
-      "age_d": 509
+      "age_d": 509,
+      "mcap": 48754200.0
     }
-  ]
+  ],
+  "mcap_rule": "every name must include numeric mcap (never null); emit mcap alongside now/high/wait on FULL LIST"
 }
