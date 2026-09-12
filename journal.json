@@ -744,6 +744,29 @@
       "lane": null,
       "note": "NEW ALL \u00b7 DROP XRPCAT \u00b7 Premium WATCH to STENO",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:17:09-06:00",
+      "type": "SKIP",
+      "names": [
+        "ALL"
+      ],
+      "ticket_id": "20260911-01",
+      "lane": "BUILD",
+      "note": "ENTRY LOCK refuse \u2014 high age unknown (need \u226530m); now\u2264wait ok; no fill",
+      "pnl_sol": null,
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:17:00-06:00",
+      "type": "SKIP",
+      "ticket_id": "20260911-01",
+      "names": [
+        "ALL"
+      ],
+      "lane": "BUILD",
+      "note": "Trader ENTRY LOCK \u2014 high age UNKNOWN (need \u226530m); Chief does not override; open 0",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.016845,

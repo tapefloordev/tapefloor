@@ -103,7 +103,7 @@
       "ticket_id": "20260911-01",
       "ticker": "ALL",
       "lane": "BUILD",
-      "status": "DRAFT",
+      "status": "SKIP",
       "why": "allonsol collect-every-launch brand with liq ~$163k and live multi-pair PumpSwap book.",
       "wrong_if": "liq under ~$70k or launch-fee flow stops while 1h tape dies.",
       "mint": "ASoQZA3Dee2HU34Vwx3b5SAtTaczJtZcyx1T413nDALL",
@@ -118,7 +118,8 @@
       "now": 2344464,
       "high": 5964764,
       "wait": 2385906,
-      "mcap": 2344464
+      "mcap": 2344464,
+      "skip_reason": "ENTRY LOCK high age UNKNOWN (need \u226530m)"
     }
   ]
 }
