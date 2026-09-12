@@ -98,6 +98,27 @@
       "filled_at": "2026-09-06T14:32:00-06:00",
       "exit_note": "T1\u2013T4, moon at fill \u2014 do not reopen",
       "closed_at": "2026-09-11T17:12:00-06:00"
+    },
+    {
+      "ticket_id": "20260911-01",
+      "ticker": "ALL",
+      "lane": "BUILD",
+      "status": "DRAFT",
+      "why": "allonsol collect-every-launch brand with liq ~$163k and live multi-pair PumpSwap book.",
+      "wrong_if": "liq under ~$70k or launch-fee flow stops while 1h tape dies.",
+      "mint": "ASoQZA3Dee2HU34Vwx3b5SAtTaczJtZcyx1T413nDALL",
+      "pair_url": "https://dexscreener.com/solana/uzak8txfjavqs9vhtdayawfbiybzwq4bzxdifjtqenj",
+      "exit_url": null,
+      "fill_usd": null,
+      "exit_usd": null,
+      "pnl_sol": null,
+      "book_after": null,
+      "size_sol": 0.039326,
+      "book_at_draft": 0.983155,
+      "now": 2344464,
+      "high": 5964764,
+      "wait": 2385906,
+      "mcap": 2344464
     }
   ]
 }

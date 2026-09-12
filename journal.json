@@ -700,6 +700,50 @@
       "lane": null,
       "note": "morning READ \u2014 XRPCAT dead liq; ZDOG CLOSED; others above wait or no DRAFT package refresh; default no ticket",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:15:00-06:00",
+      "type": "SKIP",
+      "names": [
+        "CATAI",
+        "Stunk",
+        "ZDOG"
+      ],
+      "lane": null,
+      "note": "FULL LIST READ \u2014 CATAI/Stunk now>wait; ZDOG CLOSED do not reopen; DRAFT ALL",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:15:00-06:00",
+      "type": "DRAFT",
+      "ticket_id": "20260911-01",
+      "names": [
+        "ALL"
+      ],
+      "lane": "BUILD",
+      "why": "allonsol collect-every-launch brand with liq ~$163k and live multi-pair PumpSwap book.",
+      "wrong_if": "liq under ~$70k or launch-fee flow stops while 1h tape dies.",
+      "mint": "ASoQZA3Dee2HU34Vwx3b5SAtTaczJtZcyx1T413nDALL",
+      "pair_url": "https://dexscreener.com/solana/uzak8txfjavqs9vhtdayawfbiybzwq4bzxdifjtqenj",
+      "note": "TICKET 20260911-01 PAPER APPROVE \u00b7 size 0.039326 SOL \u00b7 now\u2264wait",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:15:00-06:00",
+      "type": "WATCH",
+      "names": [
+        "CATAI",
+        "Stunk",
+        "ALL",
+        "HeeHaw",
+        "SAAR",
+        "ZDOG",
+        "USELESS",
+        "TROLL"
+      ],
+      "lane": null,
+      "note": "NEW ALL \u00b7 DROP XRPCAT \u00b7 Premium WATCH to STENO",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.016845,
