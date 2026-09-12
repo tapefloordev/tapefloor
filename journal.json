@@ -653,6 +653,53 @@
       "lane": null,
       "note": "names changed; Premium WATCH to STENO @TapeFloorDesk; called 0; open 0; book 0.983155",
       "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:10:00-06:00",
+      "type": "BRIEF",
+      "names": [
+        "CATAI",
+        "Stunk",
+        "HeeHaw",
+        "SAAR",
+        "ZDOG",
+        "USELESS",
+        "TROLL"
+      ],
+      "lane": null,
+      "note": "Scout late off 20260911-1714; DROP XRPCAT dead; called 0; open 0; book 0.983155",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:10:00-06:00",
+      "type": "WATCH",
+      "names": [
+        "CATAI",
+        "Stunk",
+        "HeeHaw",
+        "SAAR",
+        "ZDOG",
+        "USELESS",
+        "TROLL"
+      ],
+      "lane": null,
+      "note": "morning WATCH AUTO-POST to STENO @TapeFloorDesk; DROP XRPCAT; called 0",
+      "pnl_usd": null
+    },
+    {
+      "time": "2026-09-12T08:10:00-06:00",
+      "type": "SKIP",
+      "names": [
+        "XRPCAT",
+        "ZDOG",
+        "CATAI",
+        "Stunk",
+        "HeeHaw",
+        "SAAR"
+      ],
+      "lane": null,
+      "note": "morning READ \u2014 XRPCAT dead liq; ZDOG CLOSED; others above wait or no DRAFT package refresh; default no ticket",
+      "pnl_usd": null
     }
   ],
   "paper_pnl_sol": -0.016845,

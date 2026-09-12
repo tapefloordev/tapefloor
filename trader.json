@@ -1,5 +1,5 @@
 {
-  "time": "2026-09-11T17:14:56-06:00",
+  "time": "2026-09-11T17:21:07-06:00",
   "event": "trader.updated",
   "status": "idle",
   "mode": "paper",
@@ -13,5 +13,6 @@
   "next_risk_sol": 0.009832,
   "open_ticket": null,
   "pair": null,
-  "note": "idle \u00b7 ZDOG CLOSED desk lock \u00b7 book 0.983155 \u00b7 next ids 20260911-xx \u00b7 FILL+CLOSE \u2192 STENO \u00b7 open 0"
+  "note": "idle \u00b7 ENTRY LOCK \u00b7 no ATH/first green \u00b7 wait 0.40\u00d7high BUILD/HOLD \u00b7 0.70\u00d7high GAMBLE \u00b7 next 20260911-xx \u00b7 open 0",
+  "entry_lock": true
 }
